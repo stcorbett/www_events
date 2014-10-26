@@ -15,3 +15,17 @@
 //= require bootstrap.min
 //= require scripts
 //= require_tree .
+
+$(document).ready(function(){
+
+  $("#event_event_recurrence_single").click(function () {    
+    $("#single_occurance_event").show();
+    $("#multiple_occurance_event").hide();
+  });
+
+  $("#event_event_recurrence_multiple").click(function () {    
+    $("#single_occurance_event").hide();
+    $("#multiple_occurance_event").show();
+  });
+
+});
