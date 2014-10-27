@@ -66,6 +66,8 @@ private
   def start_and_end_for_day(day_name)
     event = params[:event]
 
+    return nil unless [event["#{day_name}_start_time"].present?, event["#{day_name}_end_time"].present?].any?
+
     inputs = [event["#{day_name}_start_date"], 
               event["#{day_name}_start_time"],
               event["#{day_name}_end_date"],

@@ -23,6 +23,21 @@
   </div>
 <% end %>
 
+<% if @event.errors.any? %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="error_messages alert alert-warning" role="alert">
+        <h2>Problem:</h2>
+        <ul>
+          <% for message in @event.errors.full_messages %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <div class="row">
 
   <div class="col-md-6 col-sm-6">
@@ -160,8 +175,10 @@
         <ul>
           <% @events.each do |event| %>
             <li>
-              <%= event.hosting_location.present? ? event.hosting_location : "no hosting location" %> - 
-              <%= event.starting %>
+              <%= event.hosting_location %> - 
+              <%= event.starting.strftime("%A %B #{event.starting.day.ordinalize} at %H:%M %p") %>
+              <%= link_to "edit", "#_", class: 'pull-right', style: "margin-left: 5px;" %>
+              <%= link_to "remove", "#_", class: 'pull-right' %>
             </li>
           <% end %>
         </ul>

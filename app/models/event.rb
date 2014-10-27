@@ -2,6 +2,8 @@ class Event < ActiveRecord::Base
 
   has_many :event_times
 
+  validates :hosting_location, :main_contact_person, :contact_person_email, :event_recurrence, :event_description, presence: true
+
   def self.sorted_by_date
     all.joins(:event_times).order("event_times.starting ASC").select("events.*, event_times.starting AS starting")
   end
