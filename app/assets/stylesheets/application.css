@@ -22,11 +22,11 @@
   top: 0;
 }
 
-.event_time_inputs{
+#single_occurrance_event{
   margin-bottom: 10px;
 }
 
-.event_time_inputs input{
+#single_occurrance_event input{
   display: inline;
   width: 30%;
 }

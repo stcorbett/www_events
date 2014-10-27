@@ -38,7 +38,9 @@ $(document).ready(function(){
 
   $('.event_time_inputs .time').timepicker({
       'showDuration': true,
-      'timeFormat': 'g:iA'
+      'timeFormat': 'g:iA',
+      'step': '15',
+      'scrollDefault': "12:00PM",
   });
 
   $('.event_time_inputs .date').datepicker({
@@ -50,6 +52,15 @@ $(document).ready(function(){
 
   // initialize datepair
   $('.event_time_inputs').datepair();
-  
+
+  // initialize multiple day event inputs
+  $('#event_wednesday_start_date').datepicker('setDate', '06-17-2015');
+  $('#event_thursday_start_date').datepicker('setDate', '06-18-2015');
+  $('#event_friday_start_date').datepicker('setDate', '06-19-2015');
+  $('#event_saturday_start_date').datepicker('setDate', '06-20-2015');
+  $('#event_sunday_start_date').datepicker('setDate', '06-21-2015');
+
+  $('#event_sunday_start_time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'scrollDefault': "10:00AM", 'maxTime': "12:01PM"});
+  $('#event_sunday_end_time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'maxTime': "12:01PM"});
 
 });

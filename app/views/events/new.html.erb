@@ -48,6 +48,7 @@
 
         <label for="event_event_recurrence">When:</label>
         <div class="form-group" >
+          <p class="help-block">Does this event happen on multiple occasions or dates? or happen only once?</p>
           <div class="radio">
             <label>
               <%= f.radio_button :event_recurrence, "single" %>
@@ -60,10 +61,9 @@
               This event happens multiple times
             </label>
           </div>
-          <p class="help-block">Does this event happen on multiple occasions or dates? or happen only once?</p>
         </div>
 
-        <div id="single_occurrance_event" class="event_time_inputs" style="display:none;">
+        <div id="single_occurrance_event" class="form-group event_time_inputs" style="display:none;">
           <%= f.text_field :single_occurrence_start_date, class: "form-control date start", placeholder: "Date" %>
           <%= f.text_field :single_occurrence_start_time, class: "form-control time start", placeholder: "Starting time" %>
           <%= f.text_field :single_occurrence_end_time, class: "form-control time end", placeholder: "Ending time" %>
@@ -71,7 +71,72 @@
         </div>
 
         <div class="form-group" id="multiple_occurrance_event" style="display:none;">
-          <p>start times and durations</p>
+          <div class="row event_time_inputs">
+            <div class="col-xs-4">
+              <label for="event_wednesday_start_time">Wednesday:</label>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :wednesday_start_date, class: "form-control date start", placeholder: "start Date", style: "display: none;" %>
+              <%= f.text_field :wednesday_start_time, class: "form-control time start", placeholder: "Starting time" %>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :wednesday_end_time, class: "form-control time end", placeholder: "Ending time" %>
+              <%= f.text_field :wednesday_end_date, class: "form-control date end", placeholder: "Ending date", style: "display: none;" %>
+            </div>
+          </div>
+          <div class="row event_time_inputs">
+            <div class="col-xs-4">
+              <label for="event_thursday_start_time">Thursday:</label>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :thursday_start_date, class: "form-control date start", placeholder: "Date", style: "display: none;" %>
+              <%= f.text_field :thursday_start_time, class: "form-control time start", placeholder: "Starting time" %>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :thursday_end_time, class: "form-control time end", placeholder: "Ending time" %>
+              <%= f.text_field :thursday_end_date, class: "form-control date end", placeholder: "Ending date", style: "display: none;" %>
+            </div>
+          </div>
+          <div class="row event_time_inputs">
+            <div class="col-xs-4">
+              <label for="event_friday_start_time">Friday:</label>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :friday_start_date, class: "form-control date start", placeholder: "Date", style: "display: none;" %>
+              <%= f.text_field :friday_start_time, class: "form-control time start", placeholder: "Starting time" %>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :friday_end_time, class: "form-control time end", placeholder: "Ending time" %>
+              <%= f.text_field :friday_end_date, class: "form-control date end", placeholder: "Ending date", style: "display: none;" %>
+            </div>
+          </div>
+          <div class="row event_time_inputs">
+            <div class="col-xs-4">
+              <label for="event_saturday_start_time">Saturday:</label>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :saturday_start_date, class: "form-control date start", placeholder: "Date", style: "display: none;" %>
+              <%= f.text_field :saturday_start_time, class: "form-control time start", placeholder: "Starting time" %>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :saturday_end_time, class: "form-control time end", placeholder: "Ending time" %>
+              <%= f.text_field :saturday_end_date, class: "form-control date end", placeholder: "Ending date", style: "display: none;" %>
+            </div>
+          </div>
+          <div class="row event_time_inputs">
+            <div class="col-xs-4">
+              <label for="event_sunday_start_time">Sunday:</label>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :sunday_start_date, class: "form-control date start", placeholder: "Date", style: "display: none;" %>
+              <%= f.text_field :sunday_start_time, class: "form-control time start", placeholder: "Starting time" %>
+            </div>
+            <div class="col-xs-4">
+              <%= f.text_field :sunday_end_time, class: "form-control time end", placeholder: "Ending time" %>
+              <%= f.text_field :sunday_end_date, class: "form-control date end", placeholder: "Ending date", style: "display: none;" %>
+            </div>
+          </div>
+
         </div>
 
 

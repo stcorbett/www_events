@@ -10,7 +10,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :single_occurrence_duration_minutes
 
       t.datetime :wednesday_start, :thursday_start, :friday_start, :saturday_start, :sunday_start
-      t.float :wednesday_duration, :thursday_duration, :friday_duration, :saturday_duration, :sunday_duration
+      t.float :wednesday_duration_minutes, :thursday_duration_minutes, :friday_duration_minutes, :saturday_duration_minutes, :sunday_duration_minutes
 
       t.text :event_description
 
