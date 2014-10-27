@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20141025020407) do
     t.string   "main_contact_person"
     t.string   "contact_person_email"
     t.string   "event_recurrence"
+    t.datetime "single_occurrence_start"
+    t.integer  "single_occurrence_duration_minutes"
     t.datetime "wednesday_start"
     t.datetime "thursday_start"
     t.datetime "friday_start"

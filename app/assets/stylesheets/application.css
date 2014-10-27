@@ -12,6 +12,30 @@
  *
  *= require_self
  *= require bootstrap.min
+ *= require jquery.timepicker
+ *= xrequire bootstrap-datepicker3
  *= require_tree .
  *= require styles
  */
+
+.has-feedback .form-control-feedback{
+  top: 0;
+}
+
+.event_time_inputs{
+  margin-bottom: 10px;
+}
+
+.event_time_inputs input{
+  display: inline;
+  width: 30%;
+}
+
+.datepicker-days td.day{
+  cursor: pointer;
+}
+
+.datepicker-days td.disabled.day{
+  color: #ccc;
+  cursor: not-allowed;
+}

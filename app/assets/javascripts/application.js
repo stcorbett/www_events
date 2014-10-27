@@ -13,19 +13,43 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.min
+//= require jquery.timepicker
+//= require Datepair
+//= require jquery.datepair
+//= require bootstrap-datepicker
 //= require scripts
 //= require_tree .
 
 $(document).ready(function(){
 
   $("#event_event_recurrence_single").click(function () {    
-    $("#single_occurance_event").show();
-    $("#multiple_occurance_event").hide();
+    $("#single_occurrance_event").show();
+    $("#multiple_occurrance_event").hide();
   });
 
   $("#event_event_recurrence_multiple").click(function () {    
-    $("#single_occurance_event").hide();
-    $("#multiple_occurance_event").show();
+    $("#single_occurrance_event").hide();
+    $("#multiple_occurrance_event").show();
   });
+
+  // show/hide depending on what's clicked already on page load
+
+
+
+  $('.event_time_inputs .time').timepicker({
+      'showDuration': true,
+      'timeFormat': 'g:iA'
+  });
+
+  $('.event_time_inputs .date').datepicker({
+      'startDate': '6-17-2015',
+      'endDate': '6-21-2015',
+      'format': 'm-d-yyyy',
+      'autoclose': true
+  });
+
+  // initialize datepair
+  $('.event_time_inputs').datepair();
+  
 
 });
