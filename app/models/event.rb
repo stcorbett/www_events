@@ -1,37 +1,50 @@
 class Event < ActiveRecord::Base
 
-  attr_accessor :wednesday_start_date, :wednesday_start_time, :wednesday_end_time, :wednesday_end_date,
-                :thursday_start_date, :thursday_start_time, :thursday_end_time, :thursday_end_date,
-                :friday_start_date, :friday_start_time, :friday_end_time, :friday_end_date,
-                :saturday_start_date, :saturday_start_time, :saturday_end_time, :saturday_end_date,
-                :sunday_start_date, :sunday_start_time, :sunday_end_time, :sunday_end_date
+  has_many :event_times
 
   def self.sorted_by_date
-    
+    all.joins(:event_times).order("event_times.starting ASC").select("events.*, event_times.starting AS starting")
   end
 
-  def single_occurrence_start_date
-    return nil unless single_occurrence_start
-    single_occurrence_start.strftime("%m-%d-%Y")
+  after_initialize do
+    ["single_occurrence", "wednesday", "thursday", "friday", "saturday", "sunday"].each do |event_time_period|
+      ["start_date", "start_time", "end_date", "end_time"].each do |event_time_type|
+        self.define_singleton_method("#{event_time_period}_#{event_time_type}".to_sym) do
+          event_time_finder(event_time_period, event_time_type)
+        end
+      end
+    end
   end
 
-  def single_occurrence_start_time
-    return nil unless single_occurrence_start
-    single_occurrence_start.strftime("%I:%M %p")
-  end
+  def event_time_finder(event_time_period, event_time_type)
+    # how do values pass back to the form on validation errors
 
-  def single_occurrence_end
-    (single_occurrence_start + single_occurrence_duration_minutes * 60)
-  end
+    return nil unless self.event_times.present?
+    return nil if self.event_times.size > 1 && event_time_period == "single_occurrence"
+    return nil if self.event_times.size == 1 && event_time_period != "single_occurrence"
 
-  def single_occurrence_end_date
-    return nil unless single_occurrence_start
-    single_occurrence_end.strftime("%m-%d-%Y")
-  end
+    event = case event_time_period
+            when "single_occurrence"
+              event_times.first
+            when "wednesday"
+              event_times.where("start_time > ?", Date.new(2015,6,17)).where("start_time < ?", Date.new(2015,6,18)).first
+            when "thursday"
+              event_times.where("start_time > ?", Date.new(2015,6,18)).where("start_time < ?", Date.new(2015,6,19)).first
+            when "friday"
+              event_times.where("start_time > ?", Date.new(2015,6,19)).where("start_time < ?", Date.new(2015,6,20)).first
+            when "saturday"
+              event_times.where("start_time > ?", Date.new(2015,6,20)).where("start_time < ?", Date.new(2015,6,21)).first
+            when "sunday"
+              event_times.where("start_time > ?", Date.new(2015,6,21)).where("start_time < ?", Date.new(2015,6,22)).first
+            else
+              nil
+            end
 
-  def single_occurrence_end_time
-    return nil unless single_occurrence_start
-    single_occurrence_end.strftime("%I:%M %p")
+    begin
+      event && event.send(event_time_type)
+    rescue NoMethodError
+      nil
+    end
   end
 
 end

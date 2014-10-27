@@ -11,28 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025020407) do
+ActiveRecord::Schema.define(version: 20141027025303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "event_times", force: true do |t|
+    t.integer  "event_id"
+    t.datetime "starting"
+    t.datetime "ending"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", force: true do |t|
     t.string   "hosting_location"
     t.string   "main_contact_person"
     t.string   "contact_person_email"
     t.string   "event_recurrence"
-    t.datetime "single_occurrence_start"
-    t.integer  "single_occurrence_duration_minutes"
-    t.datetime "wednesday_start"
-    t.datetime "thursday_start"
-    t.datetime "friday_start"
-    t.datetime "saturday_start"
-    t.datetime "sunday_start"
-    t.float    "wednesday_duration"
-    t.float    "thursday_duration"
-    t.float    "friday_duration"
-    t.float    "saturday_duration"
-    t.float    "sunday_duration"
     t.text     "event_description"
     t.datetime "created_at"
     t.datetime "updated_at"

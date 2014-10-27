@@ -160,9 +160,8 @@
         <ul>
           <% @events.each do |event| %>
             <li>
-              <%= event.hosting_location %> - 
-              <%= event.single_occurrence_start %> - 
-              <%= event.created_at %>
+              <%= event.hosting_location.present? ? event.hosting_location : "no hosting location" %> - 
+              <%= event.starting %>
             </li>
           <% end %>
         </ul>
