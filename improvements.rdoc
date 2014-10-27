@@ -1,7 +1,3 @@
 == Potential Improvements
 
 * 'happens once' vs 'happens multiple' should stay open and populated on validation errors
-
-* submitted events list should look better
-
-* make sure presence validations on EventTime start/end work and the error messages propagate
