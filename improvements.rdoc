@@ -1,5 +1,7 @@
 == Potential Improvements
 
-* Store all event start times in an associated 'event_times' table. Sorting by start time is easier in this format, parsing the input and storing it should be the same amount of work
+* 'happens once' vs 'happens multiple' should stay open and populated on validation errors
 
-* Store event start and end times instead of start and duration. We can render the times as start and duration, but storing two timestamps will make manipulation easier
+* submitted events list should look better
+
+* make sure presence validations on EventTime start/end work and the error messages propagate
