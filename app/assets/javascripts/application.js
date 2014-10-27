@@ -22,17 +22,18 @@
 
 $(document).ready(function(){
 
-  $("#event_event_recurrence_single").click(function () {    
+  $("#event_event_recurrence_single").click(function () {
     $("#single_occurrance_event").show();
     $("#multiple_occurrance_event").hide();
   });
 
-  $("#event_event_recurrence_multiple").click(function () {    
+  $("#event_event_recurrence_multiple").click(function () {
     $("#single_occurrance_event").hide();
     $("#multiple_occurrance_event").show();
   });
 
-  // show/hide depending on what's clicked already on page load
+  // click the radio button that is already selected so the interface opens
+  $('input[name=event\\[event_recurrence\\]]:checked').click()
 
 
 
