@@ -2,10 +2,18 @@ class Event < ActiveRecord::Base
 
   has_many :event_times
 
+  attr_accessor :current_event_time
+
   validates :hosting_location, :main_contact_person, :contact_person_email, :event_recurrence, :event_description, presence: true
 
+  # limited description field length, validate there is at least one event_time
+
   def self.sorted_by_date
-    all.joins(:event_times).order("event_times.starting ASC").select("events.*, event_times.starting AS starting")
+    EventTime.joins(:event).order("event_times.starting ASC, events.hosting_location ASC").collect do |event_time| 
+      event = event_time.event
+      event.current_event_time = event_time
+      event
+    end
   end
 
   after_initialize do

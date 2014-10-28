@@ -160,8 +160,8 @@
         <h4>2015 Submitted Events</h4>
 
         <% @events.each do |event| %>
-          <% if current_day != event.starting %>
-            <% current_day = event.starting %>
+          <% if current_day != event.current_event_time.starting.to_date %>
+            <% current_day = event.current_event_time.starting.to_date %>
             <div class="row">
               <div class='col-md-12'>
                 <h4><%= current_day.strftime("%A, %B #{current_day.day.ordinalize}") %></h4>
@@ -171,7 +171,7 @@
           <div class="row">
             <div class='col-md-12'>
               <%= event.hosting_location %> - 
-              <%= event.starting.strftime("%l:%M %p") %>
+              <%= event.current_event_time.starting.strftime("%l:%M %p") %>
               <%= link_to "edit", "#_", class: 'pull-right', style: "margin-left: 5px;" %>
               <%= link_to "remove", "#_", class: 'pull-right' %>
             </div>
