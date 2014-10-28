@@ -1,7 +1,10 @@
 class EventsController < ApplicationController
 
   def index
-    redirect_to new_event_path()
+    respond_to do |format|
+      format.html { redirect_to(new_event_path()) }
+      format.xml  { @events_hash = Event.lakes_of_fire_event_hash; render layout: false }
+    end
   end
 
   def new
@@ -51,18 +54,6 @@ private
     end.compact
   end
 
-  def start_and_end_from_inputs(start_date_param, start_time_param, end_date_param, end_time_param)
-    start_date = Date.strptime(start_date_param, '%m-%d-%Y')
-    start_time = start_time_param.empty? ? Time.new(0) : Time.parse(start_time_param)
-    start_date_time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min)
-
-    end_date = Date.strptime(end_date_param, '%m-%d-%Y')
-    end_time = end_time_param.empty? ? Time.new(0) : Time.parse(end_time_param)
-    end_date_time = DateTime.new(end_date.year, end_date.month, end_date.day, end_time.hour, end_time.min)
-
-    [start_date_time, end_date_time]
-  end
-
   def start_and_end_for_day(day_name)
     event = params[:event]
 
@@ -79,4 +70,17 @@ private
 
     EventTime.new(starting: starting, ending: ending )
   end
+
+  def start_and_end_from_inputs(start_date_param, start_time_param, end_date_param, end_time_param)
+    start_date = Date.strptime(start_date_param, '%m-%d-%Y')
+    start_time = start_time_param.empty? ? Time.new(0) : Time.parse(start_time_param)
+    start_date_time = Time.zone.local(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min)
+
+    end_date = Date.strptime(end_date_param, '%m-%d-%Y')
+    end_time = end_time_param.empty? ? Time.new(0) : Time.parse(end_time_param)
+    end_date_time = Time.zone.local(end_date.year, end_date.month, end_date.day, end_time.hour, end_time.min)
+
+    [start_date_time, end_date_time]
+  end
+
 end

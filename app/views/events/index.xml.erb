@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WWW xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <% @events_hash.each do |day, events| %>
+
+    <%= "<#{day}>".html_safe %>
+      <% events.each do |event_hash| %>
+
+        <Event>
+          <% event_hash.each do |attribute, value| %>
+            <<%= "#{attribute}" %>>
+              <%= value %>
+            </<%= "#{attribute}" %>>
+          <% end %>
+        </Event>
+
+      <% end %>
+    <%= "</#{day}>".html_safe %>
+
+  <% end %>
+</WWW>

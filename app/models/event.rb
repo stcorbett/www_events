@@ -8,12 +8,34 @@ class Event < ActiveRecord::Base
 
   # limited description field length, validate there is at least one event_time
 
-  def self.sorted_by_date
-    EventTime.joins(:event).order("event_times.starting ASC, events.hosting_location ASC").collect do |event_time| 
+  def self.sorted_by_date(specific_date=nil)
+    event_times = EventTime.joins(:event).order("event_times.starting ASC, events.hosting_location ASC")
+    if specific_date
+      start_of_day = Time.zone.local(specific_date.year, specific_date.month, specific_date.day)
+      end_of_day = Time.zone.local(specific_date.year, specific_date.month, specific_date.day + 1)
+      event_times = event_times.where("event_times.starting > ? AND event_times.ending < ?", start_of_day, end_of_day)
+    end
+
+    event_times.collect do |event_time| 
       event = event_time.event
       event.current_event_time = event_time
       event
     end
+  end
+
+  def self.lakes_of_fire_event_hash
+    {
+        "Wednesday" =>  sorted_by_date(Date.new(2015,6,17)).
+                        collect{|event| event.lakes_of_fire_hash},
+        "Thursday" =>   sorted_by_date(Date.new(2015,6,18)).
+                        collect{|event| event.lakes_of_fire_hash},
+        "Friday" =>     sorted_by_date(Date.new(2015,6,19)).
+                        collect{|event| event.lakes_of_fire_hash},
+        "Saturday" =>   sorted_by_date(Date.new(2015,6,20)).
+                        collect{|event| event.lakes_of_fire_hash},
+        "Sunday" =>     sorted_by_date(Date.new(2015,6,21)).
+                        collect{|event| event.lakes_of_fire_hash},
+    }
   end
 
   after_initialize do
@@ -53,6 +75,17 @@ class Event < ActiveRecord::Base
     rescue NoMethodError
       nil
     end
+  end
+
+  def lakes_of_fire_hash
+    {
+      "Location" => hosting_location,
+      "StartTime" => current_event_time.starting.in_time_zone,
+      "EndTime" => current_event_time.ending.in_time_zone,
+      "Time" => current_event_time.starting.in_time_zone.strftime("%l:%M %p"),
+      "Duration" => current_event_time.duration_human,
+      "Description" => event_description
+    }
   end
 
 end

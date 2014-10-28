@@ -1,4 +1,6 @@
 class EventTime < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
+
   belongs_to :event
 
   validates :starting, :ending, presence: true
@@ -8,7 +10,7 @@ class EventTime < ActiveRecord::Base
   end
 
   def start_time
-    starting.strftime("%I:%M %p")
+    starting.strftime("%l:%M %p")
   end
 
   def end_date
@@ -16,7 +18,11 @@ class EventTime < ActiveRecord::Base
   end
 
   def end_time
-    ending.strftime("%I:%M %p")
+    ending.strftime("%l:%M %p")
+  end
+
+  def duration_human
+    distance_of_time_in_words(starting - ending).gsub("about ", "")
   end
 
 end
