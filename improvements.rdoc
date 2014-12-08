@@ -1,5 +1,3 @@
 == Potential Improvements
 
-* 'happens once' vs 'happens multiple' should stay open and populated on validation errors
-
 * can we move the whole meta-code of event time methods into nested forms where we pre-configure the set of LakesOfFire2015 event times and they just render on their own? This would be cool if they would render the day names and all that too, then we are showing dates based on a configurable set of dates for a festival
