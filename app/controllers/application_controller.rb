@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def require_login
     if !logged_in?
       session[:return_to_url] = request.url if request.get?
-      redirect_to root_path
+      redirect_to login_path
     end
   end
 
