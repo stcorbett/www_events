@@ -6,4 +6,5 @@ configs.merge!(ENV)
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :facebook, configs["facebook_app_id"], configs["facebook_app_secret"]
+  provider :google_oauth2, configs["google_client_id"], configs["google_client_secret"]
 end

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   resources :events
 
   get 'auth/:provider/callback', to: 'sessions#create'
+
   get '/auth/facebook', as: "facebook_login"
+  get '/auth/google_oauth2', as: "google_login"
 
   get 'logout', to: 'sessions#destroy', as: "logout"
   get 'login', to: 'sessions#new', as: "login"
