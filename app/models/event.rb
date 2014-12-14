@@ -1,12 +1,13 @@
 class Event < ActiveRecord::Base
 
+  belongs_to :user
   has_many :event_times
 
   after_initialize :define_lakes_of_fire_access_methods
 
   attr_accessor :current_event_time
 
-  validates :hosting_location, :main_contact_person, :contact_person_email, :event_recurrence, :event_description, presence: true
+  validates :hosting_location, :main_contact_person, :contact_person_email, :event_recurrence, :event_description, :user, presence: true
 
   # limited description field length, validate there is at least one event_time
 

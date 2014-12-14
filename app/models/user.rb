@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  has_many :events
+
   def self.create_or_authorize(auth)
     where(auth.to_hash.slice("provider", "uid")).first_or_initialize.tap do |user|
       user.provider = auth.provider

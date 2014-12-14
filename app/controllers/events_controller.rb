@@ -34,6 +34,8 @@ private
       permitted["event_times"] = multiple_event_times
     end
 
+    permitted["user_id"] = current_user.id
+
     permitted
   end
 
