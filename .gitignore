@@ -30,4 +30,4 @@ pickle-email-*.html
 *.bowerrc
 bower.json
 
-config/initializers/omniauth.rb
+config/application.yml
