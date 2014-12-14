@@ -8,7 +8,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
+    @event = Event.new(main_contact_person: current_user.name, contact_person_email: current_user.email)
     @events = Event.sorted_by_date
   end
 
