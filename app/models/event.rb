@@ -59,15 +59,15 @@ class Event < ActiveRecord::Base
                       when "single_occurrence"
                         event_times.first
                       when "wednesday"
-                        event_times.find{|event_time| event_time.starting > Date.new(2015,6,17) && event_time.ending < Date.new(2015,6,18) }
+                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,17) && event_time.ending < Time.zone.local(2015,6,18) }
                       when "thursday"
-                        event_times.find{|event_time| event_time.starting > Date.new(2015,6,18) && event_time.ending < Date.new(2015,6,19) }
+                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,18) && event_time.ending < Time.zone.local(2015,6,19) }
                       when "friday"
-                        event_times.find{|event_time| event_time.starting > Date.new(2015,6,19) && event_time.ending < Date.new(2015,6,20) }
+                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,19) && event_time.ending < Time.zone.local(2015,6,20) }
                       when "saturday"
-                        event_times.find{|event_time| event_time.starting > Date.new(2015,6,20) && event_time.ending < Date.new(2015,6,21) }
+                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,20) && event_time.ending < Time.zone.local(2015,6,21) }
                       when "sunday"
-                        event_times.find{|event_time| event_time.starting > Date.new(2015,6,21) && event_time.ending < Date.new(2015,6,22) }
+                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,21) && event_time.ending < Time.zone.local(2015,6,22) }
                       else
                         nil
                       end

@@ -33,6 +33,7 @@ class EventsController < ApplicationController
 
   def update
     @event = current_user.editable_events.find(params[:id])
+
     if @event.update(event_params)
       redirect_to @event, :notice => "Event updated"
     else
