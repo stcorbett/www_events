@@ -52,6 +52,16 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def event_description=(description)
+    description = description.gsub("“", "\"")
+    description = description.gsub("”", "\"")
+    description = description.gsub("−", "-") # minus sign
+    description = description.gsub("–", "-") # en-dash
+    description = description.gsub("—", "-") # em-dash
+
+    write_attribute(:event_description, description)
+  end
+
   def event_time_finder(event_time_period, event_time_type)
     return nil unless self.event_times.present?
 
