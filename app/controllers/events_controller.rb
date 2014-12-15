@@ -7,6 +7,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def show
+    @event = Event.find(params[:id])
+  end
+
   def new
     @event = Event.new(main_contact_person: current_user.name, contact_person_email: current_user.email)
     @events = Event.sorted_by_date
@@ -20,6 +24,19 @@ class EventsController < ApplicationController
     else
       @events = Event.sorted_by_date
       render :new
+    end
+  end
+
+  def edit
+    @event = current_user.editable_events.find(params[:id])
+  end
+
+  def update
+    @event = current_user.editable_events.find(params[:id])
+    if @event.update(event_params)
+      redirect_to @event, :notice => "Event updated"
+    else
+      render :edit
     end
   end
 

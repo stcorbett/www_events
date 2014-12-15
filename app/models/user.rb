@@ -14,4 +14,9 @@ class User < ActiveRecord::Base
       user.save!
     end
   end
+
+  def editable_events
+    Event.joins(:user).where("users.email = ?", self.email)
+  end
+
 end

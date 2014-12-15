@@ -1,0 +1,28 @@
+<% if flash.notice.present? %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <%= flash.notice %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if @event.errors.any? %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="error_messages alert alert-warning" role="alert">
+        <h2>Problem:</h2>
+        <ul>
+          <% for message in @event.errors.full_messages %>
+            <li><%= message %></li>
+          <% end %>
+          <% for message in @event.event_time_error_messages %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>

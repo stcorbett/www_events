@@ -2,11 +2,11 @@
 
 <div class="row">
 
-  <div class="col-md-6 col-sm-6">
+  <div class="col-md-12 col-sm-12">
     <div class="well"> 
 
       <%= form_for @event, class: "form-inline" do |f| %>
-        <h4>Add an Event</h4>
+        <h4>Edit This Event</h4>
 
         <label for="event_hosting_location">Where:</label>
         <div class="form-group" >
@@ -124,40 +124,9 @@
           <p class="help-block">Brief description of the event, workshop, or performance. 50 words or less</p>
         </div>
 
-        <%= submit_tag "Add", :class=>"btn btn-success" %>
+        <%= submit_tag "Update", :class=>"btn btn-success" %>
       <% end %>
 
     </div>
   </div>
-
-  <div class="col-md-6 col-sm-6">
-    <div class="panel panel-default">
-      <% current_day = nil %>
-      <div class="panel-body">
-        <a href="/events.xml" class="pull-right">XML</a>
-        <h4>2015 Submitted Events</h4>
-
-        <% @events.each do |event| %>
-          <% if current_day != event.current_event_time.starting.to_date %>
-            <% current_day = event.current_event_time.starting.to_date %>
-            <div class="row">
-              <div class='col-md-12'>
-                <h4><%= current_day.strftime("%A, %B #{current_day.day.ordinalize}") %></h4>
-              </div>
-            </div>
-          <% end %>
-          <div class="row">
-            <div class='col-md-12'>
-              <%= link_to "#{event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}", event %>
-              <% if event_is_editable?(event, current_user) %>
-                <%= link_to "edit", edit_event_path(event), class: 'pull-right', style: "margin-left: 5px;" %>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-
-    </div>
-  </div>
-
 </div>
