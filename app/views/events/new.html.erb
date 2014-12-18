@@ -14,10 +14,9 @@
           <p class="help-block">Theme Camp, Event, or Art Installation</p>
         </div>
 
-        <label for="event_main_contact_person">Contact Person:</label>
+        <label for="event_main_contact_person">Contact Person: <small style="color: #999;">(contact info won't be published)</small></label>
         <div class="form-group" >
           <%= f.text_field :main_contact_person, class: "form-control", placeholder: "Name of Main Contact Person" %>
-          <p class="help-block">First and Last</p>
         </div>
         <div class="form-group" >
           <%= f.text_field :contact_person_email, class: "form-control", placeholder: "Email" %>
