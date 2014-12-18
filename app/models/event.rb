@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
     if specific_date
       start_of_day = Time.zone.local(specific_date.year, specific_date.month, specific_date.day)
       end_of_day = Time.zone.local(specific_date.year, specific_date.month, specific_date.day + 1)
-      event_times = event_times.where("event_times.starting > ? AND event_times.ending < ?", start_of_day, end_of_day)
+      event_times = event_times.where("event_times.starting > ? AND event_times.starting < ?", start_of_day, end_of_day)
     end
 
     event_times.collect do |event_time| 
