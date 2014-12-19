@@ -10,13 +10,15 @@
         <%= @event.hosting_location %>
       </div>
 
-      <label>Contact Person:</label>
-      <div class="form-group" >
-        <%= @event.main_contact_person %>
-      </div>
-      <div class="form-group" >
-        <%= @event.contact_person_email %>
-      </div>
+      <% if event_is_editable?(@event, current_user) || admin_logged_in? %>
+        <label>Contact Person:</label>
+        <div class="form-group" >
+          <%= @event.main_contact_person %>
+        </div>
+        <div class="form-group" >
+          <%= @event.contact_person_email %>
+        </div>
+      <% end %>
 
       <label>Time:</label>
       <div class="form-group">

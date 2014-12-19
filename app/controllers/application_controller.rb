@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_login
 
-  helper_method :current_user
+  helper_method :current_user, :admin_logged_in?
 
   def require_login
     if !logged_in?
@@ -22,4 +22,13 @@ class ApplicationController < ActionController::Base
     User.find_by(id: session[:user_id])
   end
 
+  def require_admin
+    if !admin_logged_in?
+      redirect_to login_path
+    end
+  end
+
+  def admin_logged_in?
+    !!current_user.admin
+  end
 end
