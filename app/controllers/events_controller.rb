@@ -62,7 +62,7 @@ private
                                               :event_recurrence, :event_description, :title)
 
     if params[:event][:event_recurrence] == "single"
-      permitted["event_times"] = [single_occurrence_event_time]
+      permitted["event_times"] = single_event_time
     elsif params[:event][:event_recurrence] == "multiple"
       permitted["event_times"] = multiple_event_times
     end
@@ -72,9 +72,15 @@ private
     permitted
   end
 
+  def single_event_time
+    [single_occurrence_event_time].compact
+  end
 
   def single_occurrence_event_time
     event = params[:event]
+
+    return nil unless [event[:single_occurrence_start_time].present?, event[:single_occurrence_end_time].present?].any?
+
     starting, ending = start_and_end_from_inputs( event[:single_occurrence_start_date], 
                                                   event[:single_occurrence_start_time],
                                                   event[:single_occurrence_end_date],
