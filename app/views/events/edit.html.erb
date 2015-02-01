@@ -131,6 +131,7 @@
         </div>
 
         <%= submit_tag "Update", :class=>"btn btn-success" %>
+        <%= link_to 'Cancel', :back, style: "color: #999; margin-left: 10px;" %>
         <%= link_to "Remove", @event, method: :delete, style: "color: #999; margin-left: 10px;", data: { confirm: "Are you sure you want to remove this event?"} %>
 
       <% end %>
