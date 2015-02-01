@@ -8,6 +8,12 @@
       <%= form_for @event, class: "form-inline" do |f| %>
         <h4>Add an Event</h4>
 
+        <label for="event_title">What:</label>
+        <div class="form-group" >
+          <%= f.text_field :title, class: "form-control", placeholder: "Title of the event" %>
+          <p class="help-block">What the event will go by in the WWW guide</p>
+        </div>
+
         <label for="event_hosting_location">Where:</label>
         <div class="form-group" >
           <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>
@@ -147,7 +153,10 @@
           <% end %>
           <div class="row">
             <div class='col-md-12'>
-              <%= link_to "#{event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}", event %>
+              <%= link_to event do 
+                    "#{event.title} - #{event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}"
+                  end
+              %>
               <% if event_is_editable?(event, current_user) %>
                 <%= link_to "edit", edit_event_path(event), class: 'pull-right', style: "margin-left: 5px;" %>
               <% end %>

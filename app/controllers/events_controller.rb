@@ -50,7 +50,8 @@ class EventsController < ApplicationController
 private
 
   def event_params
-    permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email, :event_recurrence, :event_description)
+    permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email, 
+                                              :event_recurrence, :event_description, :title)
 
     if params[:event][:event_recurrence] == "single"
       permitted["event_times"] = [single_occurrence_event_time]

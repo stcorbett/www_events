@@ -8,6 +8,12 @@
       <%= form_for @event, class: "form-inline" do |f| %>
         <h4>Edit This Event</h4>
 
+        <label for="event_title">What:</label>
+        <div class="form-group" >
+          <%= f.text_field :title, class: "form-control", placeholder: "Title of the event" %>
+          <p class="help-block">What the event will go by in the WWW guide</p>
+        </div>
+
         <label for="event_hosting_location">Where:</label>
         <div class="form-group" >
           <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>

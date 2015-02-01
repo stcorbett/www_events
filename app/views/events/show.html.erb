@@ -5,6 +5,11 @@
   <div class="col-md-12 col-sm-12">
     <div class="well"> 
 
+      <label>What:</label>
+      <div class="form-group" >
+        <%= @event.title %>
+      </div>
+
       <label>Where:</label>
       <div class="form-group" >
         <%= @event.hosting_location %>
@@ -20,7 +25,7 @@
         </div>
       <% end %>
 
-      <label>Time:</label>
+      <label>When:</label>
       <div class="form-group">
         <% @event.event_times.each do |time| %>
           <%= time.starting.strftime("%B %-d, %l:%M %p") %> to 
@@ -29,7 +34,7 @@
         <% end %>
       </div>
 
-      <label>What:</label>
+      <label>Details:</label>
       <div class="form-group" >
         <%= @event.event_description %>
       </div>
