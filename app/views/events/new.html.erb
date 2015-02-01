@@ -158,7 +158,7 @@
                   end
               %>
               <% if event_is_editable?(event, current_user) %>
-                <%= link_to "edit", edit_event_path(event), class: 'pull-right', style: "margin-left: 5px;" %>
+                <small><%= link_to "edit", edit_event_path(event), class: 'text-muted', style: "margin-left: 5px;" %></small>
               <% end %>
             </div>
           </div>
