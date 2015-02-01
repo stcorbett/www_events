@@ -15,7 +15,8 @@ class Event < ActiveRecord::Base
   validates_length_of :event_description, :minimum => 0, :maximum => 50, 
                       :tokenizer => lambda { |str| str.scan(/\w+/) },
                       :too_long  => "must have at most %{count} words"
-  
+
+  validate :has_event_time
 
   def self.sorted_by_date(specific_date=nil)
     event_times = EventTime.joins(:event).order("event_times.starting ASC, events.hosting_location ASC")
@@ -55,6 +56,12 @@ class Event < ActiveRecord::Base
           event_time_finder(event_time_period, event_time_type)
         end
       end
+    end
+  end
+
+  def has_event_time
+    if event_times.empty?
+      errors.add(:event_times, "are needed")
     end
   end
 
