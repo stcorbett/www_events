@@ -28,11 +28,11 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = current_user.editable_events.find(params[:id])
+    @event = find_editable_event
   end
 
   def update
-    @event = current_user.editable_events.find(params[:id])
+    @event = find_editable_event
 
     if @event.update(event_params)
       redirect_to @event, :notice => "Event updated"
@@ -48,6 +48,14 @@ class EventsController < ApplicationController
   end
 
 private
+
+  def find_editable_event
+    if current_user.admin
+      Event.find(params[:id])
+    else
+      current_user.editable_events.find(params[:id])
+    end
+  end
 
   def event_params
     permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email, 
