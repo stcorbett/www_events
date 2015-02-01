@@ -11,6 +11,12 @@ class Event < ActiveRecord::Base
             :event_recurrence, :event_description, :user, :title,
             presence: true
 
+  validates_length_of :event_description, :minimum => 0, :maximum => 1000
+  validates_length_of :event_description, :minimum => 0, :maximum => 50, 
+                      :tokenizer => lambda { |str| str.scan(/\w+/) },
+                      :too_long  => "must have at most %{count} words"
+  
+
   def self.sorted_by_date(specific_date=nil)
     event_times = EventTime.joins(:event).order("event_times.starting ASC, events.hosting_location ASC")
     if specific_date
