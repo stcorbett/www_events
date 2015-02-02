@@ -6,7 +6,7 @@ class LakesOfFireConfig
     end
 
     def end_time
-      Time.zone.local(2015, 6, 21, 12, 0)
+      Time.zone.local(2015, 6, 21, 17, 0)
     end
 
     def event_days
