@@ -58,6 +58,12 @@ class Event < ActiveRecord::Base
     [event_times.first]
   end
 
+  def build_empty_event_times
+    LakesOfFireConfig.event_day_names.each do |day|
+      event_times.build(day_of_week: day) unless event_times.find{|time| time.day_of_week.downcase == day.downcase}
+    end
+  end
+
   def event_description=(description)
     description = description.gsub("“", "\"")
     description = description.gsub("”", "\"")
