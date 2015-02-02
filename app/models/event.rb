@@ -2,8 +2,8 @@ class Event < ActiveRecord::Base
 
   belongs_to :user
   has_many :event_times
-
-  after_initialize :define_lakes_of_fire_access_methods
+  has_one :single_event_time
+  accepts_nested_attributes_for :event_times, :single_event_time
 
   attr_accessor :current_event_time
 
@@ -48,21 +48,14 @@ class Event < ActiveRecord::Base
     }
   end
 
-
-  def define_lakes_of_fire_access_methods
-    ["single_occurrence", "wednesday", "thursday", "friday", "saturday", "sunday"].each do |event_time_period|
-      ["start_date", "start_time", "end_date", "end_time"].each do |event_time_type|
-        self.define_singleton_method("#{event_time_period}_#{event_time_type}".to_sym) do
-          event_time_finder(event_time_period, event_time_type)
-        end
-      end
-    end
-  end
-
   def has_event_time
     if event_times.empty?
       errors.add(:event_times, "are needed")
     end
+  end
+
+  def single_event_time
+    [event_times.first]
   end
 
   def event_description=(description)
@@ -73,33 +66,6 @@ class Event < ActiveRecord::Base
     description = description.gsub("—", "-") # em-dash
 
     write_attribute(:event_description, description)
-  end
-
-  def event_time_finder(event_time_period, event_time_type)
-    return nil unless self.event_times.present?
-
-    event_time = case event_time_period
-                      when "single_occurrence"
-                        event_times.first
-                      when "wednesday"
-                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,17) && event_time.ending < Time.zone.local(2015,6,18) }
-                      when "thursday"
-                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,18) && event_time.ending < Time.zone.local(2015,6,19) }
-                      when "friday"
-                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,19) && event_time.ending < Time.zone.local(2015,6,20) }
-                      when "saturday"
-                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,20) && event_time.ending < Time.zone.local(2015,6,21) }
-                      when "sunday"
-                        event_times.find{|event_time| event_time.starting > Time.zone.local(2015,6,21) && event_time.ending < Time.zone.local(2015,6,22) }
-                      else
-                        nil
-                      end
-
-    begin
-      event_time && event_time.send(event_time_type)
-    rescue NoMethodError
-      nil
-    end
   end
 
   def lakes_of_fire_hash

@@ -47,7 +47,7 @@ $(document).ready(function(){
   $('.event_time_inputs .date').datepicker({
       'startDate': '6-17-2015',
       'endDate': '6-21-2015',
-      'format': 'm-d-yyyy',
+      'format': 'mm-dd-yyyy',
       'autoclose': true
   });
 

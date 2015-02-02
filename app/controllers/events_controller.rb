@@ -12,7 +12,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new(main_contact_person: current_user.name, contact_person_email: current_user.email)
+    @event = Event.new(new_event_attributes)
     @events = Event.sorted_by_date
   end
 
@@ -23,6 +23,7 @@ class EventsController < ApplicationController
       redirect_to new_event_path(), :notice => "Event added"
     else
       @events = Event.sorted_by_date
+      @event.event_times = lakes_of_fire_blank_event_times(@event.event_times)["event_times"]
       render :new
     end
   end
@@ -37,6 +38,7 @@ class EventsController < ApplicationController
     if @event.update(event_params)
       redirect_to @event, :notice => "Event updated"
     else
+      @event.event_times = lakes_of_fire_blank_event_times(@event.event_times)["event_times"]
       render :edit
     end
   end
@@ -49,6 +51,32 @@ class EventsController < ApplicationController
 
 private
 
+  # new
+  def new_event_attributes
+    attributes = {}
+    attributes.merge! contact_person_attributes
+    attributes.merge! lakes_of_fire_blank_event_times
+    attributes
+  end
+
+  def contact_person_attributes
+    {main_contact_person: current_user.name, contact_person_email: current_user.email}
+  end
+
+  def lakes_of_fire_blank_event_times(existing_events=[])
+    event_times = []
+    LakesOfFireConfig.event_day_names.each do |day|
+      if existing_event = existing_events.find{|event| event.day_of_week.downcase == day.downcase}
+        event_times << existing_event
+      else
+        event_times << EventTime.new(day_of_week: day)
+      end
+    end
+
+    {"event_times" => event_times}
+  end
+
+  # edit/update
   def find_editable_event
     if current_user.admin
       Event.find(params[:id])
@@ -57,6 +85,7 @@ private
     end
   end
 
+  # create/update
   def event_params
     permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email, 
                                               :event_recurrence, :event_description, :title)
@@ -72,56 +101,33 @@ private
     permitted
   end
 
+  # process event times inputs
   def single_event_time
-    [single_occurrence_event_time].compact
-  end
-
-  def single_occurrence_event_time
-    event = params[:event]
-
-    return nil unless [event[:single_occurrence_start_time].present?, event[:single_occurrence_end_time].present?].any?
-
-    starting, ending = start_and_end_from_inputs( event[:single_occurrence_start_date], 
-                                                  event[:single_occurrence_start_time],
-                                                  event[:single_occurrence_end_date],
-                                                  event[:single_occurrence_end_time])
-
-    EventTime.new(starting: starting, ending: ending )
+    [
+      event_time_from(params["event"][:single_event_time_attributes]["0"])
+    ].compact
   end
 
   def multiple_event_times
-    %w(wednesday thursday friday saturday sunday).collect do |day_name|
-      start_and_end_for_day(day_name)
-    end.compact
+    events = []
+    raw_event_input = params["event"][:event_times_attributes].values
+    raw_event_input.each do |raw_event_time|
+      events << event_time_from(raw_event_time)
+    end
+
+    events.compact
   end
 
-  def start_and_end_for_day(day_name)
-    event = params[:event]
+  def event_time_from(raw_event_input)
+    return nil unless raw_event_input[:starting].present? && 
+                      raw_event_input[:ending].present? && 
+                      raw_event_input[:day_of_week].present?
 
-    return nil unless [event["#{day_name}_start_time"].present?, event["#{day_name}_end_time"].present?].any?
+    starting, ending = EventTime.start_and_end_from_inputs( raw_event_input[:day_of_week], 
+                                                            raw_event_input[:starting],
+                                                            raw_event_input[:ending])
 
-    inputs = [event["#{day_name}_start_date"], 
-              event["#{day_name}_start_time"],
-              event["#{day_name}_end_date"],
-              event["#{day_name}_end_time"]]
-
-    return nil if inputs.empty?
-
-    starting, ending = start_and_end_from_inputs(*inputs)
-
-    EventTime.new(starting: starting, ending: ending )
-  end
-
-  def start_and_end_from_inputs(start_date_param, start_time_param, end_date_param, end_time_param)
-    start_date = Date.strptime(start_date_param, '%m-%d-%Y')
-    start_time = start_time_param.empty? ? Time.new(0) : Time.parse(start_time_param)
-    start_date_time = Time.zone.local(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min)
-
-    end_date = Date.strptime(end_date_param, '%m-%d-%Y')
-    end_time = end_time_param.empty? ? Time.new(0) : Time.parse(end_time_param)
-    end_date_time = Time.zone.local(end_date.year, end_date.month, end_date.day, end_time.hour, end_time.min)
-
-    [start_date_time, end_date_time]
+    EventTime.new(starting: starting, ending: ending, day_of_week: raw_event_input[:day_of_week] )
   end
 
 end
