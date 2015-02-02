@@ -14,9 +14,4 @@ module EventHelper
     end
   end
 
-  def timepicker_format(time)
-    return nil unless time
-    time.strftime("%l:%M%p")
-  end
-
 end

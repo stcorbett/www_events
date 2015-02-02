@@ -56,13 +56,13 @@
 
               <!-- render these nicely so jquery can pick them up -->
               <%= event_time_form.text_field  :starting, 
-                                              class: "form-control time start ui-timepicker-input", 
-                                              placeholder: "Starting time", 
-                                              value: timepicker_format(event_time_form.object.starting) %>
+                                              class: "form-control time start", 
+                                              placeholder: "Starting time",
+                                              date_pair_value: event_time_form.object.start_time %>
               <%= event_time_form.text_field  :ending, 
-                                              class: "form-control time end ui-timepicker-input", 
+                                              class: "form-control time end", 
                                               placeholder: "Ending time",
-                                              value: timepicker_format(event_time_form.object.ending) %>
+                                              date_pair_value: event_time_form.object.end_time %>
             </div>
           <% end %>
         </div>
@@ -80,15 +80,16 @@
               </div>
               <div class="col-xs-4">
                 <%= event_time_form.text_field  :starting, 
-                                                class: "form-control time start", 
+                                                class: "form-control time start #{event_time_form.object.day_of_week.downcase}", 
                                                 placeholder: "Starting time",
-                                                value: timepicker_format(event_time_form.object.starting) %>
+                                                date_pair_value: event_time_form.object.start_time %>
               </div>
               <div class="col-xs-4">
+                <%= event_time_form.hidden_field :end_time %>
                 <%= event_time_form.text_field  :ending, 
-                                                class: "form-control time end", 
+                                                class: "form-control time end #{event_time_form.object.day_of_week.downcase}", 
                                                 placeholder: "Ending time",
-                                                value: timepicker_format(event_time_form.object.ending) %>
+                                                date_pair_value: event_time_form.object.end_time %>
               </div>
             </div>
           <% end %>

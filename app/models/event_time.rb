@@ -33,7 +33,8 @@ class EventTime < ActiveRecord::Base
   end
 
   def start_time
-    starting.strftime("%l:%M %p")
+    return nil unless starting
+    starting.strftime("%l:%M%p")
   end
 
   def end_date
@@ -41,7 +42,8 @@ class EventTime < ActiveRecord::Base
   end
 
   def end_time
-    ending.strftime("%l:%M %p")
+    return nil unless ending
+    ending.strftime("%l:%M%p")
   end
 
   def duration_human
