@@ -28,7 +28,7 @@
       <label>When:</label>
       <div class="form-group">
         <% @event.event_times.each do |time| %>
-          <%= time.starting.strftime("%B %-d, %l:%M %p") %> to 
+          <%= time.starting.strftime("%A, %B %-d, %l:%M %p") %> to 
           <%= time.ending.strftime("%l:%M %p") %>
           <%= "(#{time.duration_human})"%> <br/>
         <% end %>
