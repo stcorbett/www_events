@@ -115,7 +115,7 @@ Datepair.prototype = {
 
 	refresh: function()
 	{
-		if (this.startDateInput && this.startDateInput.value && this.startDateInput && this.endDateInput.value) {
+		if (this.startDateInput && this.startDateInput.value && this.endDateInput && this.endDateInput.value) {
 			var startDate = this.settings.parseDate(this.startDateInput);
 			var endDate = this.settings.parseDate(this.endDateInput);
 			this.dateDelta = endDate.getTime() - startDate.getTime();
@@ -266,7 +266,8 @@ Datepair.prototype = {
 		if (this.dateDelta !== null
 				&& this.dateDelta + this.timeDelta <= _ONE_DAY
 				&& this.dateDelta + newDelta != 0
-				&& (newDelta >= 0 && this.timeDelta < 0) || (newDelta < 0 && this.timeDelta >= 0)) {
+				&& ((newDelta >= 0 && this.timeDelta < 0) || (newDelta < 0 && this.timeDelta >= 0))) {
+
 			var offset = (endTime < startTime) ? _ONE_DAY : -1 * _ONE_DAY;
 			if (this.settings.anchor == 'start') {
 				var endDate = this.settings.parseDate(this.endDateInput);
