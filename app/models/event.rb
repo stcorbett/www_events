@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
             presence: true
 
   validates_length_of :event_description, :minimum => 0, :maximum => 1000
-  validates_length_of :event_description, :minimum => 0, :maximum => 50, 
+  validates_length_of :event_description, :minimum => 0, :maximum => 100, 
                       :tokenizer => lambda { |str| str.scan(/\w+/) },
                       :too_long  => "must have at most %{count} words"
 
