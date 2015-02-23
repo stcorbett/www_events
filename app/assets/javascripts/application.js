@@ -37,27 +37,58 @@ $(document).ready(function(){
 
 
   // events can start at midnight, end at the next midnight
-  $('.event_time_inputs .start.time').timepicker({
-    'showDuration': false,
-    'timeFormat': 'g:iA',
-    'step': '15',
-    'scrollDefault': "12:00PM",
-    'minTime': "12:00AM",
-    'maxTime': "11:59PM"
-  });
 
-  $('.event_time_inputs .end.time').timepicker({
-    'showDuration': true,
-    'timeFormat': 'g:iA',
-    'step': '15',
-    'scrollDefault': "12:00PM",
-    'minTime': "12:15AM",
-    'maxTime': "12:00AM"
-  });
+  var timepicker_defaults = {
+                              'showDuration': true,
+                              'timeFormat': 'g:iA',
+                              'step': '15',
+                              'scrollDefault': "12:00PM",
+                              'minTime': "12:00AM",
+                            }
+
+  $('.event_time_inputs .start.time').timepicker(
+    $.extend({}, timepicker_defaults, {
+                                        'showDuration': false,
+                                      }
+            )
+  );
+  $('.event_time_inputs .end.time').timepicker(timepicker_defaults);
 
   // initialize multiple day event inputs
-  $('.event_time_inputs .sunday.start.time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'scrollDefault': "10:00AM", 'maxTime': "12:01PM"});
-  $('.event_time_inputs .sunday.end.time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'maxTime': "12:01PM"});
+  // events can't start before LOF or end afterwards
+  $('.event_time_inputs .wednesday.start.time').timepicker(
+    $.extend({}, timepicker_defaults, {
+                                        'showDuration': false,
+                                        'minTime': "10:00AM",
+                                        'disableTimeRanges': [['12:00AM', '09:59AM']],
+                                      }
+            )
+  );
+  $('.event_time_inputs .wednesday.end.time').timepicker(
+    $.extend({}, timepicker_defaults, {
+                                        'disableTimeRanges': [['12:00AM', '09:59AM']],
+                                      }
+            )
+  );
+
+  $('.event_time_inputs .sunday.start.time').timepicker(
+    $.extend({}, timepicker_defaults, {
+                                        'showDuration': false,
+                                        'minTime': "12:00AM",
+                                        'maxTime': "12:01PM",
+                                        'disableTimeRanges': [['12:01PM', '11:59PM']],
+                                        'scrollDefault': "10:00AM",
+                                      }
+            )
+  );
+  $('.event_time_inputs .sunday.end.time').timepicker(
+    $.extend({}, timepicker_defaults, {
+                                        'maxTime': "12:01PM",
+                                        'disableTimeRanges': [['12:01PM', '11:59PM']],
+                                        'scrollDefault': "10:00AM",
+                                      }
+            )
+  );
 
   // initialize datepair
   $('.event_time_inputs').datepair();
