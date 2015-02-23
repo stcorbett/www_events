@@ -13,7 +13,7 @@ class EventTime < ActiveRecord::Base
     starting =  Time.zone.local(date.year, date.month, date.day, start_time.hour, start_time.min)
     ending =    Time.zone.local(date.year, date.month, date.day, end_time.hour,   end_time.min)
 
-    ending = ending + 1.day if starting > ending
+    ending = ending + 1.day if starting >= ending
 
     [starting, ending]
   end

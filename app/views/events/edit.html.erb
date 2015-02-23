@@ -59,11 +59,13 @@
               <%= event_time_form.text_field  :starting, 
                                               class: "form-control time start", 
                                               placeholder: "Starting time", 
-                                              date_pair_value: event_time_form.object.start_time %>
+                                              date_pair_value: event_time_form.object.start_time,
+                                              value: event_time_form.object.start_time %>
               <%= event_time_form.text_field  :ending, 
                                               class: "form-control time end", 
                                               placeholder: "Ending time",
-                                              date_pair_value: event_time_form.object.start_time %>
+                                              date_pair_value: event_time_form.object.end_time,
+                                              value: event_time_form.object.end_time %>
             </div>
           <% end %>
         </div>
@@ -83,13 +85,15 @@
                 <%= event_time_form.text_field  :starting, 
                                                 class: "form-control time start #{event_time_form.object.day_of_week.downcase}",
                                                 placeholder: "Starting time",
-                                                date_pair_value: event_time_form.object.start_time %>
+                                                date_pair_value: event_time_form.object.start_time,
+                                                value: event_time_form.object.start_time %>
               </div>
               <div class="col-xs-4">
                 <%= event_time_form.text_field  :ending, 
                                                 class: "form-control time end #{event_time_form.object.day_of_week.downcase}",
                                                 placeholder: "Ending time",
-                                                date_pair_value: event_time_form.object.end_time %>
+                                                date_pair_value: event_time_form.object.end_time,
+                                                value: event_time_form.object.end_time %>
               </div>
             </div>
           <% end %>

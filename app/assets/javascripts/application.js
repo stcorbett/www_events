@@ -36,13 +36,28 @@ $(document).ready(function(){
   $('input[name=event\\[event_recurrence\\]]:checked').click()
 
 
-
-  $('.event_time_inputs .time').timepicker({
-      'showDuration': true,
-      'timeFormat': 'g:iA',
-      'step': '15',
-      'scrollDefault': "12:00PM",
+  // events can start at midnight, end at the next midnight
+  $('.event_time_inputs .start.time').timepicker({
+    'showDuration': false,
+    'timeFormat': 'g:iA',
+    'step': '15',
+    'scrollDefault': "12:00PM",
+    'minTime': "12:00AM",
+    'maxTime': "11:59PM"
   });
+
+  $('.event_time_inputs .end.time').timepicker({
+    'showDuration': true,
+    'timeFormat': 'g:iA',
+    'step': '15',
+    'scrollDefault': "12:00PM",
+    'minTime': "12:15AM",
+    'maxTime': "12:00AM"
+  });
+
+  // initialize multiple day event inputs
+  $('.event_time_inputs .sunday.start.time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'scrollDefault': "10:00AM", 'maxTime': "12:01PM"});
+  $('.event_time_inputs .sunday.end.time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'maxTime': "12:01PM"});
 
   // initialize datepair
   $('.event_time_inputs').datepair();
@@ -63,9 +78,5 @@ $(document).ready(function(){
     input.trigger("change.datepair");
   });
   
-
-  // initialize multiple day event inputs
-  $('.event_time_inputs .sunday.start.time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'scrollDefault': "10:00AM", 'maxTime': "12:01PM"});
-  $('.event_time_inputs .sunday.end.time').timepicker({'disableTimeRanges': [['12:01PM', '11:59PM']], 'maxTime': "12:01PM"});
 
 });
