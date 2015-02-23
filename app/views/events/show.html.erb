@@ -41,7 +41,8 @@
 
       <% if event_is_editable?(@event, current_user) %>
         <div class="form-group" >
-          <%= link_to "edit", edit_event_path(@event) %>
+          <%= link_to "Edit", edit_event_path(@event), :class => "btn btn-success" %>
+          <%= link_to 'Cancel', :back, style: "color: #999; margin-left: 10px;" %>
         </div>
       <% end %>
 
