@@ -53,7 +53,7 @@
               <%= event_time_form.select  :day_of_week, 
                                           days_of_week_select_options, 
                                           {:selected => event_time_form.object.day_of_week},
-                                          {:class => "form-control"} %>
+                                          {:class => "form-control day_of_week_input"} %>
 
               <!-- render these nicely so jquery can pick them up -->
               <%= event_time_form.text_field  :starting, 
@@ -78,7 +78,7 @@
               <div class="col-xs-4">
                 <label for="event_<%= event_time.day_of_week.downcase %>_start_time">
                   <%= lakes_of_fire_date(event_time.day_of_week).strftime("%A - %-m/%-d") %>
-                  <%= event_time_form.hidden_field :day_of_week %>
+                  <%= event_time_form.hidden_field :day_of_week, class: "day_of_week_input" %>
                 </label>
               </div>
               <div class="col-xs-4">

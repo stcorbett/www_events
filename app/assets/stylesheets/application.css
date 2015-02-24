@@ -26,10 +26,6 @@
   margin-bottom: 10px;
 }
 
-#single_occurrance_event input{
-  display: inline;
-  width: 30%;
-}
 
 .datepicker-days td.day{
   cursor: pointer;

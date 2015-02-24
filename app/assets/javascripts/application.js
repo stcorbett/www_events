@@ -32,6 +32,48 @@ $(document).ready(function(){
     $("#multiple_occurrance_event").show();
   });
 
+  $(".all_day_event").click(function () {
+    var checkbox = $(this);
+    var form_row = checkbox.closest(".event_time_inputs");
+    var start_input = form_row.find(".start")
+    var end_input = form_row.find(".end")
+    var date = form_row.find(".day_of_week_input")
+
+    if (checkbox.prop( "checked" )) {
+      start_input.prop('readonly', true);
+      end_input.prop('readonly', true);
+
+      if (checkbox.closest("#single_occurrance_event").length > 0) {
+        date.after("<label class='hidden_select_replacement'>" + date.val() + ":</label>")
+        date.hide()
+      }
+
+      start_input.data("manual_selection", start_input.val())
+      end_input.data("manual_selection", end_input.val())
+
+      start_input.timepicker('setTime', "12:00AM")
+      end_input.timepicker('setTime', "12:00AM")
+
+      if (date.val() == "Wednesday"){
+        start_input.timepicker('setTime', "10:00AM")
+      }
+      if (date.val() == "Sunday"){
+        end_input.timepicker('setTime', "12:00PM")
+      }
+    } else {
+      start_input.prop('readonly', false);
+      end_input.prop('readonly', false);
+      date.show()
+      $(".hidden_select_replacement").remove()
+      // unhide date, remove print
+
+      start_input.timepicker('setTime', start_input.data("manual_selection"))
+      start_input.trigger("change.datepair");
+      end_input.timepicker('setTime', end_input.data("manual_selection"))
+      end_input.trigger("change.datepair");
+    }
+  });
+
   // click the radio button that is already selected so the interface opens
   $('input[name=event\\[event_recurrence\\]]:checked').click()
 
@@ -70,6 +112,12 @@ $(document).ready(function(){
                                       }
             )
   );
+
+//
+  
+  // do:   set wednesday and sunday hashes as variables
+  // configure single day inputs with those hases on change of the select
+  
 
   $('.event_time_inputs .sunday.start.time').timepicker(
     $.extend({}, timepicker_defaults, {

@@ -48,34 +48,46 @@
 
         <div id="single_occurrance_event" class="form-group event_time_inputs" style="display:none;">
           <%= f.fields_for :single_event_time do |event_time_form| %>
-            <div class="form-inline">
-              <%= event_time_form.select  :day_of_week, 
-                                          days_of_week_select_options, 
-                                          {:selected => event_time_form.object.day_of_week},
-                                          {:class => "form-control"} %>
+            <div class="row">
+              <div class="form-inline">
+                <div class="col-xs-4">
+                  <%= event_time_form.select  :day_of_week, 
+                                              days_of_week_select_options, 
+                                              {:selected => event_time_form.object.day_of_week},
+                                              {:class => "form-control day_of_week_input"} %>
+                </div>
+                <!-- render these nicely so jquery can pick them up -->
+                <div class="col-xs-4">
+                  <%= event_time_form.text_field  :starting, 
+                                                  class: "form-control time start", 
+                                                  placeholder: "Starting time",
+                                                  date_pair_value: event_time_form.object.start_time %>
 
-              <!-- render these nicely so jquery can pick them up -->
-              <%= event_time_form.text_field  :starting, 
-                                              class: "form-control time start", 
-                                              placeholder: "Starting time",
-                                              date_pair_value: event_time_form.object.start_time %>
-              <%= event_time_form.text_field  :ending, 
-                                              class: "form-control time end", 
-                                              placeholder: "Ending time",
-                                              date_pair_value: event_time_form.object.end_time %>
+                  <label style="margin-top: 4px;">
+                    <input type="checkbox" class="all_day_event" value="value">
+                    All Day
+                  </label>
+                </div>
+                <div class="col-xs-4">
+                  <%= event_time_form.text_field  :ending, 
+                                                  class: "form-control time end", 
+                                                    placeholder: "Ending time",
+                                                    date_pair_value: event_time_form.object.end_time %>
+                </div>
+              </div>
             </div>
           <% end %>
         </div>
 
-        <div class="form-group" id="multiple_occurrance_event" style="display:none;">
+        <div class="" id="multiple_occurrance_event" style="display:none;">
 
           <%= f.fields_for :event_times, @event.event_times.sort_by(&:day_of_event_index) do |event_time_form| %>
             <% event_time = event_time_form.object %>
-            <div class="row event_time_inputs">
+            <div class="row event_time_inputs form-group">
               <div class="col-xs-4">
                 <label for="event_<%= event_time.day_of_week.downcase %>_start_time">
                   <%= lakes_of_fire_date(event_time.day_of_week).strftime("%A - %-m/%-d") %>
-                  <%= event_time_form.hidden_field :day_of_week %>
+                  <%= event_time_form.hidden_field :day_of_week, class: "day_of_week_input" %>
                 </label>
               </div>
               <div class="col-xs-4">
@@ -83,6 +95,12 @@
                                                 class: "form-control time start #{event_time_form.object.day_of_week.downcase}", 
                                                 placeholder: "Starting time",
                                                 date_pair_value: event_time_form.object.start_time %>
+
+                <label style="margin-top: 4px;">
+                  <input type="checkbox" class="all_day_event" value="value">
+                  All Day
+                </label>
+
               </div>
               <div class="col-xs-4">
                 <%= event_time_form.hidden_field :end_time %>
