@@ -113,12 +113,6 @@ $(document).ready(function(){
             )
   );
 
-//
-  
-  // do:   set wednesday and sunday hashes as variables
-  // configure single day inputs with those hases on change of the select
-  
-
   $('.event_time_inputs .sunday.start.time').timepicker(
     $.extend({}, timepicker_defaults, {
                                         'showDuration': false,
