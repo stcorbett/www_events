@@ -93,12 +93,17 @@ h3,h4,h5 {
  width:100%;
 }
 
+#main {
+ padding-top:75px;
+}
+
 @media (max-width: 768px) {
  #subnav {
   padding-top: 6px;
  }
+
+ #main {
+  padding-top:165px;
+ }
 }
 
-#main {
- padding-top:75px;
-}
