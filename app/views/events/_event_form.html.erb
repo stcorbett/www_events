@@ -4,6 +4,11 @@
   <p class="help-block">What the event will go by in the WWW guide</p>
 </div>
 
+<div class="form-group" >
+  <%= f.text_area :event_description, class: "form-control", placeholder: "Description" %>
+  <p class="help-block">Brief description of the event, workshop, or performance. 100 words or less</p>
+</div>
+
 <label for="event_hosting_location">Where:</label>
 <div class="form-group" >
   <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>
@@ -100,12 +105,4 @@
     </div>
   <% end %>
 
-</div>
-
-
-
-<label for="event_event_description">What:</label>
-<div class="form-group" >
-  <%= f.text_area :event_description, class: "form-control", placeholder: "Description" %>
-  <p class="help-block">Brief description of the event, workshop, or performance. 100 words or less</p>
 </div>
