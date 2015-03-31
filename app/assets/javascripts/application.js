@@ -22,6 +22,11 @@
 
 $(document).ready(function(){
 
+  wednesday_time_disable = "11:59AM"
+  wednesday_start_time = "12:00PM"
+  sunday_end_time = "3:00PM"
+  sunday_time_disable = "3:01PM"
+
   $("#event_event_recurrence_single").click(function () {
     $("#single_occurrance_event").show();
     $("#multiple_occurrance_event").hide();
@@ -55,10 +60,10 @@ $(document).ready(function(){
       end_input.timepicker('setTime', "12:00AM")
 
       if (date.val() == "Wednesday"){
-        start_input.timepicker('setTime', "10:00AM")
+        start_input.timepicker('setTime', wednesday_start_time)
       }
       if (date.val() == "Sunday"){
-        end_input.timepicker('setTime', "12:00PM")
+        end_input.timepicker('setTime', sunday_end_time)
       }
     } else {
       start_input.prop('readonly', false);
@@ -101,14 +106,14 @@ $(document).ready(function(){
   $('.event_time_inputs .wednesday.start.time').timepicker(
     $.extend({}, timepicker_defaults, {
                                         'showDuration': false,
-                                        'minTime': "10:00AM",
-                                        'disableTimeRanges': [['12:00AM', '09:59AM']],
+                                        'minTime': wednesday_start_time,
+                                        'disableTimeRanges': [['12:00AM', wednesday_time_disable]],
                                       }
             )
   );
   $('.event_time_inputs .wednesday.end.time').timepicker(
     $.extend({}, timepicker_defaults, {
-                                        'disableTimeRanges': [['12:00AM', '09:59AM']],
+                                        'disableTimeRanges': [['12:00AM', wednesday_time_disable]],
                                       }
             )
   );
@@ -117,16 +122,16 @@ $(document).ready(function(){
     $.extend({}, timepicker_defaults, {
                                         'showDuration': false,
                                         'minTime': "12:00AM",
-                                        'maxTime': "12:01PM",
-                                        'disableTimeRanges': [['12:01PM', '11:59PM']],
+                                        'maxTime': sunday_time_disable,
+                                        'disableTimeRanges': [[sunday_time_disable, '11:59PM']],
                                         'scrollDefault': "10:00AM",
                                       }
             )
   );
   $('.event_time_inputs .sunday.end.time').timepicker(
     $.extend({}, timepicker_defaults, {
-                                        'maxTime': "12:01PM",
-                                        'disableTimeRanges': [['12:01PM', '11:59PM']],
+                                        'maxTime': sunday_time_disable,
+                                        'disableTimeRanges': [[sunday_time_disable, '11:59PM']],
                                         'scrollDefault': "10:00AM",
                                       }
             )
