@@ -21,12 +21,6 @@
 //= require_tree .
 
 $(document).ready(function(){
-
-  wednesday_time_disable = "11:59AM"
-  wednesday_start_time = "12:00PM"
-  sunday_end_time = "3:00PM"
-  sunday_time_disable = "3:01PM"
-
   $("#event_event_recurrence_single").click(function () {
     $("#single_occurrance_event").show();
     $("#multiple_occurrance_event").hide();
@@ -36,6 +30,34 @@ $(document).ready(function(){
     $("#single_occurrance_event").hide();
     $("#multiple_occurrance_event").show();
   });
+
+  $(".btn-all-events").click(function () {
+    $(".not-your-event").show();
+    $(".active").removeClass('active');
+    $(".btn-all-events").addClass("active")
+  });
+
+  $(".btn-your-events").click(function () {
+    $(".not-your-event").hide();
+    $(".active").removeClass('active');
+    $(".btn-your-events").addClass("active")
+  });
+
+  var new_event_id = getUrlParameter('new_event');
+  if (new_event_id) {
+    $(".event-" + new_event_id).addClass("bg-info");
+    $(".event-" + new_event_id).css({margin: "5px auto", "padding-top": "10px", "padding-bottom": "10px"});
+    $(".btn-your-events").click();
+  }
+
+});
+
+$(document).ready(function(){
+
+  wednesday_time_disable = "11:59AM"
+  wednesday_start_time = "12:00PM"
+  sunday_end_time = "3:00PM"
+  sunday_time_disable = "3:01PM"
 
   $(".all_day_event").click(function () {
     var checkbox = $(this);
@@ -158,3 +180,17 @@ $(document).ready(function(){
   
 
 });
+
+function getUrlParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}   

@@ -21,7 +21,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
 
     if @event.save
-      redirect_to new_event_path(), :notice => "Event added"
+      redirect_to new_event_path(new_event: @event.id), :notice => "Event added"
     else
       @events = Event.sorted_by_date
       @event.build_empty_event_times

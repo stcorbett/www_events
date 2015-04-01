@@ -52,6 +52,13 @@
         <a href="/events.xml" class="pull-right">XML</a>
         <h4>2015 Submitted Events</h4>
 
+        <div class="row">
+          <div class='col-md-12'>
+            <a href="#yours" class="btn btn-default btn-xs pull-right btn-your-events">Yours</a>
+            <a href="#all" class="btn btn-default btn-xs pull-right btn-all-events">All</a>
+          </div>
+        </div>
+
         <% @events.each do |event| %>
           <% if current_day != event.current_event_time.starting.to_date %>
             <% current_day = event.current_event_time.starting.to_date %>
@@ -61,8 +68,8 @@
               </div>
             </div>
           <% end %>
-          <div class="row">
-            <div class='col-md-12'>
+          <div class="row <%= event.user == current_user ? "your-event" : "not-your-event" %>">
+            <div class='col-md-12 <%= "event-#{event.id}" %>'>
               <%= link_to event do 
                     "#{event.title} - #{event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}"
                   end
