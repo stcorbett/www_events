@@ -36,8 +36,9 @@ class EventsController < ApplicationController
 
   def update
     @event = find_editable_event
+    set_event_attributes_for_update!(@event, event_params)
 
-    if @event.update(event_params)
+    if @event.save
       redirect_to @event, :notice => "Event updated"
     else
       @event.build_empty_event_times
@@ -70,6 +71,17 @@ private
       Event.find(params[:id])
     else
       current_user.editable_events.find(params[:id])
+    end
+  end
+
+  def set_event_attributes_for_update!(event, new_attributes)
+    new_attributes = new_attributes.clone
+    event_times = new_attributes.delete("event_times")
+
+    event.attributes = new_attributes
+    event.event_times = []
+    event_times.each do |event_time|
+      @event.event_times.build(event_time.attributes)
     end
   end
 

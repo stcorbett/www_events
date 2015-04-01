@@ -5,6 +5,8 @@ class Event < ActiveRecord::Base
   has_one :single_event_time
   accepts_nested_attributes_for :event_times, :single_event_time
 
+  validates_associated :event_times
+
   attr_accessor :current_event_time
 
   validates :hosting_location, :main_contact_person, :contact_person_email,
