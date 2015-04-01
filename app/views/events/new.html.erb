@@ -70,6 +70,9 @@
               <% if event_is_editable?(event, current_user) %>
                 <small><%= link_to "edit", edit_event_path(event), class: 'text-muted', style: "margin-left: 5px;" %></small>
               <% end %>
+              <% if event.current_event_time.all_day %>
+                <small class="text-info pull-right" style="margin-left: 5px;">all day!</small>
+              <% end %>
             </div>
           </div>
         <% end %>

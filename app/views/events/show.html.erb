@@ -30,7 +30,8 @@
         <% @event.event_times.each do |time| %>
           <%= time.starting.strftime("%A, %B %-d, %l:%M %p") %> to 
           <%= time.ending.strftime("%l:%M %p") %>
-          <%= "(#{time.duration_human})"%> <br/>
+          <%= "(#{time.duration_human})"%>
+          <%= "<span class='text-success'>all day event</span>".html_safe if time.all_day %><br/>
         <% end %>
       </div>
 

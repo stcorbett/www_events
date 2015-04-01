@@ -6,6 +6,8 @@ class EventTime < ActiveRecord::Base
   validates :starting, :ending, presence: true
   validate  :lakes_of_fire_start_time_validation, :lakes_of_fire_end_time_validation
 
+  before_save :set_all_day_flag
+
   def self.start_and_end_from_inputs(day_of_week, start_time, end_time)
     date = LakesOfFireConfig.event_days[day_of_week.downcase.to_sym]
     start_time, end_time = Time.parse(start_time), Time.parse(end_time)
@@ -54,6 +56,24 @@ class EventTime < ActiveRecord::Base
     LakesOfFireConfig.event_days.keys.index(day_of_week.downcase.to_sym)
   end
 
+  def day_of_event
+    LakesOfFireConfig.event_days[day_of_week.downcase.to_sym]
+  end
+
+  def starting_at_start_of_day?
+    start_of_day = day_of_event ==  LakesOfFireConfig.start_time.to_date ? 
+                                    LakesOfFireConfig.start_time : Time.zone.parse(day_of_event.to_s)
+
+    starting == start_of_day
+  end
+
+  def ending_at_end_of_day?
+    end_of_day = day_of_event ==  LakesOfFireConfig.end_time.to_date ? 
+                                  LakesOfFireConfig.end_time : Time.zone.parse( (day_of_event + 1).to_s )
+
+    ending == end_of_day
+  end
+
 private
   def before_lakes_of_fire?(time)
     time < LakesOfFireConfig.start_time
@@ -61,6 +81,12 @@ private
 
   def after_lakes_of_fire?(time)
     LakesOfFireConfig.end_time < time
+  end
+
+  def set_all_day_flag
+    self.all_day = starting_at_start_of_day? && ending_at_end_of_day?
+
+    return true # Otherwise ActiveRecord halts the save
   end
 
 end

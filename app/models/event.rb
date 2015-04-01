@@ -21,7 +21,8 @@ class Event < ActiveRecord::Base
   validate :has_event_time
 
   def self.sorted_by_date(specific_date=nil)
-    event_times = EventTime.joins(:event).order("event_times.starting ASC, events.hosting_location ASC")
+    event_times = EventTime.joins(:event).
+                            order("event_times.starting ASC, event_times.all_day ASC, events.title ASC")
     if specific_date
       start_of_day = Time.zone.local(specific_date.year, specific_date.month, specific_date.day)
       end_of_day = Time.zone.local(specific_date.year, specific_date.month, specific_date.day + 1)
@@ -84,6 +85,7 @@ class Event < ActiveRecord::Base
       "EndTime" => current_event_time.ending.in_time_zone,
       "Time" => current_event_time.starting.in_time_zone.strftime("%l:%M %p"),
       "Duration" => current_event_time.duration_human,
+      "AllDay" => current_event_time.all_day,
       "Description" => event_description
     }
   end
