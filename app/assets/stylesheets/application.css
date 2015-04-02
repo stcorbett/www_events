@@ -35,3 +35,9 @@
   color: #ccc;
   cursor: not-allowed;
 }
+
+.navbar a.name:hover, .navbar a.name:active, .navbar a.name:focus{
+  background-color: inherit;
+  color: #428bca;
+  cursor: default;
+}

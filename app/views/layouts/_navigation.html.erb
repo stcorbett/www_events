@@ -12,7 +12,7 @@
       <ul class="nav navbar-nav navbar-right">
         <% if current_user %>
           <li>
-            <%= link_to "#{admin_badge(current_user)} #{current_user.name} ".html_safe, "#_" %>
+            <%= link_to "#{admin_badge(current_user)} #{current_user.name} ".html_safe, "#_", class: "name" %>
           </li>
           <li>
             <%= link_to "Logout", logout_path %>
