@@ -14,7 +14,7 @@
       <div class="form-group" >
         <%= @event.hosting_location %>
       </div>
-      <% if event_is_editable?(@event, current_user)  %>
+      <% if user_owns_event(@event, current_user)  %>
         <label>Contact Person:</label>
         <small class="text-muted">(only visible to WWW team and event contact person)</small>
         <div class="form-group" >

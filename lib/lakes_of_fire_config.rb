@@ -1,6 +1,10 @@
 class LakesOfFireConfig
   class << self
 
+    def event_submissions_close_at
+      Time.zone.local(2015, 5, 17, 0, 0)
+    end
+
     def start_time
       Time.zone.local(2015, 6, 17, 12, 0)
     end

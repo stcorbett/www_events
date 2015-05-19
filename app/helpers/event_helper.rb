@@ -1,7 +1,11 @@
 module EventHelper
 
   def event_is_editable?(event, user)
-    user.editable_events.include?(event) || user.admin
+    (user_owns_event(event, user) && submissions_are_open) || user.admin
+  end
+
+  def user_owns_event(event, user)
+    user.editable_events.include?(event)
   end
 
   def lakes_of_fire_date(day_of_week)

@@ -32,12 +32,16 @@
   <div class="col-md-6 col-sm-6">
     <div class="well"> 
 
-      <%= form_for @event, class: "form-inline" do |f| %>
-        <h4>Add an Event</h4>
+      <% if @event %>
+        <%= form_for @event, class: "form-inline" do |f| %>
+          <h4>Add an Event</h4>
 
-        <%= render 'event_form', f: f %>
+          <%= render 'event_form', f: f %>
 
-        <%= submit_tag "Add", :class=>"btn btn-success" %>
+          <%= submit_tag "Add", :class=>"btn btn-success" %>
+        <% end %>
+      <% else %>
+        Event submissions are closed!
       <% end %>
 
     </div>

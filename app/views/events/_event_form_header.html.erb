@@ -9,7 +9,7 @@
   </div>
 <% end %>
 
-<% if @event.errors.any? %>
+<% if @event && @event.errors.any? %>
   <div class="row">
     <div class="col-md-12">
       <div class="error_messages alert alert-warning" role="alert">

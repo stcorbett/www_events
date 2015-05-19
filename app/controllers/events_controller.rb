@@ -12,8 +12,10 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new(new_event_attributes)
-    @event.build_empty_event_times
+    if submissions_are_open || current_user.admin
+      @event = Event.new(new_event_attributes)
+      @event.build_empty_event_times
+    end
     @events = Event.sorted_by_date
   end
 
@@ -69,8 +71,10 @@ private
   def find_editable_event
     if current_user.admin
       Event.find(params[:id])
-    else
+    elsif submissions_are_open
       current_user.editable_events.find(params[:id])
+    else
+      raise ActiveRecord::RecordNotFound
     end
   end
 
@@ -84,6 +88,11 @@ private
       @event.event_times.build(event_time.attributes)
     end
   end
+
+  def submissions_are_open
+    Time.zone.now < LakesOfFireConfig.event_submissions_close_at
+  end
+  helper_method :submissions_are_open
 
   # create/update
   def event_params
