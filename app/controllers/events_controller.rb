@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
 
-    if @event.save
+    if @event.save && (submissions_are_open || current_user.admin)
       redirect_to new_event_path(new_event: @event.id), :notice => "Event added"
     else
       @events = Event.sorted_by_date
@@ -49,9 +49,9 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = current_user.editable_events.find(params[:id])
+    @event = find_editable_event
     @event.destroy
-    redirect_to root_path
+    redirect_to root_path, :notice => "Event removed"
   end
 
 private
