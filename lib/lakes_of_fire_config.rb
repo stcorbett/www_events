@@ -2,24 +2,32 @@ class LakesOfFireConfig
   class << self
 
     def event_submissions_close_at
-      Time.zone.local(2015, 5, 17, 0, 0)
+      Time.zone.parse( I18n.t(:submissions_close_time) )
+    end
+
+    def start_date
+      Date.parse( I18n.t(:start_date) )
     end
 
     def start_time
-      Time.zone.local(2015, 6, 17, 12, 0)
+      Time.zone.parse( "#{I18n.t(:start_time_hour)}:00", start_date )
+    end
+
+    def end_date
+      Date.parse( I18n.t(:end_date) )
     end
 
     def end_time
-      Time.zone.local(2015, 6, 21, 15, 0)
+      Time.zone.parse( "#{I18n.t(:end_time_hour)}:00", end_date )
     end
 
     def event_days
       {
-        wednesday:  Date.new(2015, 6, 17),
-        thursday:   Date.new(2015, 6, 18),
-        friday:     Date.new(2015, 6, 19),
-        saturday:   Date.new(2015, 6, 20),
-        sunday:     Date.new(2015, 6, 21)
+        wednesday:  start_date,
+        thursday:   start_date + 1,
+        friday:     start_date + 2,
+        saturday:   start_date + 3,
+        sunday:     end_date
       }
     end
 

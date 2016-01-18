@@ -38,15 +38,15 @@ class Event < ActiveRecord::Base
 
   def self.lakes_of_fire_event_hash
     {
-        "Wednesday" =>  sorted_by_date(Date.new(2015,6,17)).
+        "Wednesday" =>  sorted_by_date( LakesOfFireConfig.event_days[:wednesday] ).
                         collect{|event| event.lakes_of_fire_hash},
-        "Thursday" =>   sorted_by_date(Date.new(2015,6,18)).
+        "Thursday" =>   sorted_by_date( LakesOfFireConfig.event_days[:thursday] ).
                         collect{|event| event.lakes_of_fire_hash},
-        "Friday" =>     sorted_by_date(Date.new(2015,6,19)).
+        "Friday" =>     sorted_by_date( LakesOfFireConfig.event_days[:friday] ).
                         collect{|event| event.lakes_of_fire_hash},
-        "Saturday" =>   sorted_by_date(Date.new(2015,6,20)).
+        "Saturday" =>   sorted_by_date( LakesOfFireConfig.event_days[:saturday] ).
                         collect{|event| event.lakes_of_fire_hash},
-        "Sunday" =>     sorted_by_date(Date.new(2015,6,21)).
+        "Sunday" =>     sorted_by_date( LakesOfFireConfig.event_days[:sunday] ).
                         collect{|event| event.lakes_of_fire_hash},
     }
   end

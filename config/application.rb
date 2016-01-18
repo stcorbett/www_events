@@ -24,3 +24,9 @@ module WwwEvents
     config.autoload_paths += %W(#{config.root}/lib)
   end
 end
+
+class Application < Rails::Application
+  site_config = YAML.load_file('config/locales/en.yml') rescue {}
+
+  config.time_zone = site_config["en"]["event_time_zone"]
+end

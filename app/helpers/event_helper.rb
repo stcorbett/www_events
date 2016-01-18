@@ -14,7 +14,7 @@ module EventHelper
 
   def days_of_week_select_options
     LakesOfFireConfig.event_days.collect do |day, date|
-      [date.strftime("%A - %-m/%-d"), date.strftime("%A")]
+      [date.strftime("%a - %-m/%-d"), date.strftime("%A")]
     end
   end
 

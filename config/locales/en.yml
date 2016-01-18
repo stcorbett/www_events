@@ -20,6 +20,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
   year: 2016
   event_name: "mythical creatures"
+  event_time_zone: "Eastern Time (US & Canada)"
+  start_date: "2016-06-15"
+  start_time_hour: 12
+  end_date: "2016-06-19"
+  end_time_hour: 15
+  submissions_close_time: "2016-05-17 00:00:00"
