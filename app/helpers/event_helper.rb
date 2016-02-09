@@ -18,15 +18,31 @@ module EventHelper
     end
   end
 
-  def event_categories(event)
-    display = ""
-    display << event_icon(:fire_art) if event.fire_art
-    display << event_icon(:red_light) if event.red_light
-    display << event_icon(:alcohol) if event.alcohol
-    display.html_safe
+  def event_icons(event)
+    if event.categories.any?
+      display = "<span class='icons'>"
+      event.categories.each do |category|
+        display << event_icon(category) if event.send(category)
+      end
+      display << "</span>"
+    else
+      ""
+    end
   end
 
   def event_icon(name)
+    %(<img src="/fonts/#{name}.svg"> )
+  end
+
+  def event_categories(event)
+    display = ""
+    display << event_cateogry_icon(:fire_art) if event.fire_art
+    display << event_cateogry_icon(:red_light) if event.red_light
+    display << event_cateogry_icon(:alcohol) if event.alcohol
+    display.html_safe
+  end
+
+  def event_cateogry_icon(name)
     %(<div class="category">) +
       %(<img src="/fonts/#{name}.svg"> ) +
       name.to_s.humanize +
