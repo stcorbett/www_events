@@ -20,7 +20,7 @@ body {
 .navbar-default .dropdown-menu {background-color:#ffffff;}
 .navbar-default .dropdown-menu li > a {padding-left:30px;}
 
-.header {background-color:#ffffff;border-width:0;}
+.header {background-color:#ffffff; border-width:0; border-bottom: 1px solid #ccc;}
 .header .navbar-collapse {background-color:#ffffff;}
 .btn,.form-control,.panel,.list-group,.well {border-radius:1px;box-shadow:0 0 0;}
 .form-control {border-color:#d7d7d7;}
