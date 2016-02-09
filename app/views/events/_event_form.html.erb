@@ -9,6 +9,35 @@
   <p class="help-block">Brief description of the event, workshop, or performance. 100 words or less</p>
 </div>
 
+<div class="form-group" >
+
+  <div class="row">
+    <div class="col-xs-6">
+      <label style="">
+        <%= f.check_box :alcohol %>
+        Alchohol Served? (21+)
+      </label>
+    </div>
+    <div class="col-xs-6">
+      <label style="">
+        <%= f.check_box :red_light %>
+        Red Light District?
+      </label>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:5px;">
+    <div class="col-xs-6">
+      <label style="">
+        <%= f.check_box :fire_art %>
+        Fire Art Performances?
+      </label>
+    </div>
+  </div>
+
+  <p class="help-block">Are any of the above happening at your event?</p>
+</div>
+
 <label for="event_hosting_location">Where:</label>
 <div class="form-group" >
   <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>

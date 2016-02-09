@@ -39,6 +39,9 @@
       <div class="form-group" >
         <%= @event.event_description %>
       </div>
+      <div class="form-group" >
+        <%= event_categories(@event) %>
+      </div>
 
       <% if event_is_editable?(@event, current_user) %>
         <div class="form-group" >

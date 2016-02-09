@@ -18,4 +18,8 @@ module EventHelper
     end
   end
 
+  def event_categories(event)
+    event.categories.collect{|c| c.to_s.humanize }.join(", ")
+  end
+
 end
