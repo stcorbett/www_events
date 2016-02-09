@@ -51,14 +51,6 @@ class Event < ActiveRecord::Base
     }
   end
 
-  def categories
-    ([] <<
-        (fire_art ? :fire_art : nil) <<
-        (alcohol ? :alcohol : nil) <<
-        (red_light ? :red_light : nil)
-    ).compact
-  end
-
   def has_event_time
     if event_times.empty?
       errors.add(:event_times, "are needed")

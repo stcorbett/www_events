@@ -19,7 +19,18 @@ module EventHelper
   end
 
   def event_categories(event)
-    event.categories.collect{|c| c.to_s.humanize }.join(", ")
+    display = ""
+    display << event_icon(:fire_art) if event.fire_art
+    display << event_icon(:red_light) if event.red_light
+    display << event_icon(:alcohol) if event.alcohol
+    display.html_safe
+  end
+
+  def event_icon(name)
+    %(<div class="category">) +
+      %(<img src="/fonts/#{name}.svg"> ) +
+      name.to_s.humanize +
+    "</div>"
   end
 
 end
