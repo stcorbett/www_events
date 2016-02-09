@@ -94,7 +94,10 @@ class Event < ActiveRecord::Base
       "Time" => current_event_time.starting.in_time_zone.strftime("%l:%M %p"),
       "Duration" => current_event_time.duration_human,
       "AllDay" => current_event_time.all_day,
-      "Description" => event_description
+      "Description" => event_description,
+      "FireArt" => !!fire_art,
+      "Alcohol" => !!alcohol,
+      "RedLight" => !!red_light
     }
   end
 
