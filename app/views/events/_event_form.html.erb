@@ -13,24 +13,24 @@
 
   <div class="row">
     <div class="col-xs-6">
-      <label style="">
+      <label data-toggle="tooltip" title="This event involves drinking alcohol, which can only be done if you are 21+">
         <%= f.check_box :alcohol %>
-        Alchohol Served? (21+)
+        Alcohol Served <a href="#_">?</a> (21+)
       </label>
     </div>
     <div class="col-xs-6">
-      <label style="">
+      <label data-toggle="tooltip" title="This event is 18+, and may contain sexual content.">
         <%= f.check_box :red_light %>
-        Red Light District?
+        Red Light District <a href="#_">?</a> (18+)
       </label>
     </div>
   </div>
 
   <div class="row" style="margin-top:5px;">
     <div class="col-xs-6">
-      <label style="">
+      <label data-toggle="tooltip" title="This event is a fire performance or is in reference to fire artwork.">
         <%= f.check_box :fire_art %>
-        Fire Art Performances?
+        Fire Art Performances <a href="#_">?</a>
       </label>
     </div>
   </div>
