@@ -97,7 +97,7 @@ class Event < ActiveRecord::Base
       "Description" => event_description,
       "FireArt" => !!fire_art,
       "Alcohol" => !!alcohol,
-      "RedLight" => !!red_light
+      "Explicit" => !!red_light
     }
   end
 
