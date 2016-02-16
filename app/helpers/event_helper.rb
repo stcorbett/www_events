@@ -35,11 +35,9 @@ module EventHelper
   end
 
   def event_categories(event)
-    display = ""
-    display << event_cateogry_icon(:fire_art) if event.fire_art
-    display << event_cateogry_icon(:red_light) if event.red_light
-    display << event_cateogry_icon(:alcohol) if event.alcohol
-    display.html_safe
+    event.categories.collect do |category|
+      event_cateogry_icon(category)
+    end.join
   end
 
   def event_cateogry_icon(name)
