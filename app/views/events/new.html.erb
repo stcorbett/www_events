@@ -20,7 +20,6 @@
           <li>End before Lakes of Fire ends at <%= event_requirements_end_time %></li>
         </ul>
         <p>Please note, all fields are required, but your contact information will only be used if we have questions about your submitted event.</p>
-      <p>Please use discretion in describing your event and do not reference specific sexual acts or illegal activities. Lakes of Fire is a part of the larger community in which we do our thing and we will not publish events in the WWW that could negatively impact our relationship with the larger community, and in turn our future events.</p>
       </div>
     </div>
   </div>
@@ -36,6 +35,7 @@
       <% if @event %>
         <%= form_for @event, class: "form-inline" do |f| %>
           <h4>Add an Event</h4>
+          <p>Please use discretion in describing your event and do not reference specific sexual acts or illegal activities. Lakes of Fire is a part of the larger community in which we do our thing and we will not publish events in the WWW that could negatively impact our relationship with the larger community, and in turn our future events.</p>
 
           <%= render 'event_form', f: f %>
 
