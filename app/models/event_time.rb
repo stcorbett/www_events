@@ -52,6 +52,14 @@ class EventTime < ActiveRecord::Base
     distance_of_time_in_words(starting - ending).gsub("about ", "")
   end
 
+  def human_time
+    if all_day
+      "All Day"
+    else
+      "#{starting.in_time_zone.strftime("%l:%M %p")} | #{duration_human}"
+    end
+  end
+
   def day_of_event_index
     LakesOfFireConfig.event_days.keys.index(day_of_week.downcase.to_sym)
   end

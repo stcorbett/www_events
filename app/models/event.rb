@@ -97,8 +97,18 @@ class Event < ActiveRecord::Base
       "Description" => event_description,
       "FireArt" => !!fire_art,
       "Alcohol" => !!alcohol,
-      "Explicit" => !!red_light
+      "Explicit" => !!red_light,
+      "HumanLocation" => human_location,
+      "HumanTime" => current_event_time.human_time
     }
+  end
+
+  def human_location
+    if site_id.present?
+      "#{hosting_location} | Site #{site_id}"
+    else
+      "#{hosting_location}"
+    end
   end
 
   def event_time_error_messages
