@@ -85,6 +85,11 @@ class Event < ActiveRecord::Base
     write_attribute(:event_description, description)
   end
 
+  def site_id=(string)
+    string = nil if string.blank?
+    write_attribute(:site_id, string)
+  end
+
   def lakes_of_fire_hash
     {
       "Title" => title,

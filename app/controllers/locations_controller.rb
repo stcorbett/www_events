@@ -33,7 +33,7 @@ class LocationsController < ApplicationController
     {
       hosting_location: params[:location][:hosting_location],
       site_id: params[:location][:site_id]
-    }.delete_if { |k, v| v.blank? }
+    }
   end
 
 end
