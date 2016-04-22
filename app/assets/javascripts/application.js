@@ -63,6 +63,8 @@ $(document).ready(function(){
 
     $("form#edit-location #location_original_hosting_location").val(camp.data("hosting-location"));
     $("form#edit-location #location_original_site_id").val(camp.data("site-id"));
+    $("h4 .location-name").html(camp.data("hosting-location"));
+    $("h4 .location-name").addClass("text-success");
   });
   
 });
