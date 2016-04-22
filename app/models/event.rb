@@ -89,6 +89,7 @@ class Event < ActiveRecord::Base
     {
       "Title" => title,
       "Location" => hosting_location,
+      "SiteId" => site_id,
       "StartTime" => current_event_time.starting.in_time_zone,
       "EndTime" => current_event_time.ending.in_time_zone,
       "Time" => current_event_time.starting.in_time_zone.strftime("%l:%M %p"),

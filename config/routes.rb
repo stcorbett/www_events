@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get "/events" => "events#index"
 
   resources :events
+  resources :locations
+  put 'locations', to: 'locations#update'
 
   get 'auth/:provider/callback', to: 'sessions#create'
 

@@ -48,6 +48,10 @@ class EventTime < ActiveRecord::Base
     ending.strftime("%l:%M%p")
   end
 
+  def abbr_day
+    %w(Su M Tu W Th F Sa)[starting.strftime("%w").to_i]
+  end
+
   def duration_human
     distance_of_time_in_words(starting - ending).gsub("about ", "")
   end

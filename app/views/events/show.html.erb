@@ -12,7 +12,7 @@
 
       <label>Where:</label>
       <div class="form-group" >
-        <%= @event.hosting_location %>
+        <%= @event.human_location %>
       </div>
       <% if user_owns_event(@event, current_user) || current_user.admin %>
         <label>Contact Person:</label>

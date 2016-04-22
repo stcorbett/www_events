@@ -49,7 +49,22 @@ $(document).ready(function(){
     $(".event-" + new_event_id).css({margin: "5px auto", "padding-top": "10px", "padding-bottom": "10px"});
     $(".btn-your-events").click();
   }
+});
 
+
+$(document).ready(function(){
+  $(".edit-location").click(function () {
+    $(".opening-message").hide();
+    $("#edit-location").show();
+
+    camp = $(this);
+    $("form#edit-location #location_hosting_location").val(camp.data("hosting-location"));
+    $("form#edit-location #location_site_id").val(camp.data("site-id"));
+
+    $("form#edit-location #location_original_hosting_location").val(camp.data("hosting-location"));
+    $("form#edit-location #location_original_site_id").val(camp.data("site-id"));
+  });
+  
 });
 
 $(document).ready(function(){

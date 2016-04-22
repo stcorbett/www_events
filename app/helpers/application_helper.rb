@@ -16,4 +16,8 @@ module ApplicationHelper
     end_time.strftime("%l%p on %B #{ end_time.day.ordinalize }")
   end
 
+  def abbr_event_days(event)
+    event.event_times.order("event_times.starting ASC").collect{|event_time| event_time.abbr_day }.join(", ")
+  end
+
 end
