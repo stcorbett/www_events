@@ -43,17 +43,9 @@ $(document).ready(function(){
     $(".btn-your-events").addClass("active")
   });
 
-  var new_event_id = getUrlParameter('new_event');
-  if (new_event_id) {
-    $(".event-" + new_event_id).addClass("bg-info");
-    $(".event-" + new_event_id).css({margin: "5px auto", "padding-top": "10px", "padding-bottom": "10px"});
-    $(".btn-your-events").click();
-  }
-});
+  $(".edit-location").click(function (e) {
+    e.preventDefault();
 
-
-$(document).ready(function(){
-  $(".edit-location").click(function () {
     $(".opening-message").hide();
     $("#edit-location").show();
 
@@ -65,8 +57,29 @@ $(document).ready(function(){
     $("form#edit-location #location_original_site_id").val(camp.data("site-id"));
     $("h4 .location-name").html(camp.data("hosting-location"));
     $("h4 .location-name").addClass("text-success");
+    $(".location").removeClass("text-success");
+    camp.parents(".location").addClass("text-success");
+
+    $("form#edit-location #location_hosting_location").focus();
+    $("form#edit-location #location_hosting_location").select();
+    $("#edit-location-panel").scrollIntoViewBelowNav(false);
   });
-  
+
+  var new_event_id = getUrlParameter('new_event');
+  if (new_event_id) {
+    $(".event-" + new_event_id).addClass("bg-info");
+    $(".event-" + new_event_id).css({margin: "5px auto", "padding-top": "10px", "padding-bottom": "10px"});
+    $(".btn-your-events").click();
+  }
+
+  var hosting_location_tag = getUrlParameter('updated_location');
+  if (hosting_location_tag) {
+    var updated_location = $("[data-location-tag='" + hosting_location_tag + "']");
+    if (updated_location.length) {
+      updated_location.find(".edit-location").click();
+      updated_location.scrollIntoViewBelowNav();
+    }
+  }
 });
 
 $(document).ready(function(){
@@ -194,7 +207,7 @@ $(document).ready(function(){
 
     input.trigger("change.datepair");
   });
-  
+
 
 });
 
@@ -202,12 +215,22 @@ function getUrlParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);
     var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) 
+    for (var i = 0; i < sURLVariables.length; i++)
     {
         var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) 
+        if (sParameterName[0] == sParam)
         {
             return sParameterName[1];
         }
     }
-}   
+}
+
+$.fn.scrollIntoViewBelowNav = function(scroll_in_wide_screens=true) {
+  this[0].scrollIntoView();
+
+  if( $(window).width() < 769 ){
+    window.scrollBy(0, -200);
+  } else if(scroll_in_wide_screens) {
+    window.scrollBy(0, -50);
+  }
+};

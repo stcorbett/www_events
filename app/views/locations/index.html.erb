@@ -18,50 +18,13 @@
 <% end %>
 
 <div class="row">
-  <div class="<%= current_user.admin? ? "col-sm-7" : "col-sm-12" %>">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h3>Camps and Events</h3>
-
-        <% @locations.each do |location| %>
-          <div class="row">
-            <div class='col-md-12' style="margin-top: 15px;">
-              <h4>
-                <%= location.human_location %>
-                <% if current_user.admin %>
-                  <small style="float: right; cursor: pointer; position: absolute; bottom: 20px; right: 20px;">
-                    <%= link_to "edit", "#_", class: "edit-location", 
-                                              data: {hosting_location: location.hosting_location, site_id: location.site_id} %>
-                  </small>
-                <% end %>
-              </h4>
-            </div>
-          </div>
-
-          <% location.events.each do |event| %>
-            <div class="row event">
-              <div class='col-md-12'>
-                <%= link_to event do 
-                      "#{event.title} - #{abbr_event_days(event)} ".html_safe +
-                      event_icons(event).html_safe
-                    end
-                %>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-
-      </div>
-    </div>
-  </div>
-
   <% if current_user.admin %>
-    <div class="col-sm-5">
-      <div class="panel panel-default">
+    <div class="col-sm-5 col-sm-push-7">
+      <div id="edit-location-panel" class="panel panel-default" data-spy="affix" data-offset-top="200">
         <div class="panel-body">
           <h4>Update <span class="location-name">a Location</span></h4>
           <p class="opening-message">
-            Click a location on the left to edit.
+            Click a location to edit.
           </p>
 
           <%= form_for :location, method: :put, html: {id: "edit-location", style: "display: none;"} do |f| %>
@@ -88,5 +51,42 @@
     </div>
   <% end %>
 
-</div> <!-- /row -->
+  <div class="<%= current_user.admin? ? "col-sm-7 col-sm-pull-5" : "col-sm-12" %>">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Camps and Events</h3>
 
+        <% @locations.each do |location| %>
+          <div class="row location" data-location-tag="<%= location.hex_tag %>">
+            <div class='col-md-12' style="margin-top: 15px;">
+              <h4>
+                <%= location.human_location %>
+                <% if current_user.admin %>
+                  <small style="float: right; cursor: pointer; position: absolute; bottom: 20px; right: 20px;">
+                    <%= link_to "edit", "#_", class: "edit-location",
+                                              data: {hosting_location: location.hosting_location, site_id: location.site_id},
+                                              style: "padding: 5px; background: #eee;" %>
+                  </small>
+                <% end %>
+              </h4>
+            </div>
+          </div>
+
+          <% location.events.each do |event| %>
+            <div class="row event">
+              <div class='col-md-12'>
+                <%= link_to event do
+                      "#{event.title} - #{abbr_event_days(event)} ".html_safe +
+                      event_icons(event).html_safe
+                    end
+                %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+</div> <!-- /row -->

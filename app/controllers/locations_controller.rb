@@ -7,14 +7,9 @@ class LocationsController < ApplicationController
 
   def update
     @location = Location.new(*location_params)
+    @location.update_event_attributes(event_params)
 
-    Event.transaction do
-      @location.events.each do |event|
-        event.update_attributes!(event_params)
-      end
-    end
-
-    redirect_to locations_path, notice: "Location Updated"
+    redirect_to locations_path(updated_location: @location.hex_tag), notice: "Location Updated"
   rescue => e
     redirect_to locations_path, flash: {error: "Error Updating Location" }
   end

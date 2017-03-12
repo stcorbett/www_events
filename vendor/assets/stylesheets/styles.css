@@ -39,7 +39,7 @@ button {
 }
 textarea {
  resize: none;
- outline: 0; 
+ outline: 0;
 }
 .panel .btn i,.btn span{
  color:#666666;
@@ -68,8 +68,8 @@ textarea {
 .list-group-item:first-child,.list-group-item:last-child {
  border-radius:0;
 }
-h3,h4,h5 { 
- border:0 solid #efefef; 
+h3,h4,h5 {
+ border:0 solid #efefef;
  border-bottom-width:1px;
  padding-bottom:10px;
 }
@@ -88,6 +88,11 @@ h3,h4,h5 {
 /* end theme */
 
 /* template layout*/
+.navbar-nav>li>a {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 #subnav {
  position:fixed;
  width:100%;
@@ -97,15 +102,30 @@ h3,h4,h5 {
  padding-top:75px;
 }
 
-@media (max-width: 768px) {
- #subnav {
-  padding-top: 6px;
- }
-
- #main {
-  padding-top:165px;
- }
+.panel.affix{
+  width: 36.33333333%;
+  top: 60px;
 }
+
+@media (max-width: 768px) {
+  .navbar .navbar-header .navbar-brand{
+    height: auto;
+  }
+
+  #subnav {
+    padding-top: 6px;
+  }
+
+  .panel.affix{
+    top: inherit;
+    width: inherit;
+    position: inherit;
+  }
+}
+
+@media (max-width: 768px) { #main { padding-top: 200px;} }
+@media (max-width: 500px) { #main { padding-top: 220px;} }
+@media (max-width: 300px) { #main { padding-top: 240px;} }
 
 .category{
   line-height: 2em;
@@ -119,4 +139,3 @@ h3,h4,h5 {
   width: 12px;
   margin-left: 3px;
 }
-
