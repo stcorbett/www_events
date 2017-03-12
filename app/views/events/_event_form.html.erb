@@ -1,3 +1,6 @@
+<%= render partial: 'location_autocomplete' %>
+<%= render partial: 'time_picker' %>
+
 <label for="event_title">What:</label>
 <div class="form-group" >
   <%= f.text_field :title, class: "form-control", placeholder: "Title of the event" %>
@@ -41,19 +44,7 @@
 <label for="event_hosting_location">Where:</label>
 <div class="form-group" >
   <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $("#event_hosting_location").autocomplete({
-        source: <%= Location.all_locations.to_json.html_safe %>,
-        minLength: 2,
-        appendTo: "#event-form-autocomplete",
-        messages: {
-          noResults: '',
-          results: function() {}
-        }
-      });
-    });
-  </script>
+
   <div id="event-form-autocomplete"></div>
 
 
