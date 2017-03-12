@@ -84,10 +84,10 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 
-  wednesday_time_disable = "11:59AM"
-  wednesday_start_time = "12:00PM"
-  sunday_end_time = "3:00PM"
-  sunday_time_disable = "3:01PM"
+  wednesday_time_disable = "<%= (LakesOfFireConfig.start_time - 1.minute).strftime("%l:%M%p").strip %>";
+  wednesday_start_time = "<%= LakesOfFireConfig.start_time.strftime("%l:%M%p").strip %>";
+  sunday_end_time = "<%= LakesOfFireConfig.end_time.strftime("%l:%M%p").strip %>";
+  sunday_time_disable = "<%= (LakesOfFireConfig.end_time + 1.minute).strftime("%l:%M%p").strip %>";
 
   $(".all_day_event").click(function () {
     var checkbox = $(this);
