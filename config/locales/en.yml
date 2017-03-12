@@ -28,3 +28,7 @@ en:
   end_date: "2017-06-18"
   end_time_hour: 15
   submissions_close_time: "2017-05-18 00:00:00"
+  background_image: '/assets/bg-body.jpg'
+  title_color: "#ff3e47"
+  anchor_color: "#ff3e47"
+  anchor_color_darker: "#99252a"
