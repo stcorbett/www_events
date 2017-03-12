@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.min
+//= require jquery-ui/widgets/autocomplete
 //= require jquery.timepicker
 //= require Datepair
 //= require jquery.datepair
@@ -80,6 +81,11 @@ $(document).ready(function(){
       updated_location.scrollIntoViewBelowNav();
     }
   }
+
+  $("#event_hosting_location").autocomplete({
+    source: <%= Location.all_locations %>,
+    minLength: 2,
+  });
 });
 
 $(document).ready(function(){

@@ -10,6 +10,10 @@ class Location
     end
   end
 
+  def self.all_locations
+    Event.uniq.order(:hosting_location).pluck(:hosting_location)
+  end
+
   def initialize(hosting_location, site_id)
     @hosting_location = hosting_location
     @site_id = site_id

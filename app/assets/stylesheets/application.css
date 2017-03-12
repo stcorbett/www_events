@@ -12,6 +12,7 @@
  *
  *= require_self
  *= require bootstrap.min
+ *= jquery-ui/autocomplete
  *= require jquery.timepicker
  *= xrequire bootstrap-datepicker3
  *= require_tree .
