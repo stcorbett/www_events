@@ -99,12 +99,15 @@ function getUrlParameter(sParam)
     }
 }
 
-$.fn.scrollIntoViewBelowNav = function(scroll_in_wide_screens=true) {
-  this[0].scrollIntoView();
 
-  if( $(window).width() < 769 ){
-    window.scrollBy(0, -200);
-  } else if(scroll_in_wide_screens) {
-    window.scrollBy(0, -50);
+jQuery.fn.extend({
+  scrollIntoViewBelowNav: function (scroll_in_wide_screens = true) {
+    this[0].scrollIntoView();
+
+    if( $(window).width() < 769 ){
+      window.scrollBy(0, -200);
+    } else if(scroll_in_wide_screens) {
+      window.scrollBy(0, -50);
+    }
   }
-};
+});
