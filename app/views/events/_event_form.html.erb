@@ -41,6 +41,7 @@
 <label for="event_hosting_location">Where:</label>
 <div class="form-group" >
   <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>
+  <div id="event-form-autocomplete"></div>
   <p class="help-block">Theme Camp, Event, or Art Installation</p>
 </div>
 
@@ -74,15 +75,15 @@
   <%= f.fields_for :single_event_time do |event_time_form| %>
     <div class="row">
       <div class="col-xs-4">
-        <%= event_time_form.select  :day_of_week, 
-                                    days_of_week_select_options, 
+        <%= event_time_form.select  :day_of_week,
+                                    days_of_week_select_options,
                                     {:selected => event_time_form.object.day_of_week},
                                     {:class => "form-control day_of_week_input"} %>
       </div>
       <!-- render these nicely so jquery can pick them up -->
       <div class="col-xs-4">
-        <%= event_time_form.text_field  :starting, 
-                                        class: "form-control time start", 
+        <%= event_time_form.text_field  :starting,
+                                        class: "form-control time start",
                                         placeholder: "Starting time",
                                         date_pair_value: event_time_form.object.start_time %>
 
@@ -92,8 +93,8 @@
         </label>
       </div>
       <div class="col-xs-4">
-        <%= event_time_form.text_field  :ending, 
-                                        class: "form-control time end", 
+        <%= event_time_form.text_field  :ending,
+                                        class: "form-control time end",
                                           placeholder: "Ending time",
                                           date_pair_value: event_time_form.object.end_time %>
       </div>
@@ -113,8 +114,8 @@
         </label>
       </div>
       <div class="col-xs-4">
-        <%= event_time_form.text_field  :starting, 
-                                        class: "form-control time start #{event_time_form.object.day_of_week.downcase}", 
+        <%= event_time_form.text_field  :starting,
+                                        class: "form-control time start #{event_time_form.object.day_of_week.downcase}",
                                         placeholder: "Starting time",
                                         date_pair_value: event_time_form.object.start_time %>
 
@@ -126,8 +127,8 @@
       </div>
       <div class="col-xs-4">
         <%= event_time_form.hidden_field :end_time %>
-        <%= event_time_form.text_field  :ending, 
-                                        class: "form-control time end #{event_time_form.object.day_of_week.downcase}", 
+        <%= event_time_form.text_field  :ending,
+                                        class: "form-control time end #{event_time_form.object.day_of_week.downcase}",
                                         placeholder: "Ending time",
                                         date_pair_value: event_time_form.object.end_time %>
       </div>
