@@ -159,8 +159,13 @@ ul.ui-autocomplete li:hover{
   background: #ddd;
 }
 
-ul.ui-autocomplete li{
+ul.ui-autocomplete li .ui-menu-item-wrapper{
   padding: 4px 0 4px 12px;
+}
+
+ul.ui-autocomplete li .ui-menu-item-wrapper.ui-state-active{
+  font-weight: bold;
+  background: #ddd;
 }
 
 ul.ui-autocomplete li:not(:last-child){
