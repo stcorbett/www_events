@@ -101,7 +101,11 @@ function getUrlParameter(sParam)
 
 
 jQuery.fn.extend({
-  scrollIntoViewBelowNav: function (scroll_in_wide_screens = true) {
+  scrollIntoViewBelowNav: function (scroll_in_wide_screens) {
+    if (scroll_in_wide_screens == undefined){
+      scroll_in_wide_screens = true
+    }
+
     this[0].scrollIntoView();
 
     if( $(window).width() < 769 ){
