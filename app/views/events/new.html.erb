@@ -74,7 +74,7 @@
           <div class="row event <%= event.user == current_user ? "your-event" : "not-your-event" %>">
             <div class='col-md-12 <%= "event-#{event.id}" %>'>
               <%= link_to event do
-                    "#{event.title} - #{event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}".html_safe +
+                    "#{h event.title} - #{h event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}".html_safe +
                     event_icons(event).html_safe
                   end
               %>
