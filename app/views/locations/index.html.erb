@@ -76,7 +76,7 @@
             <div class="row event">
               <div class='col-md-12'>
                 <%= link_to event do
-                      "#{event.title} - #{abbr_event_days(event)} ".html_safe +
+                      "#{h event.title} - #{abbr_event_days(event)} ".html_safe +
                       event_icons(event).html_safe
                     end
                 %>
