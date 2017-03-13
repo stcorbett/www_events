@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
 
   belongs_to :user
-  has_many :event_times
+  has_many :event_times, dependent: :destroy
   has_one :single_event_time
   accepts_nested_attributes_for :event_times, :single_event_time
 
@@ -14,7 +14,7 @@ class Event < ActiveRecord::Base
             presence: true
 
   validates_length_of :event_description, :minimum => 0, :maximum => 1000
-  validates_length_of :event_description, :minimum => 0, :maximum => 100, 
+  validates_length_of :event_description, :minimum => 0, :maximum => 100,
                       :tokenizer => lambda { |str| str.scan(/\w+/) },
                       :too_long  => "must have at most %{count} words"
 
@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
       event_times = event_times.where("event_times.starting >= ? AND event_times.starting < ?", start_of_day, end_of_day)
     end
 
-    event_times.collect do |event_time| 
+    event_times.collect do |event_time|
       event = event_time.event
       event.current_event_time = event_time
       event
