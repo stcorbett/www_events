@@ -40,6 +40,12 @@
       <% end %>
 
       <% if @event %>
+        <% if !submissions_are_open && current_user.admin%>
+          <span class="text-success">
+            event submissions are closed, but, <b>as an admin</b>, you are still able to add and edit events!
+          </span
+        <% end %>
+
         <%= form_for @event, class: "form-inline" do |f| %>
           <h4>Add an Event</h4>
           <p>Please use discretion in describing your event and do not reference specific sexual acts or illegal activities. Lakes of Fire is a part of the larger community in which we do our thing and we will not publish events in the WWW that could negatively impact our relationship with the larger community, and in turn our future events.</p>
