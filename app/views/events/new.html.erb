@@ -32,6 +32,13 @@
   <div class="col-md-6 col-sm-6">
     <div class="well">
 
+      <% if t(:download_map_url).include?("http") %>
+        <h3>
+          The <%= "Lakes of Fire #{t(:year)} #{t(:event_name).upcase}" %> Map is ready!
+          <%= link_to "Download", t(:download_map_url).html_safe, target: "_blank" %> a copy!
+        </h3>
+      <% end %>
+
       <% if @event %>
         <%= form_for @event, class: "form-inline" do |f| %>
           <h4>Add an Event</h4>
@@ -44,7 +51,6 @@
       <% else %>
         Event submissions are closed!
       <% end %>
-
     </div>
   </div>
 
