@@ -1,6 +1,15 @@
 <div class="row">
 
   <div class="col-md-6 col-sm-6">
+    <% if t(:download_map_url).include?("http") %>
+      <div class="well">
+        <h3>
+          The <%= "Lakes of Fire #{t(:year)} #{t(:event_name).upcase}" %> Map is ready!
+          <%= link_to "Download", t(:download_map_url).html_safe, target: "_blank" %> a copy!
+        </h3>
+      </div>
+    <% end %>
+
     <div class="well">
       <h4>Welcome to the WhatWhereWhen Event Guide Submission app!</h4>
       <p>This guide is a volunteer project organized by the Info_bot team.</p>
@@ -8,8 +17,10 @@
       <p>Please contact <a href="mailto:info@lakesoffire.org">info@lakesoffire.org</a> if you have any questions.</p>
       <br/>
 
-      <%= link_to "Log In with Facebook", facebook_login_path, class: "btn btn-info" %>
-      <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
+      <p>
+        <%= link_to "Log In with Facebook", facebook_login_path, class: "btn btn-info" %>
+        <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
+      </p>
     </div>
   </div>
 
