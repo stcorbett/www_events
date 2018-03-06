@@ -8,6 +8,8 @@ class EventTime < ActiveRecord::Base
 
   before_save :set_all_day_flag
 
+  scope :configured_year, -> { where("event_times.starting > ?", LakesOfFireConfig.start_date) }
+
   def self.start_and_end_from_inputs(day_of_week, start_time, end_time)
     date = LakesOfFireConfig.event_days[day_of_week.downcase.to_sym]
     start_time, end_time = Time.parse(start_time), Time.parse(end_time)
@@ -73,14 +75,14 @@ class EventTime < ActiveRecord::Base
   end
 
   def starting_at_start_of_day?
-    start_of_day = day_of_event ==  LakesOfFireConfig.start_time.to_date ? 
+    start_of_day = day_of_event ==  LakesOfFireConfig.start_time.to_date ?
                                     LakesOfFireConfig.start_time : Time.zone.parse(day_of_event.to_s)
 
     starting == start_of_day
   end
 
   def ending_at_end_of_day?
-    end_of_day = day_of_event ==  LakesOfFireConfig.end_time.to_date ? 
+    end_of_day = day_of_event ==  LakesOfFireConfig.end_time.to_date ?
                                   LakesOfFireConfig.end_time : Time.zone.parse( (day_of_event + 1).to_s )
 
     ending == end_of_day

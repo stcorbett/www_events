@@ -16,7 +16,7 @@ class EventsController < ApplicationController
       @event = Event.new(new_event_attributes)
       @event.build_empty_event_times
     end
-    @events = Event.sorted_by_date
+    @events = Event.configured_year.sorted_by_date
   end
 
   def create
@@ -25,7 +25,7 @@ class EventsController < ApplicationController
     if @event.save && (submissions_are_open || current_user.admin)
       redirect_to new_event_path(new_event: @event.id), :notice => "Event added"
     else
-      @events = Event.sorted_by_date
+      @events = Event.configured_year.sorted_by_date
       @event.build_empty_event_times
       render :new
     end
@@ -96,7 +96,7 @@ private
 
   # create/update
   def event_params
-    permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email, 
+    permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email,
                                               :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol)
 
     if params[:event][:event_recurrence] == "single"
@@ -128,11 +128,11 @@ private
   end
 
   def event_time_from(raw_event_input)
-    return nil unless raw_event_input[:starting].present? && 
-                      raw_event_input[:ending].present? && 
+    return nil unless raw_event_input[:starting].present? &&
+                      raw_event_input[:ending].present? &&
                       raw_event_input[:day_of_week].present?
 
-    starting, ending = EventTime.start_and_end_from_inputs( raw_event_input[:day_of_week], 
+    starting, ending = EventTime.start_and_end_from_inputs( raw_event_input[:day_of_week],
                                                             raw_event_input[:starting],
                                                             raw_event_input[:ending])
 

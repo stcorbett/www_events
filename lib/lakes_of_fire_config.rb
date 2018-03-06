@@ -1,6 +1,10 @@
 class LakesOfFireConfig
   class << self
 
+    def year
+      I18n.t(:year)
+    end
+
     def event_submissions_close_at
       Time.zone.parse( I18n.t(:submissions_close_time) )
     end

@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   end
 
   def editable_events
-    Event.joins(:user).where("users.email = ?", self.email)
+    Event.configured_year.joins(:user).where("users.email = ?", self.email)
   end
 
 end
