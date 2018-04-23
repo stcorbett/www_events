@@ -73,8 +73,12 @@
           </div>
 
           <% location.events.each do |event| %>
-            <div class="row event">
+            <div class="row event <%= (current_user.heart_for?(event.event_times.first)) ? "hearted" : "not-hearted" %>">
               <div class='col-md-12'>
+                <a href="#_" class="heart-click" event-time-id="<%= event.event_times.first.id %>">
+                  &hearts;
+                </a>
+
                 <%= link_to event do
                       "#{h event.title} - #{abbr_event_days(event)} ".html_safe +
                       event_icons(event).html_safe

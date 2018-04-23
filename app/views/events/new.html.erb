@@ -69,6 +69,7 @@
 
         <div class="row">
           <div class='col-md-12'>
+            <a href="#hearted" class="btn btn-default btn-xs pull-right btn-hearted-events">&nbsp;&hearts;&nbsp;</a>
             <a href="#yours" class="btn btn-default btn-xs pull-right btn-your-events">Yours</a>
             <a href="#all" class="btn btn-default btn-xs pull-right btn-all-events">All</a>
           </div>
@@ -83,8 +84,18 @@
               </div>
             </div>
           <% end %>
-          <div class="row event <%= event.user == current_user ? "your-event" : "not-your-event" %>">
+
+          <%
+            css_class = ""
+            css_class += (event.user == current_user) ? " your-event " : " not-your-event "
+            css_class += (current_user.heart_for?(event.current_event_time)) ? " hearted " : " not-hearted "
+          %>
+          <div class="row event <%= css_class %>">
             <div class='col-md-12 <%= "event-#{event.id}" %>'>
+              <a href="#_" class="heart-click" event-time-id="<%= event.current_event_time.id %>">
+                &hearts;
+              </a>
+
               <%= link_to event do
                     "#{h event.title} - #{h event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}".html_safe +
                     event_icons(event).html_safe

@@ -3,7 +3,7 @@
 <div class="row">
 
   <div class="col-md-12 col-sm-12">
-    <div class="well"> 
+    <div class="well">
 
       <label>What:</label>
       <div class="form-group" >
@@ -28,7 +28,13 @@
       <label>When:</label>
       <div class="form-group">
         <% @event.event_times.each do |time| %>
-          <%= time.starting.strftime("%A, %B %-d, %l:%M %p") %> to 
+          <span class="<%= (current_user.heart_for?(time)) ? "hearted" : "not-hearted" %>">
+            <a href="#_" class="heart-click" event-time-id="<%= time.id %>">
+              &hearts;
+            </a>
+          </span>
+
+          <%= time.starting.strftime("%A, %B %-d, %l:%M %p") %> to
           <%= time.ending.strftime("%l:%M %p") %>
           <%= "(#{time.duration_human})"%>
           <%= "<span class='text-success'>all day event</span>".html_safe if time.all_day %><br/>
@@ -39,6 +45,17 @@
       <div class="form-group" >
         <%= @event.event_description %>
       </div>
+
+      <div class="form-group">
+        <% [@event.heart_count, 99].min.times do %>
+          <span class="heart">&hearts;</span>
+        <% end %>
+
+        <% if @event.heart_count >= 30 %>
+          (<%= @event.heart_count %>)
+        <% end %>
+      </div>
+
       <div class="form-group" >
         <%= event_categories(@event).html_safe %>
       </div>

@@ -135,6 +135,31 @@ h3,h4,h5 {
   width: 18px;
 }
 
+.heart{
+  color: red;
+}
+
+.heart-click{
+  font-size: 20px;
+}
+
+.heart-click, .hearted, .hearted .heart-click:focus{
+  color: red;
+  text-decoration: none !important;
+}
+
+.not-hearted .heart-click{
+  color: #ddd;
+}
+
+.not-hearted:hover .heart-click{
+  color: #aaa;
+}
+
+.not-hearted .heart-click:hover{
+  color: pink;
+}
+
 .event .icons img{
   width: 12px;
   margin-left: 3px;

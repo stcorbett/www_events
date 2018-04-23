@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :locations
   put 'locations', to: 'locations#update'
 
+  get 'heart', to: 'hearts#create'
+  get 'unheart', to: 'hearts#destroy'
+
   get 'auth/:provider/callback', to: 'sessions#create'
 
   get '/auth/facebook', as: "facebook_login"

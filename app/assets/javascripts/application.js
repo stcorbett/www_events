@@ -33,15 +33,50 @@ $(document).ready(function(){
   });
 
   $(".btn-all-events").click(function () {
-    $(".not-your-event").show();
+    $(".row.event").show();
+
     $(".active").removeClass('active');
     $(".btn-all-events").addClass("active")
   });
 
   $(".btn-your-events").click(function () {
+    $(".row.event").show();
     $(".not-your-event").hide();
+
     $(".active").removeClass('active');
     $(".btn-your-events").addClass("active")
+  });
+
+  $(".btn-hearted-events").click(function () {
+    $(".row.event").show();
+    $(".not-hearted").hide();
+
+    $(".active").removeClass('active');
+    $(".btn-hearted-events").addClass("active")
+  });
+
+  $(document).on("click", ".not-hearted .heart-click",function() {
+    $(this).parents(".not-hearted").addClass("hearted");
+    $(this).parents(".not-hearted").removeClass('not-hearted');
+
+    var eventId = $(this).attr("event-time-id");
+    $.ajax({
+      url: "/heart",
+      data: { id: eventId }
+    }).done(function( msg ) {
+    });
+  });
+
+  $(document).on("click", ".hearted .heart-click",function() {
+    $(this).parents(".hearted").addClass("not-hearted");
+    $(this).parents(".hearted").removeClass('hearted');
+
+    var eventId = $(this).attr("event-time-id");
+    $.ajax({
+      url: "/unheart",
+      data: { id: eventId }
+    }).done(function( msg ) {
+    });
   });
 
   $(".edit-location").click(function (e) {

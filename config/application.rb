@@ -22,6 +22,7 @@ module WwwEvents
     # config.i18n.default_locale = :de
 
     config.autoload_paths += %W(#{config.root}/lib)
+
   end
 end
 
@@ -29,4 +30,5 @@ class Application < Rails::Application
   site_config = YAML.load_file('config/locales/en.yml') rescue {}
 
   config.time_zone = site_config["en"]["event_time_zone"]
+  require 'lakes_of_fire_config.rb'
 end
