@@ -79,6 +79,30 @@ $(document).ready(function(){
     });
   });
 
+  var hash = window.location.hash.substr(1)
+  if (hash.length > 0) {
+    switch(hash) {
+    case "hearted":
+      $(".btn-hearted-events").trigger("click");
+      break;
+    case "yours":
+      $(".btn-your-events").trigger("click");
+      break;
+    }
+  }
+
+  $(document).on("click", "a.printable-link", function(e) {
+    e.preventDefault();
+
+    var hash = window.location.hash
+    var destination = '/print';
+    if (hash.length > 0) {
+      destination = destination + hash
+    }
+
+    window.location = destination
+  });
+
   $(".edit-location").click(function (e) {
     e.preventDefault();
 

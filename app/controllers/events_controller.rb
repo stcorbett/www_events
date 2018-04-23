@@ -89,11 +89,6 @@ private
     end
   end
 
-  def submissions_are_open
-    Time.zone.now < LakesOfFireConfig.event_submissions_close_at
-  end
-  helper_method :submissions_are_open
-
   # create/update
   def event_params
     permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email,

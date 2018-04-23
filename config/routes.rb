@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :events
   resources :locations
   put 'locations', to: 'locations#update'
+  get "/print", to: "print#show"
 
   get 'heart', to: 'hearts#create'
   get 'unheart', to: 'hearts#destroy'

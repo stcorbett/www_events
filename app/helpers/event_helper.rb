@@ -1,5 +1,4 @@
 module EventHelper
-
   def event_is_editable?(event, user)
     (user_owns_event(event, user) && submissions_are_open) || user.admin
   end

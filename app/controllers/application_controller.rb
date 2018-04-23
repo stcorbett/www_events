@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :require_login
 
-  helper_method :current_user, :admin_logged_in?
+  helper_method :current_user, :admin_logged_in?, :submissions_are_open
 
   def require_login
     if !logged_in?
@@ -30,5 +30,9 @@ class ApplicationController < ActionController::Base
 
   def admin_logged_in?
     !!current_user.admin
+  end
+
+  def submissions_are_open
+    Time.zone.now < LakesOfFireConfig.event_submissions_close_at
   end
 end

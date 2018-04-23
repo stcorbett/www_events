@@ -61,58 +61,7 @@
   </div>
 
   <div class="col-md-6 col-sm-6">
-    <div class="panel panel-default">
-      <% current_day = nil %>
-      <div class="panel-body">
-        <a href="/events.xml" class="pull-right">XML</a>
-        <h4><%= t(:year) %> Submitted Events</h4>
-
-        <div class="row">
-          <div class='col-md-12'>
-            <a href="#hearted" class="btn btn-default btn-xs pull-right btn-hearted-events">&nbsp;&hearts;&nbsp;</a>
-            <a href="#yours" class="btn btn-default btn-xs pull-right btn-your-events">Yours</a>
-            <a href="#all" class="btn btn-default btn-xs pull-right btn-all-events">All</a>
-          </div>
-        </div>
-
-        <% @events.each do |event| %>
-          <% if current_day != event.current_event_time.starting.to_date %>
-            <% current_day = event.current_event_time.starting.to_date %>
-            <div class="row">
-              <div class='col-md-12'>
-                <h4><%= current_day.strftime("%A, %B #{current_day.day.ordinalize}") %></h4>
-              </div>
-            </div>
-          <% end %>
-
-          <%
-            css_class = ""
-            css_class += (event.user == current_user) ? " your-event " : " not-your-event "
-            css_class += (current_user.heart_for?(event.current_event_time)) ? " hearted " : " not-hearted "
-          %>
-          <div class="row event <%= css_class %>">
-            <div class='col-md-12 <%= "event-#{event.id}" %>'>
-              <a href="#_" class="heart-click" event-time-id="<%= event.current_event_time.id %>">
-                &hearts;
-              </a>
-
-              <%= link_to event do
-                    "#{h event.title} - #{h event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}".html_safe +
-                    event_icons(event).html_safe
-                  end
-              %>
-              <% if event_is_editable?(event, current_user) %>
-                <small><%= link_to "edit", edit_event_path(event), class: 'text-muted', style: "margin-left: 5px;" %></small>
-              <% end %>
-              <% if event.current_event_time.all_day %>
-                <small class="text-info pull-right" style="margin-left: 5px;">all day!</small>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-
-    </div>
+    <%= render partial: 'events/events_list' %>
   </div>
 
 </div>
