@@ -42,3 +42,19 @@
   color: #428bca;
   cursor: default;
 }
+
+button.navbar-toggle{
+  border-color: #ddd;
+}
+
+button.navbar-toggle .icon-bar{
+  background-color: #aaa;
+}
+
+button.navbar-toggle:hover{
+  border-color: #bbb;
+}
+
+button.navbar-toggle:hover .icon-bar{
+  background-color: #555;
+}

@@ -108,6 +108,12 @@ h3,h4,h5 {
 }
 
 @media (max-width: 768px) {
+  .navbar-brand{
+    max-width: calc(100% - 75px);
+    font-size: 14px;
+    line-height: 16px;
+  }
+
   .navbar .navbar-header .navbar-brand{
     height: auto;
   }
@@ -122,10 +128,9 @@ h3,h4,h5 {
     position: inherit;
   }
 }
-
-@media (max-width: 768px) { #main { padding-top: 200px;} }
-@media (max-width: 500px) { #main { padding-top: 220px;} }
-@media (max-width: 300px) { #main { padding-top: 240px;} }
+@media (max-width: 500px) {
+  #main { padding-top: 95px;}
+}
 
 .category{
   line-height: 2em;
