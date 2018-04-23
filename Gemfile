@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
-gem 'pg'
+gem 'rails', '4.2.10'
+gem 'pg', '0.21.0'
 
 gem "rails_12factor"
 
