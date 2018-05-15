@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   end
 
   def heart_for?(event_time)
-    raise unless event_time.is_a?(EventTime)
+    return unless event_time.is_a?(EventTime)
     (hearts[LakesOfFireConfig.year] || []).include?(event_time.id)
   end
 
