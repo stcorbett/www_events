@@ -40,10 +40,10 @@
       <% end %>
 
       <% if @event %>
-        <% if !submissions_are_open && current_user.admin%>
+        <% if !submissions_are_open && current_user.admin %>
           <span class="text-success">
             event submissions are closed, but, <b>as an admin</b>, you are still able to add and edit events!
-          </span
+          </span>
         <% end %>
 
         <%= form_for @event, class: "form-inline" do |f| %>
