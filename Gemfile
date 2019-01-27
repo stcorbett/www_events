@@ -6,6 +6,7 @@ gem 'rails', '4.2.10'
 gem 'pg', '0.21.0'
 
 gem "rails_12factor"
+gem "sprockets",                    '~> 2.12.5'
 
 gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
