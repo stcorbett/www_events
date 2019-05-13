@@ -3,7 +3,7 @@
 <div class="row">
 
   <div class="col-md-12 col-sm-12">
-    <div class="well"> 
+    <div class="well">
 
       <%= form_for @event, class: "form-inline" do |f| %>
         <h4>Edit This Event</h4>
@@ -12,7 +12,7 @@
 
         <%= submit_tag "Update", :class=>"btn btn-success" %>
         <%= link_to 'Cancel', :back, style: "color: #999; margin-left: 10px;" %>
-        <%= link_to "Remove", @event, method: :delete, style: "color: #999; margin-left: 10px;", data: { confirm: "Are you sure you want to remove this event?"} %>
+        <%= link_to "Remove", @event, method: :delete, style: "color: #999; margin-left: 10px;", data: { confirm: "Are you sure you want to remove this event? It will be permanantly deleted and can't be un-deleted (but it can be re-added)"} %>
 
       <% end %>
 
