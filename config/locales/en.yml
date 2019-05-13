@@ -27,7 +27,7 @@ en:
   start_time_hour: 10
   end_date: "2019-06-16"
   end_time_hour: 15
-  submissions_close_time: "2019-05-13 00:00:00"
+  submissions_close_time: "2019-05-21 00:00:00"
   background_image: '/assets/bg-body.jpg'
   title_color: "#ff3e47"
   anchor_color: "#ff3e47"
