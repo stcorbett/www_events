@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
+ruby "2.5.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.10'
-gem 'pg', '0.21.0'
+gem 'rails'
+gem 'pg', '~>0.21.0'
 
 gem "rails_12factor"
 gem "sprockets",                    '~> 2.12.5'
@@ -12,7 +12,7 @@ gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 
 gem 'omniauth-facebook',            '~> 4.0.0'
-gem "omniauth-google-oauth2"
+gem "omniauth-google-oauth2",       '~> 0.8.0'
 
 gem 'sass-rails',                   '~> 4.0.3'
 gem 'uglifier',                     '>= 1.3.0'
