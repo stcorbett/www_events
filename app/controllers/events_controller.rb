@@ -7,6 +7,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def md5
+    render plain: Digest::MD5.hexdigest(Event.lakes_of_fire_event_hash.to_s)
+  end
+
   def show
     @event = Event.find(params[:id])
   end

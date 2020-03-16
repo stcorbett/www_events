@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <WWW xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Checksum><%= Digest::MD5.hexdigest @events_hash.to_s %></Checksum>
+
   <% @events_hash.each do |day, events| %>
 
     <%= "<#{day}>".html_safe %>

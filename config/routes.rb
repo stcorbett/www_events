@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "/" => "events#new", as: "root"
   get "theme" => "events#theme"
   get "/events" => "events#index"
+  get "/events/checksum" => "events#md5"
 
   resources :events
   resources :locations
