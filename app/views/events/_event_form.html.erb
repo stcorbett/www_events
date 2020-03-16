@@ -13,27 +13,47 @@
 </div>
 
 <div class="form-group" >
-
   <div class="row">
-    <div class="col-xs-6">
-      <label data-toggle="tooltip" title="This event involves drinking alcohol, which can only be done if you are 21+">
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="Offering drinks that aren't sober at all.">
         <%= f.check_box :alcohol %>
         Alcohol Served <a href="#_">?</a> (21+)
       </label>
     </div>
-    <div class="col-xs-6">
-      <label data-toggle="tooltip" title="This event is 18+, and may contain sexual content.">
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="Dream, build, create, contribute, and maybe take some art.">
+        <%= f.check_box :crafting %>
+        Crafting <a href="#_">?</a>
+      </label>
+    </div>
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="Nudity, sexuality, and similarly sinful adult themes.">
         <%= f.check_box :red_light %>
         Explicit <a href="#_">?</a> (18+)
       </label>
     </div>
-  </div>
-
-  <div class="row" style="margin-top:5px;">
-    <div class="col-xs-6">
-      <label data-toggle="tooltip" title="This event is a fire performance or is in reference to fire artwork.">
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="Poofers, flow performance, and fire!  FIRE!">
         <%= f.check_box :fire_art %>
         Fire Art Performances <a href="#_">?</a>
+      </label>
+    </div>
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="Offering food, whether snacks or meals, sober or otherwise.">
+        <%= f.check_box :food %>
+        Food <a href="#_">?</a>
+      </label>
+    </div>
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="Offering food or drinks for those who want to be 100% sober.">
+        <%= f.check_box :sober %>
+        Sober <a href="#_">?</a>
+      </label>
+    </div>
+    <div class="col-xs-6 mt-2">
+      <label data-toggle="tooltip" title="See a show (and in some cases be a performer).">
+        <%= f.check_box :spectacle %>
+        Spectacle <a href="#_">?</a>
       </label>
     </div>
   </div>

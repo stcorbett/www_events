@@ -54,11 +54,9 @@ class Event < ActiveRecord::Base
   end
 
   def categories
-    ([] <<
-        (fire_art ? :fire_art : nil) <<
-        (alcohol ? :alcohol : nil) <<
-        (red_light ? :red_light : nil)
-    ).compact
+    [:fire_art, :alcohol, :red_light, :spectacle, :food, :crafting, :sober].select do |sym|
+      send(sym)
+    end
   end
 
   def has_event_time
@@ -106,6 +104,10 @@ class Event < ActiveRecord::Base
       "FireArt" => !!fire_art,
       "Alcohol" => !!alcohol,
       "Explicit" => !!red_light,
+      "Food" => !!food,
+      "Craft" => !!crafting,
+      "Sober" => !!sober,
+      "Spectacle" => !!spectacle,
       "HumanLocation" => human_location,
       "HumanTime" => current_event_time.human_time
     }
