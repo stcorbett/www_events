@@ -1,5 +1,6 @@
 <%= render partial: 'location_autocomplete' %>
 <%= render partial: 'time_picker' %>
+<%= render partial: 'word_length' %>
 
 <label for="event_title">What:</label>
 <div class="form-group" >
@@ -8,8 +9,12 @@
 </div>
 
 <div class="form-group" >
+  <div style="color: #737373; margin-bottom: 3px;">
+    <span id="discription-length"></span>
+    <span id="discription-comment"></span>
+  </div>
   <%= f.text_area :event_description, class: "form-control", placeholder: "Description", rows: "5" %>
-  <p class="help-block">Brief description of the event, workshop, or performance. 100 words or less</p>
+  <p class="help-block">Brief description of the event, workshop, or performance</p>
 </div>
 
 <div class="form-group" >

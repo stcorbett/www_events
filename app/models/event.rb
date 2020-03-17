@@ -13,10 +13,7 @@ class Event < ActiveRecord::Base
             :event_recurrence, :event_description, :user, :title,
             presence: true
 
-  validates_length_of :event_description, :minimum => 0, :maximum => 1000
-  validates_length_of :event_description, :minimum => 0, :maximum => 100,
-                      :tokenizer => lambda { |str| str.scan(/\w+/) },
-                      :too_long  => "must have at most %{count} words"
+  validates_length_of :event_description, :minimum => 0, :maximum => 20000
 
   validate :has_event_time
 
