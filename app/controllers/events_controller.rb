@@ -4,6 +4,10 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(new_event_path()) }
       format.xml  { @events_hash = Event.lakes_of_fire_event_hash; render layout: false }
+      format.json do
+        sql = PgJbuilder.render_object 'events/index', []
+        render json: ActiveRecord::Base.connection.select_value(sql)
+      end
     end
   end
 
