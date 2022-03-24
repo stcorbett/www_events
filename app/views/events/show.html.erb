@@ -57,7 +57,12 @@
       </div>
 
       <div class="form-group" >
-        <%= event_categories(@event).html_safe %>
+        <% @event.category_emojis.each do |category, emoji| %>
+          <div class="category">
+            <span class="mr-1"><%= emoji %></span>
+            <%= category %>
+          </div>
+        <% end %>
       </div>
 
       <% if event_is_editable?(@event, current_user) %>

@@ -17,33 +17,4 @@ module EventHelper
     end
   end
 
-  def event_icons(event)
-    if event.categories.any?
-      display = "<span class='icons'>"
-      event.categories.each do |category|
-        display << event_icon(category) if event.send(category)
-      end
-      display << "</span>"
-    else
-      ""
-    end
-  end
-
-  def event_icon(name)
-    %(<img src="/fonts/#{name}.svg"> )
-  end
-
-  def event_categories(event)
-    event.categories.collect do |category|
-      event_cateogry_icon(category)
-    end.join
-  end
-
-  def event_cateogry_icon(name)
-    %(<div class="category">) +
-      %(<img src="/fonts/#{name}.svg"> ) +
-      name.to_s.humanize +
-    "</div>"
-  end
-
 end

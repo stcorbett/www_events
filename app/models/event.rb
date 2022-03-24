@@ -50,6 +50,18 @@ class Event < ActiveRecord::Base
     }
   end
 
+  def self.category_emojis
+    {
+      fire_art: '🔥',
+      alcohol: '🍻',
+      red_light: '🔴',
+      spectacle: '👓',
+      food: '🍽',
+      crafting: '🎨',
+      sober: '⚖️',
+    }
+  end
+
   def categories
     [:fire_art, :alcohol, :red_light, :spectacle, :food, :crafting, :sober].select do |sym|
       send(sym)
@@ -122,6 +134,10 @@ class Event < ActiveRecord::Base
     event_times.collect do |event_time|
       event_time.errors.full_messages
     end.flatten
+  end
+
+  def category_emojis
+    self.class.category_emojis.slice(*categories)
   end
 
 end

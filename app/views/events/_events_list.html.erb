@@ -36,14 +36,21 @@
             &hearts;
           </a>
 
-          <%= link_to event do
-                "#{h event.title} - #{h event.hosting_location} - #{event.current_event_time.starting.strftime("%l:%M %p")}".html_safe +
-                event_icons(event).html_safe
-              end
-          %>
+          <%= link_to event do %>
+            <%= event.title %> -
+            <%= event.hosting_location %> -
+            <%= event.current_event_time.starting.strftime("%l:%M %p") %>
+            <% if event.categories.any? %>
+              <span class='icons'>
+                <%= event.category_emojis.values.join(" ") %>
+              </span>
+            <% end %>
+          <% end %>
+
           <% if event_is_editable?(event, current_user) %>
             <small><%= link_to "edit", edit_event_path(event), class: 'text-muted', style: "margin-left: 5px;" %></small>
           <% end %>
+
           <% if event.current_event_time.all_day %>
             <small class="text-info pull-right" style="margin-left: 5px;">all day!</small>
           <% end %>

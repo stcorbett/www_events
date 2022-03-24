@@ -33,6 +33,10 @@ body {
 .btn-danger,.label-danger,.progress-bar-danger{background-color:#dd4b39;}
 .btn-warning,.label-warning,.progress-bar-warning{background-color:#f4b400;color:#444444;}
 
+.mr-1{
+  margin-right: .25em !important;
+}
+
 hr {border-color:#ececec;}
 button {
  outline: 0;
@@ -165,9 +169,8 @@ h3,h4,h5 {
   color: pink;
 }
 
-.event .icons img{
-  width: 12px;
-  margin-left: 3px;
+.event .icons{
+  letter-spacing: .25rem;
 }
 
 #event-form-autocomplete{

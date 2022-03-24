@@ -78,12 +78,15 @@
                 <a href="#_" class="heart-click" event-time-id="<%= event.event_times.first.id %>">
                   &hearts;
                 </a>
-
-                <%= link_to event do
-                      "#{h event.title} - #{abbr_event_days(event)} ".html_safe +
-                      event_icons(event).html_safe
-                    end
-                %>
+                <%= link_to event do %>
+                  <%= event.title %> -
+                  <%= abbr_event_days(event) %>
+                  <% if event.categories.any? %>
+                    <span class='icons'>
+                      <%= event.category_emojis.values.join(" ") %>
+                    </span>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           <% end %>
