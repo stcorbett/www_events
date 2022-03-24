@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
 
+  skip_before_filter :require_login, :only => :index
+
   def index
     respond_to do |format|
       format.html { redirect_to(new_event_path()) }
