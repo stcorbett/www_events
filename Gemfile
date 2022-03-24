@@ -12,7 +12,7 @@ gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 
 gem 'omniauth',                     '~> 1.9'
-gem 'omniauth-facebook',            '~> 4.0.0'
+gem 'omniauth-facebook',            '> 4.0.0'
 gem "omniauth-google-oauth2",       '~> 0.8.0'
 
 gem 'sass-rails',                   '~> 4.0.3'
