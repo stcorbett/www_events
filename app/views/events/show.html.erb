@@ -60,7 +60,7 @@
         <% @event.category_emojis.each do |category, emoji| %>
           <div class="category">
             <span class="mr-1"><%= emoji %></span>
-            <%= category %>
+            <%= category.to_s.humanize %>
           </div>
         <% end %>
       </div>
