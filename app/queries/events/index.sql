@@ -23,4 +23,12 @@
         WHERE event_times.event_id = events.id
     {{/array}} AS event_times
   FROM events
+  WHERE
+    EXISTS (
+      SELECT 1
+      FROM event_times
+        WHERE event_times.event_id = events.id
+        AND event_times.starting > '{{burn_start}}'
+        AND event_times.ending < '{{burn_end}}'
+    )
 {{/array}}

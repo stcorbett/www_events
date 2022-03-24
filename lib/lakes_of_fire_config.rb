@@ -41,5 +41,12 @@ class LakesOfFireConfig
       end
     end
 
+    def burn_times_filter
+      {
+        burn_start: "#{I18n.t(:start_date)} #{I18n.t(:start_time_hour)}:00",
+        burn_end: "#{I18n.t(:end_date)} #{I18n.t(:end_time_hour)}:00"
+      }
+    end
+
   end
 end
