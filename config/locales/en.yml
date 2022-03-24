@@ -20,14 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  year: 2020
+  year: 2022
   event_name: "LAKES IN SPACE!"
   event_time_zone: "Eastern Time (US & Canada)"
-  start_date: "2020-06-17"
+  start_date: "2022-06-15"
   start_time_hour: 10
-  end_date: "2020-06-21"
+  end_date: "2022-06-19"
   end_time_hour: 15
-  submissions_close_time: "2020-05-23 00:00:01"
+  submissions_close_time: "2022-06-01 00:00:01"
   background_image: '/assets/bg-body.jpg'
   title_color: "#ff3e47"
   anchor_color: "#ff3e47"
