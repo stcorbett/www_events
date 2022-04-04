@@ -1,5 +1,6 @@
 {{#array}}
   SELECT
+    events.id AS event_id,
     events.title,
     events.event_description,
     events.site_id,
@@ -15,6 +16,7 @@
     events.sober,
     {{#array}}
       SELECT
+        event_times.id AS event_time_id,
         event_times.starting,
         event_times.ending,
         event_times.day_of_week,
