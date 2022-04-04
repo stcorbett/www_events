@@ -22,7 +22,13 @@
           <li>
             <%= link_to "Camps", locations_path %>
           </li>
+        <% end %>
 
+        <li>
+          <%= link_to "Privacy", privacy_path %>
+        </li>
+
+        <% if current_user %>
           <li>
             <%= link_to "Logout", logout_path %>
           </li>

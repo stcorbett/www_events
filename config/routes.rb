@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :locations
   put 'locations', to: 'locations#update'
   get "/print", to: "print#show"
+  get "/privacy", to: "privacy#show"
 
   get 'heart', to: 'hearts#create'
   get 'unheart', to: 'hearts#destroy'
