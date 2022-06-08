@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @hosted_file.name %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @hosted_file.content %>
+</p>
+
+<%= link_to 'Edit', edit_hosted_file_path(@hosted_file) %> |
+<%= link_to 'Back', hosted_files_path %>

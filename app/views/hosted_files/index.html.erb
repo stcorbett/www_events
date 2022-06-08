@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Hosted Files</h1>
+
+<table style="border-spacing: 10px; border-collapse: inherit;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hosted_files.each do |hosted_file| %>
+      <tr>
+        <td><%= link_to hosted_file.name, files_path(hosted_file.name) %></td>
+        <td><%= link_to 'Show', hosted_file %></td>
+        <td><%= link_to 'Edit', edit_hosted_file_path(hosted_file) %></td>
+        <td><%= link_to 'Destroy', hosted_file, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Hosted file', new_hosted_file_path %>

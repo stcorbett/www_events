@@ -19,6 +19,12 @@
             <%= link_to "#{admin_badge(current_user)} #{current_user.name} ".html_safe, "#_", class: "name" %>
           </li>
 
+          <% if current_user.admin? %>
+            <li>
+              <%= link_to "Files", hosted_files_path %>
+            </li>
+          <% end %>
+
           <li>
             <%= link_to "Camps", locations_path %>
           </li>

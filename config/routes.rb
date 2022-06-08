@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   resources :events
   resources :locations
+  resources :hosted_files
+  get "/files/:name", to: "files#show", as: "files"
+
   put 'locations', to: 'locations#update'
   get "/print", to: "print#show"
   get "/privacy", to: "privacy#show"

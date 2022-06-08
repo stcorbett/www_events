@@ -1,0 +1,25 @@
+<%= form_for(@hosted_file) do |f| %>
+  <% if @hosted_file.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hosted_file.errors.count, "error") %> prohibited this hosted_file from being saved:</h2>
+
+      <ul>
+      <% @hosted_file.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_area :content, rows: 5 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
