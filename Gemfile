@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
-ruby "2.5.1"
+ruby "3.0.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
-gem 'pg', '~>0.21.0'
+gem 'pg'
 
 gem "rails_12factor"
 gem "sprockets",                    '~> 2.12.5'
@@ -24,7 +24,8 @@ gem 'turbolinks'
 gem 'jbuilder',                     '~> 2.0'
 gem 'sdoc',                         '~> 0.4.0',          group: :doc
 
-gem 'pg_jbuilder'
+# gem 'pg_jbuilder'
+# issue with handlebars gem (therubyracer needs libv8)
 
 gem 'spring',        group: :development
 
