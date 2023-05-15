@@ -1,4 +1,4 @@
-class ExtendUsersToken < ActiveRecord::Migration
+class ExtendUsersToken < ActiveRecord::Migration[6.1]
   def change
     reversible do |dir|
       dir.up  {

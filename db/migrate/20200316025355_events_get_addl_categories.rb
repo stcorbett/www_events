@@ -1,4 +1,4 @@
-class EventsGetAddlCategories < ActiveRecord::Migration
+class EventsGetAddlCategories < ActiveRecord::Migration[6.1]
   def change
     add_column :events, :spectacle, :boolean
     add_column :events, :crafting,  :boolean

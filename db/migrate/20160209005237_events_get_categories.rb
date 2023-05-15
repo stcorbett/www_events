@@ -1,4 +1,4 @@
-class EventsGetCategories < ActiveRecord::Migration
+class EventsGetCategories < ActiveRecord::Migration[6.1]
   def change
     add_column :events, :alcohol,   :boolean
     add_column :events, :red_light, :boolean
