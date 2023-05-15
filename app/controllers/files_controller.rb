@@ -1,5 +1,5 @@
 class FilesController < ApplicationController
-  skip_before_filter :require_login, only: :show
+  skip_before_action :require_login, only: :show
 
   def show
     file_name = params[:name]

@@ -3,7 +3,7 @@ class Location
   attr_reader :hosting_location, :site_id
 
   def self.all
-    location_names = Event.configured_year.uniq.order("hosting_location ASC").pluck(:hosting_location, :site_id)
+    location_names = Event.configured_year.order("hosting_location ASC").uniq.pluck(:hosting_location, :site_id)
 
     location_names.collect do |name, site_id|
       Location.new(name, site_id)
@@ -11,7 +11,7 @@ class Location
   end
 
   def self.all_locations
-    Event.configured_year.uniq.order(:hosting_location).pluck(:hosting_location)
+    Event.configured_year.order(:hosting_location).uniq.pluck(:hosting_location)
   end
 
   def initialize(hosting_location, site_id)

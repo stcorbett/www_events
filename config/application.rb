@@ -17,6 +17,14 @@ module Application
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    config.time_zone = 'Eastern Time (US & Canada)'
+    config.active_record.default_timezone = :local
+
+    config.eager_load_paths << Rails.root.join("lib")
   end
 end
+
+
+# config.time_zone = 'Eastern Time (US & Canada)'
+# config.active_record.default_timezone = :local
+# config.autoload_paths += %W(#{config.root}/lib)

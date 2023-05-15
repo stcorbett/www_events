@@ -24,6 +24,8 @@ gem 'turbolinks'
 gem 'jbuilder'
 gem 'sdoc',                                              group: :doc
 
+gem 'puma'
+
 # # resolving versions...
 # gem 'shoulda-matchers',             '4.5.1'
 # gem 'bigdecimal',                   '1.3.5'

@@ -1,6 +1,6 @@
 class HeartsController < ApplicationController
 
-  before_filter :find_event
+  before_action :find_event
 
   def create
     user = current_user

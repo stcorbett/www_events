@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :require_login
+  before_action :require_login
 
   helper_method :current_user, :admin_logged_in?, :submissions_are_open
 

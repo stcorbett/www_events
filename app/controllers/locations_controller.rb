@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  before_filter :require_admin, only: :update
+  before_action :require_admin, only: :update
 
   def index
     @locations = Location.all

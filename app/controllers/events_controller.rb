@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  skip_before_filter :require_login, only: :index
+  skip_before_action :require_login, only: :index
 
   def index
     respond_to do |format|
