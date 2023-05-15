@@ -6,23 +6,27 @@ gem 'rails'
 gem 'pg'
 
 gem "rails_12factor"
-gem "sprockets",                    '~> 2.12.5'
+gem "sprockets"
 
 gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 
-gem 'omniauth',                     '~> 1.9'
-gem 'omniauth-facebook',            '> 4.0.0'
-gem "omniauth-google-oauth2",       '> 0.8.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem "omniauth-google-oauth2"
 
-gem 'sass-rails',                   '~> 4.0.3'
-gem 'uglifier',                     '>= 1.3.0'
-gem 'coffee-rails',                 '~> 4.0.0'
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
-gem 'jbuilder',                     '~> 2.0'
-gem 'sdoc',                         '~> 0.4.0',          group: :doc
+gem 'jbuilder'
+gem 'sdoc',                                              group: :doc
+
+# # resolving versions...
+# gem 'shoulda-matchers',             '4.5.1'
+# gem 'bigdecimal',                   '1.3.5'
 
 # gem 'pg_jbuilder'
 # issue with handlebars gem (therubyracer needs libv8)
