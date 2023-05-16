@@ -117,6 +117,7 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     jwt (2.7.0)
+    libv8-node (16.10.0.0)
     libv8-node (16.10.0.0-x86_64-darwin)
     libv8-node (16.10.0.0-x86_64-linux)
     loofah (2.21.3)
@@ -130,6 +131,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.2)
     mini_racer (0.6.3)
       libv8-node (~> 16.10.0.0)
     minitest (5.18.0)
@@ -144,6 +146,9 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.0)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.0-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.0-x86_64-linux)
@@ -262,6 +267,7 @@ PLATFORMS
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
+  x86_64-linux-libc
 
 DEPENDENCIES
   bootstrap-datepicker-rails
@@ -270,6 +276,7 @@ DEPENDENCIES
   jquery-rails
   jquery-timepicker-rails
   jquery-ui-rails
+  libv8-node (= 16.10.0.0)
   omniauth
   omniauth-facebook
   omniauth-google-oauth2

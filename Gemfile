@@ -28,6 +28,7 @@ gem 'puma'
 
 gem 'pg_jbuilder',                                       git: 'https://github.com/stcorbett/pg_jbuilder'
 gem 'psych'
+gem 'libv8-node', '16.10.0.0'
 
 gem 'spring',        group: :development
 
