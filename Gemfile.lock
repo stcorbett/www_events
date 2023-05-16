@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/stcorbett/pg_jbuilder
-  revision: b7272a3517d0e91adf4e611db70d6f670bc8e369
+  revision: 8feb1a7a74f434e27c11c7b840a5e4f0995ef7de
   specs:
     pg_jbuilder (0.0.1)
       activerecord (>= 3.0.0)
-      handlebars
+      handlebars-engine
       pg
 
 GEM
@@ -98,10 +98,10 @@ GEM
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    handlebars (0.8.0)
-      handlebars-source (~> 4.0.5)
-      therubyracer (~> 0.12.1)
-    handlebars-source (4.0.14)
+    handlebars-engine (0.3.3)
+      handlebars-source
+      mini_racer
+    handlebars-source (4.7.7)
     hashie (5.0.0)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
@@ -117,8 +117,8 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     jwt (2.7.0)
-    libv8 (3.16.14.19)
-    libv8 (3.16.14.19-x86_64-linux)
+    libv8-node (16.10.0.0-x86_64-darwin)
+    libv8-node (16.10.0.0-x86_64-linux)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -130,6 +130,8 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_racer (0.6.3)
+      libv8-node (~> 16.10.0.0)
     minitest (5.18.0)
     multi_xml (0.6.0)
     net-imap (0.3.4)
@@ -215,7 +217,6 @@ GEM
     rake (13.0.6)
     rdoc (6.5.0)
       psych (>= 4.0.0)
-    ref (2.0.0)
     ruby2_keywords (0.0.5)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -241,9 +242,6 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stringio (3.0.6)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (1.2.2)
     tilt (2.1.0)
     timeout (0.3.2)
