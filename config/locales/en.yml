@@ -20,8 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  year: 2022
-  event_name: "LAKES IN SPACE!"
+  year: 2023
+  event_name: "GARDEN OF WONDER"
   event_time_zone: "Eastern Time (US & Canada)"
   start_date: "2023-07-12"
   start_time_hour: 10
