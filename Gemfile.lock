@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/stcorbett/pg_jbuilder
+  revision: b7272a3517d0e91adf4e611db70d6f670bc8e369
+  specs:
+    pg_jbuilder (0.0.1)
+      activerecord (>= 3.0.0)
+      handlebars
+      pg
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -159,10 +168,6 @@ GEM
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
     pg (1.5.3)
-    pg_jbuilder (0.0.1)
-      activerecord (>= 3.0.0)
-      handlebars (~> 0.6, >= 0.6.0)
-      pg
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -270,7 +275,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   pg
-  pg_jbuilder
+  pg_jbuilder!
   pry
   puma
   rails
@@ -279,7 +284,6 @@ DEPENDENCIES
   sdoc
   spring
   sprockets
-  therubyracer
   turbolinks
   uglifier
 
