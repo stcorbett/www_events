@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.create_or_authorize(env['omniauth.auth'])
+    user = User.create_or_authorize(request.env['omniauth.auth'])
     session[:user_id] = user.id
     redirect_to root_path
   end
