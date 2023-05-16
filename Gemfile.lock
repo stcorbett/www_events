@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stcorbett/pg_jbuilder
-  revision: 8feb1a7a74f434e27c11c7b840a5e4f0995ef7de
+  revision: 96b57345cba1c6cb2c57cecc50af528f75cf36a3
   specs:
     pg_jbuilder (0.0.1)
       activerecord (>= 3.0.0)
