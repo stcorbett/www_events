@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.0.6"
+ruby "3.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
@@ -27,6 +27,8 @@ gem 'sdoc',                                              group: :doc
 gem 'puma'
 
 gem 'pg_jbuilder',                                       git: 'https://github.com/stcorbett/pg_jbuilder'
+gem 'psych'
+gem 'libv8-node', '16.10.0.0'
 
 gem 'spring',        group: :development
 
