@@ -275,6 +275,7 @@ DEPENDENCIES
   pg
   pg_jbuilder!
   pry
+  psych
   puma
   rails
   rails_12factor

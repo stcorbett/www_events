@@ -27,6 +27,7 @@ gem 'sdoc',                                              group: :doc
 gem 'puma'
 
 gem 'pg_jbuilder',                                       git: 'https://github.com/stcorbett/pg_jbuilder'
+gem 'psych'
 
 gem 'spring',        group: :development
 
