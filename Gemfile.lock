@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/stcorbett/pg_jbuilder
+  revision: 9a6eed18de3b5e5060001dab60d0ecd3b5eb3359
+  specs:
+    pg_jbuilder (0.0.1)
+      activerecord (>= 3.0.0)
+      handlebars-engine
+      pg
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -89,6 +98,10 @@ GEM
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    handlebars-engine (0.3.3)
+      handlebars-source
+      mini_racer
+    handlebars-source (4.7.7)
     hashie (5.0.0)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
@@ -119,6 +132,8 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.2)
+    mini_racer (0.6.3)
+      libv8-node (~> 16.10.0.0)
     minitest (5.18.0)
     multi_xml (0.6.0)
     net-imap (0.3.4)
@@ -266,6 +281,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   pg
+  pg_jbuilder!
   pry
   psych
   puma
