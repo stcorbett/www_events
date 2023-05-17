@@ -1,4 +1,4 @@
-{{#array}}
+(SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
   SELECT
     events.id AS event_id,
     events.title,
@@ -14,7 +14,7 @@
     events.crafting,
     events.food,
     events.sober,
-    {{#array}}
+    (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
       SELECT
         event_times.id AS event_time_id,
         event_times.starting,
@@ -23,7 +23,7 @@
         event_times.all_day
       FROM event_times
         WHERE event_times.event_id = events.id
-    {{/array}} AS event_times
+    )array_row) AS event_times
   FROM events
   WHERE
     EXISTS (
@@ -33,4 +33,4 @@
         AND event_times.starting > '{{burn_start}}'
         AND event_times.ending < '{{burn_end}}'
     )
-{{/array}}
+)array_row)
