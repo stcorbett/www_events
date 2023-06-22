@@ -3,7 +3,7 @@ class Location
   attr_reader :hosting_location, :site_id
 
   def self.all
-    location_names = Event.configured_year.order("hosting_location ASC").uniq.pluck(:hosting_location, :site_id)
+    location_names = Event.configured_year.order("hosting_location ASC").pluck(:hosting_location, :site_id).uniq
 
     location_names.collect do |name, site_id|
       Location.new(name, site_id)
@@ -25,7 +25,7 @@ class Location
 
     Event.transaction do
       events.each do |event|
-        event.update_attributes!(event_params)
+        event.update!(event_params)
       end
 
       @hosting_location = event_params[:hosting_location]
