@@ -21,14 +21,14 @@
 
 
 en:
-  year: 2023
-  event_name: "GARDEN OF WONDER"
+  year: 2024
+  event_name: "Imaginarium Aquarium"
   event_time_zone: "Eastern Time (US & Canada)"
-  start_date: "2023-07-12"
+  start_date: "2024-07-17"
   start_time_hour: 10
-  end_date: "2023-07-16"
+  end_date: "2024-07-21"
   end_time_hour: 15
-  submissions_close_time: "2023-07-16 00:00:01"
+  submissions_close_time: "2024-07-21 00:00:01"
   background_image: '/bg-body.jpg'
   title_color: "#ff3e47"
   anchor_color: "#ff3e47"
