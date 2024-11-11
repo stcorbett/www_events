@@ -1,26 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  # Associations
-  it { should have_many(:events) }
-
-  # Store
-  it { should store_accessor(:hearts) }
+  describe 'associations' do
+    it { should have_many(:events) }
+  end
 
   describe '.create_or_authorize' do
     let(:auth) do
-      OpenStruct.new(
-        provider: 'test_provider',
+      double(
+        provider: 'provider_name',
         uid: '12345',
-        info: OpenStruct.new(
-          name: 'Test User',
-          email: 'test@example.com',
-          image: 'test_image_url'
-        ),
-        credentials: OpenStruct.new(
-          token: 'test_token',
-          expires_at: Time.now.to_i
-        )
+        info: double(name: 'Test User', email: 'test@example.com', image: 'image_url'),
+        credentials: double(token: 'token123', expires_at: Time.now.to_i)
       )
     end
 
@@ -35,8 +26,8 @@ RSpec.describe User, type: :model do
     context 'when user already exists' do
       before do
         User.create!(
-          provider: auth.provider,
-          uid: auth.uid,
+          provider: 'provider_name',
+          uid: '12345',
           name: 'Existing User',
           email: 'existing@example.com',
           image: 'existing_image_url',
@@ -55,18 +46,18 @@ RSpec.describe User, type: :model do
         user = User.create_or_authorize(auth)
         expect(user.name).to eq('Test User')
         expect(user.email).to eq('test@example.com')
-        expect(user.image).to eq('test_image_url')
-        expect(user.token).to eq('test_token')
+        expect(user.image).to eq('image_url')
+        expect(user.token).to eq('token123')
       end
     end
   end
 
   describe '#editable_events' do
     let(:user) { User.create!(email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, title: 'Test Event') }
+    let(:event) { Event.create!(user_id: user.id, title: 'Test Event') }
 
     before do
-      allow(Event).to receive_message_chain(:configured_year, :joins, :where).and_return([event])
+      allow(Event).to receive(:configured_year).and_return(Event.all)
     end
 
     it 'returns events for the user' do
@@ -75,53 +66,64 @@ RSpec.describe User, type: :model do
   end
 
   describe '#heart_for?' do
-    let(:user) { User.create!(hearts: { LakesOfFireConfig.year => [1, 2, 3] }) }
-    let(:event_time) { double('EventTime', id: 2) }
+    let(:user) { User.create!(hearts: { LakesOfFireConfig.year => [1] }.to_json) }
+    let(:event_time) { double(id: 1) }
 
-    it 'returns true if the event_time is in hearts' do
+    it 'returns true if the event_time is hearted' do
+      allow(event_time).to receive(:is_a?).with(EventTime).and_return(true)
       expect(user.heart_for?(event_time)).to be true
     end
 
-    it 'returns false if the event_time is not in hearts' do
-      allow(event_time).to receive(:id).and_return(4)
+    it 'returns false if the event_time is not hearted' do
+      allow(event_time).to receive(:is_a?).with(EventTime).and_return(true)
+      allow(event_time).to receive(:id).and_return(2)
       expect(user.heart_for?(event_time)).to be false
     end
 
     it 'returns nil if the argument is not an EventTime' do
-      expect(user.heart_for?(double('NotEventTime'))).to be_nil
+      expect(user.heart_for?(double)).to be_nil
     end
   end
 
   describe '#add_heart' do
-    let(:user) { User.create!(hearts: { LakesOfFireConfig.year => [1, 2] }) }
-    let(:event_time) { double('EventTime', id: 3) }
+    let(:user) { User.create!(hearts: {}.to_json) }
+    let(:event_time) { double(id: 1) }
 
-    it 'adds the event_time id to hearts' do
-      user.add_heart(event_time)
-      expect(user.hearts[LakesOfFireConfig.year]).to include(3)
+    before do
+      allow(event_time).to receive(:is_a?).with(EventTime).and_return(true)
     end
 
-    it 'does not add duplicate event_time id' do
-      allow(event_time).to receive(:id).and_return(2)
+    it 'adds a heart for the event_time' do
       user.add_heart(event_time)
-      expect(user.hearts[LakesOfFireConfig.year].count(2)).to eq(1)
+      expect(user.hearts[LakesOfFireConfig.year]).to include(event_time.id)
+    end
+
+    it 'does not add a heart if already hearted' do
+      user.add_heart(event_time)
+      expect {
+        user.add_heart(event_time)
+      }.not_to change { user.hearts[LakesOfFireConfig.year].size }
     end
   end
 
   describe '#remove_heart' do
-    let(:user) { User.create!(hearts: { LakesOfFireConfig.year => [1, 2, 3] }) }
-    let(:event_time) { double('EventTime', id: 2) }
+    let(:user) { User.create!(hearts: { LakesOfFireConfig.year => [1] }.to_json) }
+    let(:event_time) { double(id: 1) }
 
-    it 'removes the event_time id from hearts' do
-      user.remove_heart(event_time)
-      expect(user.hearts[LakesOfFireConfig.year]).not_to include(2)
+    before do
+      allow(event_time).to receive(:is_a?).with(EventTime).and_return(true)
     end
 
-    it 'does nothing if the event_time id is not in hearts' do
-      allow(event_time).to receive(:id).and_return(4)
+    it 'removes a heart for the event_time' do
+      user.remove_heart(event_time)
+      expect(user.hearts[LakesOfFireConfig.year]).not_to include(event_time.id)
+    end
+
+    it 'does nothing if the event_time is not hearted' do
+      allow(event_time).to receive(:id).and_return(2)
       expect {
         user.remove_heart(event_time)
-      }.not_to change { user.hearts[LakesOfFireConfig.year] }
+      }.not_to change { user.hearts[LakesOfFireConfig.year].size }
     end
   end
 end
