@@ -28,6 +28,6 @@ Style choices:
 - Use shoulda matchers for testing Active Record associations
 - Do not use FactoryBot for creating test data. Instead, create the data within `let` blocks in each test.
 
-The final output should be a complete Ruby file containing all RSpec tests for the files and its associated codepaths, ready to be executed within an RSpec test suite.
+The final output should be a complete Ruby file containing all RSpec tests for the "File to test", ready to be executed within an RSpec test suite. Do not include code for any helper files, such as rails_helper.rb.  Do not modify any source files.
 
 Output code only with no explanations, just sweet sweet code.
