@@ -13,13 +13,26 @@
       "config/routes.rb",
       "public/stylesheets/application/styles.css"
     ],
-    "exclude_sources": ["phoenix_tests", "spec", "test", "node_modules"]
+    "exclude_sources": [
+      "phoenix_tests",
+      "spec",
+      "test",
+      "node_modules"
+    ]
   },
   "unit": {
-    "synchronous": false,
+    "include_sources": [
+      "app/models/*.rb"
+    ],
+    "exclude_sources": [
+      "phoenix_tests",
+      "spec",
+      "test",
+      "node_modules"
+    ],
     "test_command": "bundle exec rspec",
-    "include_sources": [],
-    "exclude_sources": ["phoenix_tests", "spec", "test", "node_modules"],
-    "p_failed_files": []
+    "p_failed_files": [
+    ],
+    "synchronous": false
   }
 }
