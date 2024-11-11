@@ -35,3 +35,10 @@ gem 'spring',        group: :development
 group :development, :test do
   gem 'pry'
 end
+
+group :test do
+  gem 'rspec-rails', '~> 7.0.0'
+  gem 'shoulda-matchers', '~> 6.0'
+  gem 'simplecov', require: false
+end
+
