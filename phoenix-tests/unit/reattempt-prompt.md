@@ -34,10 +34,10 @@ Your task is to:
 Your final output should:
 
 - Include **all the tests**, with fixes applied to the failing tests.
-- Maintain the structure and best practices of the original tests (such as dynamic selectors, reusable test blocks, and proper handling of UI elements like hover or confirmation dialogs).
+- Maintain the structure and best practices of the original tests 
 - Ensure tests are modular and can be reused in the future.
 - Retain all assertions from both the passing and fixed tests to verify that the application behaves correctly.
 
-The final output should be a complete Ruby file containing the fixed test suite for the, ready to be copied and executed.
+The final output should be a complete Ruby file containing the fixed test suite for the code, ready to be copied and executed.
 
 Output code only with no explanations, any non code that slips by should be commented out.
