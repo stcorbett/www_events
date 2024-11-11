@@ -1,0 +1,6 @@
+node_modules/
+.run_id
+cypress/results/
+cypress/logs/
+cypress/screenshots/
+phoenix.secrets.json

@@ -1,0 +1,25 @@
+{
+  "test_validation_recursion_limit": 3,
+  "openai_model": "gpt-4o",
+  "claude_model": "",
+  "llm": "openai",
+  "starting_temperature": 0.2,
+  "max_retries": 5,
+  "debug": false,
+  "functional_tests": {
+    "include_sources": [
+      "app/views/sessions",
+      "app/views/layouts",
+      "config/routes.rb",
+      "public/stylesheets/application/styles.css"
+    ],
+    "exclude_sources": ["phoenix_tests", "spec", "test", "node_modules"]
+  },
+  "unit": {
+    "synchronous": false,
+    "test_command": "bundle exec rspec",
+    "include_sources": [],
+    "exclude_sources": ["phoenix_tests", "spec", "test", "node_modules"],
+    "p_failed_files": []
+  }
+}
