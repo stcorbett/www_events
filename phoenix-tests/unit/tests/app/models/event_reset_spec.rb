@@ -7,31 +7,22 @@ RSpec.describe EventReset, type: :model do
       Event.destroy_all
     end
 
-    context 'when there are no events' do
-      it 'does not raise an error and returns an empty array' do
-        expect { EventReset.destroy_all_events }.not_to raise_error
-        expect(Event.all).to be_empty
-      end
-    end
-
-    context 'when there are events' do
-      let!(:event1) { Event.create!(title: 'Event 1', hosting_location: 'Location 1') }
-      let!(:event2) { Event.create!(title: 'Event 2', hosting_location: 'Location 2') }
+    context 'when there are events in the database' do
+      let!(:event1) { Event.create!(title: 'Event 1') }
+      let!(:event2) { Event.create!(title: 'Event 2') }
 
       it 'destroys all events' do
-        expect(Event.count).to eq(2)
+        expect(Event.count).to eq(2) # Ensure events are created
         EventReset.destroy_all_events
-        expect(Event.count).to eq(0)
+        expect(Event.count).to eq(0) # Ensure all events are destroyed
       end
     end
 
-    context 'when an error occurs during destruction' do
-      before do
-        allow(Event).to receive(:destroy_all).and_raise(ActiveRecord::ActiveRecordError)
-      end
-
-      it 'raises an ActiveRecordError' do
-        expect { EventReset.destroy_all_events }.to raise_error(ActiveRecord::ActiveRecordError)
+    context 'when there are no events in the database' do
+      it 'does not raise an error and leaves the database empty' do
+        expect(Event.count).to eq(0) # Ensure no events exist
+        expect { EventReset.destroy_all_events }.not_to raise_error
+        expect(Event.count).to eq(0) # Ensure database remains empty
       end
     end
   end

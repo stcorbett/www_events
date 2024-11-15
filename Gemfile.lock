@@ -279,6 +279,7 @@ GEM
     stringio (3.0.6)
     thor (1.2.2)
     tilt (2.1.0)
+    timecop (0.9.10)
     timeout (0.3.2)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
@@ -325,6 +326,7 @@ DEPENDENCIES
   simplecov
   spring
   sprockets
+  timecop (~> 0.9.10)
   turbolinks
   uglifier
 

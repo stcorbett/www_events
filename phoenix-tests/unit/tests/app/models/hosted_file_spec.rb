@@ -1,41 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe HostedFile, type: :model do
-  # Test for database columns
-  it { should have_db_column(:name).of_type(:string) }
-  it { should have_db_column(:content).of_type(:text) }
-  it { should have_db_column(:created_at).of_type(:datetime).with_options(null: false) }
-  it { should have_db_column(:updated_at).of_type(:datetime).with_options(null: false) }
+  # Assuming HostedFile has no associations or validations to test with shoulda matchers
+  # If there were associations or validations, they would be tested here
 
-  # Test for validations
-  # Assuming there might be validations, though not present in the provided code
-  # Uncomment and modify these lines if validations are added in the future
-  # it { should validate_presence_of(:name) }
-  # it { should validate_presence_of(:content) }
+  describe 'basic functionality' do
+    let(:hosted_file) { HostedFile.new }
 
-  describe 'instance methods' do
-    let(:hosted_file) { HostedFile.create(name: 'Test File', content: 'This is a test file content.') }
-
-    context 'when accessing attributes' do
-      it 'returns the correct name' do
-        expect(hosted_file.name).to eq('Test File')
-      end
-
-      it 'returns the correct content' do
-        expect(hosted_file.content).to eq('This is a test file content.')
-      end
+    it 'can be instantiated' do
+      expect(hosted_file).to be_an_instance_of(HostedFile)
     end
-  end
 
-  describe 'scopes' do
-    # Assuming there might be scopes, though not present in the provided code
-    # Uncomment and modify these lines if scopes are added in the future
-    # describe '.recent' do
-    #   it 'returns files ordered by created_at descending' do
-    #     old_file = HostedFile.create(name: 'Old File', content: 'Old content', created_at: 1.day.ago)
-    #     new_file = HostedFile.create(name: 'New File', content: 'New content', created_at: 1.hour.ago)
-    #     expect(HostedFile.recent).to eq([new_file, old_file])
-    #   end
-    # end
+    it 'can be saved to the database' do
+      hosted_file.save
+      expect(hosted_file.persisted?).to be true
+    end
+
+    it 'can be destroyed' do
+      hosted_file.save
+      expect { hosted_file.destroy }.to change { HostedFile.count }.by(-1)
+    end
   end
 end

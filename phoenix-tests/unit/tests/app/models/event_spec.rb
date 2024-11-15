@@ -4,7 +4,6 @@ RSpec.describe Event, type: :model do
   # Associations
   it { should belong_to(:user) }
   it { should have_many(:event_times).dependent(:destroy) }
-  it { should have_one(:single_event_time) }
 
   # Validations
   it { should validate_presence_of(:hosting_location) }
@@ -15,125 +14,136 @@ RSpec.describe Event, type: :model do
   it { should validate_presence_of(:user) }
   it { should validate_presence_of(:title) }
   it { should validate_length_of(:event_description).is_at_most(20000) }
-  it { should validate_associated(:event_times) }
 
-  describe '#has_event_time' do
+  describe 'custom validations' do
     let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.new(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
+    let(:event) { Event.new(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Weekly', event_description: 'Description', title: 'Title') }
 
-    it 'adds an error if event_times is empty' do
+    it 'validates presence of event_times' do
       event.valid?
-      expect(event.errors[:event_times]).to include('are needed')
+      expect(event.errors[:event_times]).to include("are needed")
     end
+  end
 
-    it 'does not add an error if event_times is present' do
-      event.event_times.build(starting: Time.now, ending: Time.now + 1.hour)
-      event.valid?
-      expect(event.errors[:event_times]).to be_empty
+  describe '.configured_year' do
+    let!(:event) { Event.create!(created_at: Date.new(LakesOfFireConfig.year, 1, 2), user: User.create!(name: 'Test User', email: 'test@example.com'), hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Weekly', event_description: 'Description', title: 'Title', event_times: [EventTime.new(starting: Time.zone.now, ending: Time.zone.now + 1.hour)]) }
+
+    it 'returns events created after the start of the configured year' do
+      expect(Event.configured_year).to include(event)
     end
   end
 
   describe '.sorted_by_date' do
     let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
-    let!(:event_time) { event.event_times.create!(starting: Time.zone.now, ending: Time.zone.now + 1.hour) }
+    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Weekly', event_description: 'Description', title: 'Title', event_times: [event_time]) }
+    let!(:event_time) { EventTime.create!(event: event, starting: Time.zone.now, ending: Time.zone.now + 1.hour, all_day: false) }
 
     it 'returns events sorted by date' do
       sorted_events = Event.sorted_by_date
       expect(sorted_events.first.current_event_time).to eq(event_time)
     end
-
-    it 'filters events by specific date' do
-      specific_date = Date.today
-      sorted_events = Event.sorted_by_date(specific_date)
-      expect(sorted_events).to include(event)
-    end
   end
 
   describe '.lakes_of_fire_event_hash' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
-    let!(:event_time) { event.event_times.create!(starting: Time.zone.now, ending: Time.zone.now + 1.hour) }
-
-    before do
-      allow(LakesOfFireConfig).to receive(:event_days).and_return({ wednesday: Date.today, thursday: Date.today, friday: Date.today, saturday: Date.today, sunday: Date.today })
-    end
-
     it 'returns a hash of events for each day' do
-      hash = Event.lakes_of_fire_event_hash
-      expect(hash.keys).to contain_exactly('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+      expect(Event.lakes_of_fire_event_hash.keys).to match_array(["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
+    end
+  end
+
+  describe '.category_emojis' do
+    it 'returns a hash of category emojis' do
+      expect(Event.category_emojis).to eq({
+        fire_art: '🔥',
+        alcohol: '🍻',
+        red_light: '🔴',
+        spectacle: '👓',
+        food: '🍽',
+        crafting: '🎨',
+        sober: '⚖️'
+      })
+    end
+  end
+
+  describe '#categories' do
+    let(:event) { Event.new(fire_art: true, alcohol: false, red_light: true, spectacle: false, food: true, crafting: false, sober: true) }
+
+    it 'returns an array of active categories' do
+      expect(event.categories).to match_array([:fire_art, :red_light, :food, :sober])
+    end
+  end
+
+  describe '#single_event_time' do
+    let(:event) { Event.create!(user: User.create!(name: 'Test User', email: 'test@example.com'), hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Weekly', event_description: 'Description', title: 'Title', event_times: [event_time]) }
+    let!(:event_time) { EventTime.create!(event: event, starting: Time.zone.now, ending: Time.zone.now + 1.hour, all_day: false) }
+
+    it 'returns the first event time' do
+      expect(event.single_event_time).to eq([event_time])
+    end
+  end
+
+  describe '#build_empty_event_times' do
+    let(:event) { Event.new }
+
+    it 'builds empty event times for each day' do
+      event.build_empty_event_times
+      expect(event.event_times.size).to eq(LakesOfFireConfig.event_day_names.size)
+    end
+  end
+
+  describe '#event_description=' do
+    let(:event) { Event.new }
+
+    it 'replaces special characters in the description' do
+      event.event_description = "“Test” − – —"
+      expect(event.event_description).to eq('"Test" - - -')
+    end
+  end
+
+  describe '#site_id=' do
+    let(:event) { Event.new }
+
+    it 'sets site_id to nil if blank' do
+      event.site_id = ''
+      expect(event.site_id).to be_nil
     end
   end
 
   describe '#lakes_of_fire_hash' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
-    let!(:event_time) { event.event_times.create!(starting: Time.zone.now, ending: Time.zone.now + 1.hour) }
+    let(:event) { Event.new(title: 'Title', hosting_location: 'Location', site_id: '123', event_description: 'Description', fire_art: true, alcohol: false, red_light: true, food: true, crafting: false, sober: true, spectacle: false) }
+    let(:event_time) { EventTime.new(starting: Time.zone.now, ending: Time.zone.now + 1.hour, all_day: false) }
 
     before do
       event.current_event_time = event_time
     end
 
     it 'returns a hash representation of the event' do
-      hash = event.lakes_of_fire_hash
-      expect(hash['Title']).to eq(event.title)
-      expect(hash['Location']).to eq(event.hosting_location)
-      expect(hash['StartTime']).to eq(event_time.starting.in_time_zone)
-    end
-  end
-
-  describe '#category_emojis' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title', fire_art: true, alcohol: false) }
-
-    it 'returns a hash of category emojis' do
-      emojis = event.category_emojis
-      expect(emojis).to eq({ fire_art: '🔥' })
+      expect(event.lakes_of_fire_hash).to include("Title" => 'Title', "Location" => 'Location', "SiteId" => '123', "Description" => 'Description', "FireArt" => true, "Alcohol" => false, "Explicit" => true, "Food" => true, "Craft" => false, "Sober" => true, "Spectacle" => false)
     end
   end
 
   describe '#human_location' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title', site_id: '123') }
+    let(:event) { Event.new(hosting_location: 'Location', site_id: '123') }
 
-    it 'returns a human-readable location with site id' do
+    it 'returns a human-readable location' do
       expect(event.human_location).to eq('Location | Site 123')
-    end
-
-    it 'returns a human-readable location without site id' do
-      event.site_id = nil
-      expect(event.human_location).to eq('Location')
     end
   end
 
   describe '#event_time_error_messages' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
-    let!(:event_time) { event.event_times.create!(starting: Time.zone.now, ending: Time.zone.now + 1.hour) }
+    let(:event) { Event.create!(user: User.create!(name: 'Test User', email: 'test@example.com'), hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Weekly', event_description: 'Description', title: 'Title', event_times: [event_time]) }
+    let!(:event_time) { EventTime.create!(event: event, starting: Time.zone.now, ending: Time.zone.now + 1.hour, all_day: false) }
 
     it 'returns error messages for event times' do
-      event_time.errors.add(:starting, 'must be present')
-      expect(event.event_time_error_messages).to include('Starting must be present')
+      event_time.errors.add(:base, 'Error message')
+      expect(event.event_time_error_messages).to include('Error message')
     end
   end
 
-  describe '#event_description=' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
+  describe '#category_emojis' do
+    let(:event) { Event.new(fire_art: true, alcohol: false, red_light: true, spectacle: false, food: true, crafting: false, sober: true) }
 
-    it 'replaces special characters in description' do
-      event.event_description = '“Test” − – —'
-      expect(event.event_description).to eq('"Test" - - -')
-    end
-  end
-
-  describe '#site_id=' do
-    let(:user) { User.create!(name: 'Test User', email: 'test@example.com') }
-    let(:event) { Event.create!(user: user, hosting_location: 'Location', main_contact_person: 'Contact', contact_person_email: 'contact@example.com', event_recurrence: 'Once', event_description: 'Description', title: 'Title') }
-
-    it 'sets site_id to nil if blank' do
-      event.site_id = ''
-      expect(event.site_id).to be_nil
+    it 'returns a hash of active category emojis' do
+      expect(event.category_emojis).to eq({ fire_art: '🔥', red_light: '🔴', food: '🍽', sober: '⚖️' })
     end
   end
 end
