@@ -40,7 +40,7 @@ group :test do
   gem 'rspec-rails', '~> 7.0.0'
   gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov', require: false
+  gem "timecop", "~> 0.9.10"
 end
 
 
-gem "timecop", "~> 0.9.10"
