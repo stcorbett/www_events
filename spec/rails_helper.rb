@@ -19,6 +19,7 @@ SimpleCov.start do
     SimpleCov::Formatter::JSONFormatter,
     SimpleCov::Formatter::HTMLFormatter
   ]
+  add_filter 'phoenix-tests'
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
