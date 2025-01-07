@@ -11,11 +11,9 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'simplecov'
 require 'simplecov-json'
-require 'simplecov-console'
 SimpleCov.start do
   enable_coverage :branch
   formatter SimpleCov::Formatter::MultiFormatter[
-    SimpleCov::Formatter::Console,
     SimpleCov::Formatter::JSONFormatter,
     SimpleCov::Formatter::HTMLFormatter
   ]
