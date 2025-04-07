@@ -3,7 +3,7 @@ ruby "3.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
-gem 'pg'
+gem 'pg', '~> 1.5.4'
 
 gem "rails_12factor"
 gem "sprockets"
@@ -35,4 +35,7 @@ gem 'spring',        group: :development
 
 group :development, :test do
   gem 'pry'
+  gem 'rspec-rails', '~> 7.1.1'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end

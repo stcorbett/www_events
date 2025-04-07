@@ -23,6 +23,10 @@ development:
 test:
   <<: *default
   database: www_form_test
+  username: postgres
+  password: pass
+  host: "127.0.0.1"
+  port: 5432
 
 production:
   <<: *default
