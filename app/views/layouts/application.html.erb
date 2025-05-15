@@ -71,13 +71,29 @@
         line-height: 1.5;
         border-radius: 3px;
       }
+
+      body {
+        background-color:#e0e0e0;
+        -webkit-font-smoothing: antialiased;
+        font: normal 14px Roboto,arial,sans-serif;
+      }
+
+      .form-control {
+        font: normal 14px Roboto,arial,sans-serif;
+        color: #555;
+      }
+
+      .small, small{
+        font-size: 11.9px;
+      }
+
     </style>
   </head>
   <body>
 
     <%= render partial: "layouts/navigation" %>
 
-    <div class="container" id="main">
+    <div class="container g-3" id="main">
       <%= yield %>
     </div>
   </body>

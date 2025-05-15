@@ -62,3 +62,12 @@ button.navbar-toggle:hover .icon-bar{
 .mt-2{
   margin-top: 5px;
 }
+
+label {
+  font-weight: 700;
+}
+
+.form-check label, .checkbox label {
+  font-weight: 400;
+  cursor: pointer;
+}
