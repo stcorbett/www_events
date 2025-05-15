@@ -1,0 +1,142 @@
+<%# Flash messages handling %>
+<% if notice.present? || alert.present? || flash[:error].present? %>
+  <div class="row">
+    <div class="col-md-12">
+      <% if notice.present? %><div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= notice %></h3></div><% end %>
+      <% if alert.present? %><div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= alert %></h3></div><% end %>
+      <% if flash[:error].present? %><div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= flash[:error] %></h3></div><% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <%# Right Column: Form for New/Edit Department %>
+  <div class="col-sm-5 col-sm-push-7">
+    <div id="form-panel" class="panel panel-default">
+      <div class="panel-body">
+        <h4 id="form-title">New Department</h4>
+        <%= render 'form', department: @form_department %>
+      </div>
+    </div>
+  </div>
+
+  <%# Left Column: List of Departments %>
+  <div class="col-sm-7 col-sm-pull-5">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Departments</h3>
+        <table class="table table-striped" id="departments-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @departments.each do |department| %>
+              <tr id="department_<%= department.id %>">
+                <td><%= department.name %></td>
+                <td>
+                  <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-department-link',
+                      data: { id: department.id, 
+                              name: department.name, 
+                              form_action: admin_department_path(department) } %>
+                  
+                  <%# Placeholder for conditional destroy based on Department model associations %>
+                  <%# Example: if department.events.any? || department.users.any? %>
+                  <% if department.respond_to?(:events) && department.events.any? %> 
+                    <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: department has associated records.">Destroy</span>
+                  <% else %>
+                     <%= link_to 'Destroy', admin_department_path(department), method: :delete, 
+                                data: { confirm: 'Are you sure?' }, 
+                                class: 'btn btn-xs btn-outline-secondary ml-1' %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('department_form');
+  const formTitle = document.getElementById('form-title');
+  const nameField = document.getElementById('department_name');
+  const submitButton = form.querySelector('input[type="submit"]');
+  const newDepartmentAction = "<%= admin_departments_path %>";
+
+  function resetFormToNew() {
+    formTitle.innerText = 'New Department';
+    form.action = newDepartmentAction;
+    const methodField = form.querySelector('input[name="_method"]');
+    if (methodField) methodField.remove();
+    nameField.value = '';
+    submitButton.value = 'Create Department';
+    form.removeAttribute('data-editing-id');
+    document.querySelectorAll('#departments-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+  }
+
+  let cancelButton = document.getElementById('cancel-edit-department');
+  if (!cancelButton) {
+    cancelButton = document.createElement('button');
+    cancelButton.setAttribute('type', 'button');
+    cancelButton.setAttribute('id', 'cancel-edit-department');
+    cancelButton.classList.add('btn', 'btn-default', 'btn-sm', 'ml-2');
+    cancelButton.innerText = 'Cancel Edit / New';
+    if(submitButton && submitButton.parentNode) {
+        submitButton.parentNode.insertBefore(cancelButton, submitButton.nextSibling);
+    }
+  }
+  cancelButton.addEventListener('click', resetFormToNew);
+
+  document.querySelectorAll('.edit-department-link').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      const departmentData = this.dataset;
+      formTitle.innerText = 'Edit Department: ' + departmentData.name;
+      form.action = departmentData.formAction; // Corrected from form_action
+      let methodField = form.querySelector('input[name="_method"]');
+      if (!methodField) {
+        methodField = document.createElement('input');
+        methodField.type = 'hidden';
+        methodField.name = '_method';
+        form.appendChild(methodField);
+      }
+      methodField.value = 'patch';
+      nameField.value = departmentData.name || '';
+      submitButton.value = 'Update Department';
+      form.setAttribute('data-editing-id', departmentData.id);
+      document.querySelectorAll('#departments-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+      this.closest('tr').classList.add('table-info');
+      form.scrollIntoView({ behavior: 'smooth' });
+      nameField.focus();
+    });
+  });
+  
+  const hasErrors = form.querySelector('.field_with_errors') || form.querySelector('.alert-danger');
+  const isNewRecordFormContext = <%= @form_department.new_record?.to_s %>;
+
+  if (!hasErrors && isNewRecordFormContext && !form.hasAttribute('data-editing-id')) {
+    resetFormToNew(); 
+  } else if (hasErrors && isNewRecordFormContext) {
+    formTitle.innerText = 'New Department'; 
+    submitButton.value = 'Create Department';
+  } else if (hasErrors && !isNewRecordFormContext) {
+    formTitle.innerText = 'Edit Department: ' + (nameField.value || 'Error in data'); 
+    submitButton.value = 'Update Department';
+  } else if (!hasErrors && !isNewRecordFormContext && form.hasAttribute('data-editing-id')){
+     if (<%= !@form_department.new_record?.to_s %> && form.getAttribute('data-editing-id') === "<%= @form_department.id.to_s %>") {
+        formTitle.innerText = 'Edit Department: ' + nameField.value;
+        submitButton.value = 'Update Department';
+     } else {
+        resetFormToNew();
+     }
+  } else {
+    resetFormToNew();
+  }
+});
+</script> 
