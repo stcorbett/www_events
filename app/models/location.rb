@@ -11,7 +11,8 @@ class Location
   end
 
   def self.all_locations
-    Event.configured_year.order(:hosting_location).uniq.pluck(:hosting_location)
+    []
+    # Event.configured_year.order(:hosting_location).uniq.pluck(:hosting_location)
   end
 
   def initialize(hosting_location, site_id)

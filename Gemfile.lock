@@ -131,6 +131,7 @@ GEM
     json (2.10.2)
     jwt (2.10.1)
       base64
+    language_server-protocol (3.17.0.4)
     libv8-node (16.10.0.0)
     libv8-node (16.10.0.0-x86_64-darwin)
     libv8-node (16.10.0.0-x86_64-linux)
@@ -152,6 +153,7 @@ GEM
     minitest (5.18.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
+    mutex_m (0.3.0)
     net-http (0.6.0)
       uri
     net-imap (0.3.4)
@@ -166,10 +168,6 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.15.0)
       mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
-    nokogiri (1.15.0-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.0-x86_64-linux)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -196,10 +194,12 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     pg (1.5.9)
+    prism (1.4.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.1.0)
+    psych (5.2.4)
+      date
       stringio
     puma (6.2.2)
       nio4r (~> 2.0)
@@ -242,8 +242,8 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
-    rdoc (6.5.0)
-      psych (>= 4.0.0)
+    rbs (3.9.2)
+      logger
     rspec-core (3.13.3)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.3)
@@ -261,6 +261,13 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.2)
+    ruby-lsp (0.23.17)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 1.2, < 2.0)
+      rbs (>= 3, < 4)
+      sorbet-runtime (>= 0.5.10782)
+    ruby-lsp-rails (0.4.2)
+      ruby-lsp (>= 0.23.16, < 0.24.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -271,11 +278,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.6.1)
-      rdoc (>= 5.0)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    sorbet-runtime (0.5.12070)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -284,7 +290,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stringio (3.0.6)
+    stringio (3.1.7)
     thor (1.2.2)
     tilt (2.1.0)
     timeout (0.3.2)
@@ -319,6 +325,7 @@ DEPENDENCIES
   jquery-timepicker-rails
   jquery-ui-rails
   libv8-node (= 16.10.0.0)
+  mutex_m
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
@@ -326,20 +333,21 @@ DEPENDENCIES
   pg (~> 1.5.4)
   pg_jbuilder!
   pry
-  psych
+  psych (~> 5.2.3)
   puma
   rails
   rails_12factor
   rspec-rails (~> 7.1.1)
+  ruby-lsp
+  ruby-lsp-rails
   sass-rails
-  sdoc
   spring
   sprockets
   turbolinks
   uglifier
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.4.3p32
 
 BUNDLED WITH
    2.4.13

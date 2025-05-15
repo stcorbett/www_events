@@ -100,7 +100,7 @@ private
 
   # create/update
   def event_params
-    permitted = params.require(:event).permit(:hosting_location, :main_contact_person, :contact_person_email,
+    permitted = params.require(:event).permit(:main_contact_person, :contact_person_email,
                                               :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
                                               :spectacle, :food, :sober, :crafting)
 

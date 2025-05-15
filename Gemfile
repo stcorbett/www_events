@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.2.2"
+ruby "3.4.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
@@ -23,17 +23,19 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jbuilder'
-gem 'sdoc',                                              group: :doc
 
 gem 'puma'
 
 gem 'pg_jbuilder',                                       git: 'https://github.com/stcorbett/pg_jbuilder'
-gem 'psych'
+gem 'psych', '~> 5.2.3'
 gem 'libv8-node', '16.10.0.0'
 
 gem 'spring',        group: :development
+gem "ruby-lsp", require: false, group: :development
+gem "ruby-lsp-rails", require: false, group: :development
 
 group :development, :test do
+  gem 'mutex_m'
   gem 'pry'
   gem 'rspec-rails', '~> 7.1.1'
   gem 'factory_bot_rails'

@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_08_185819) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_09_015937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "camps", force: :cascade do |t|
+    t.string "name"
+    t.bigint "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_camps_on_location_id"
+  end
+
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.bigint "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_departments_on_location_id"
+  end
 
   create_table "event_times", force: :cascade do |t|
     t.integer "event_id"
@@ -25,7 +41,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_185819) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.string "hosting_location"
     t.string "main_contact_person"
     t.string "contact_person_email"
     t.string "event_recurrence"
@@ -43,11 +58,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_185819) do
     t.boolean "crafting"
     t.boolean "food"
     t.boolean "sober"
+    t.integer "location_id"
+    t.string "who"
+    t.string "where"
   end
 
   create_table "hosted_files", force: :cascade do |t|
     t.string "name"
     t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.string "camp_site_identifier"
+    t.bigint "neighborhood_id"
+    t.float "lat"
+    t.float "lng"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["neighborhood_id"], name: "index_locations_on_neighborhood_id"
+  end
+
+  create_table "neighborhoods", force: :cascade do |t|
+    t.string "name"
+    t.integer "centerpoint_location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

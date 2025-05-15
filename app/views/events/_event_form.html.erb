@@ -68,12 +68,70 @@
 
 <label for="event_hosting_location">Where:</label>
 <div class="form-group" >
-  <%= f.text_field :hosting_location, class: "form-control", placeholder: "Name of Hosting location" %>
+  <p class="help-block">Where would someone go if they wanted to participate in this event?</p>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :where, "camp" %>
+      Our camp
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :where, "location" %>
+      A location around the lake
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :where, "multiple_locations" %>
+      At non-specific locations
+    </label>
+  </div>
+</div>
 
-  <div id="event-form-autocomplete"></div>
+<div class="form-group" >
+  <%= f.text_field :where_camp, class: "form-control", placeholder: "Name of Camp" %>
+</div>
 
+<div class="form-group" >
+  <%= f.text_field :where_location, class: "form-control", placeholder: "Name of Location" %>
+  <p class="help-block">Eg: an Art Installation, the Nexus, the Effigy, etc.</p>
+</div>
 
-  <p class="help-block">Theme Camp, Event, or Art Installation</p>
+<div class="form-group" >
+  <%= f.text_field :where_imprecise, class: "form-control", placeholder: "Name of non-specific Location" %>
+  <p class="help-block">Eg: in the water, from A to B, where the music is Bumping!</p>
+</div>
+
+<label for="event_event_recurrence">Who:</label>
+<div class="form-group" >
+  <p class="help-block">Who is orchestrating this event?</p>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :who, "camp" %>
+      My camp
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :who, "just_me" %>
+      Just me
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      <%= f.radio_button :who, "lakes_of_fire" %>
+      A group or department within Lakes of Fire
+    </label>
+  </div>
+</div>
+
+<div class="form-group" >
+  <%= f.text_field :who_camp, class: "form-control", placeholder: "Name of Camp" %>
+</div>
+<div class="form-group" >
+  <%= f.text_field :who_department, class: "form-control", placeholder: "Name of Lakes of Fire Department or Group" %>
+  <p class="help-block">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
 </div>
 
 <label for="event_main_contact_person">Contact Person: <small style="color: #999;">(contact info won't be published)</small></label>

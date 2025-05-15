@@ -7,9 +7,9 @@ class Event < ActiveRecord::Base
 
   validates_associated :event_times
 
-  attr_accessor :current_event_time
+  attr_accessor :current_event_time, :where_camp, :where_location, :where_imprecise, :who_camp, :who_department
 
-  validates :hosting_location, :main_contact_person, :contact_person_email,
+  validates :main_contact_person, :contact_person_email,
             :event_recurrence, :event_description, :user, :title,
             presence: true
 
@@ -102,7 +102,7 @@ class Event < ActiveRecord::Base
   def lakes_of_fire_hash
     {
       "Title" => title,
-      "Location" => hosting_location,
+      "Location" => "hosting_location",
       "SiteId" => site_id,
       "StartTime" => current_event_time.starting.in_time_zone,
       "EndTime" => current_event_time.ending.in_time_zone,
@@ -124,9 +124,9 @@ class Event < ActiveRecord::Base
 
   def human_location
     if site_id.present?
-      "#{hosting_location} | Site #{site_id}"
+      "#{"hosting_location"} | Site #{site_id}"
     else
-      "#{hosting_location}"
+      "#{"hosting_location"}"
     end
   end
 
