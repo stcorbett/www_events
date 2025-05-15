@@ -40,13 +40,18 @@
 
       .admin-nav-item > a {
         font-weight: bold;
-        /* color: #007bff; Example color, adjust as needed */
+        /* color: #007bff; /* This might be overridden by dropdown item styles, adjust if needed */
       }
 
-      .admin-nav-header {
-        padding: 15px 15px; /* Match navbar item padding */
-        color: #777; /* Example: a muted color */
-        font-weight: normal;
+      /* Style for the Admin dropdown toggle itself */
+      .admin-dropdown-toggle {
+        font-weight: bold !important; /* Ensure boldness */
+        color: #777 !important; /* Muted gray color, !important to override Bootstrap defaults */
+      }
+      /* Ensure dropdown items under admin also get their specific styling if needed */
+      .dropdown-menu .admin-nav-item > a {
+         font-weight: bold; /* Reinforce bold for items in dropdown */
+         /* If you want a specific color for admin items in dropdown, add it here */
       }
 
     </style>
