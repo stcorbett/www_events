@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-7">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <h4>Lakes of Fire <%= t(:year) %> What Where When!</h4>
         <p>This guide is a volunteer project organized by the Info_bot team. Submit your events below to be included in the printed WhatWhereWhen guide that will be handed out at the gate at Lakes of Fire! They will also be included in any mobile or web-apps about Lakes of Fire events. We reserve the right to make changes for clarity.</p>
         <p>Please use the <a href="/events.xml">XML feed</a> of this event guide for good! Contact Info_bot at info-bot@lakesoffire.org with any questions or software bugs.</p>
@@ -11,8 +11,8 @@
   </div>
 
   <div class="col-sm-5">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <h4><%= t(:event_name).upcase %> Event Requirements</h4>
         <p>Like <%= link_to "Lakes of Fire", "http://lakesoffire.org/the-event/", target: "blank" %> itself, events in the What Where When guide must</p>
         <ul>
@@ -27,36 +27,38 @@
 
 <%= render partial: "event_form_header" %>
 
-<div class="row">
+<div class="row mt-3">
 
   <div class="col-md-6 col-sm-6">
-    <div class="well">
+    <div class="card card-well-style">
+      <div class="card-body">
 
-      <% if t(:download_map_url).include?("http") %>
-        <h3>
-          The <%= "Lakes of Fire #{t(:year)} #{t(:event_name).upcase}" %> Map is ready!
-          <%= link_to "Download", t(:download_map_url).html_safe, target: "_blank" %> a copy!
-        </h3>
-      <% end %>
-
-      <% if @event %>
-        <% if !submissions_are_open && current_user.admin %>
-          <span class="text-success">
-            event submissions are closed, but, <b>as an admin</b>, you are still able to add and edit events!
-          </span>
+        <% if t(:download_map_url).include?("http") %>
+          <h3>
+            The <%= "Lakes of Fire #{t(:year)} #{t(:event_name).upcase}" %> Map is ready!
+            <%= link_to "Download", t(:download_map_url).html_safe, target: "_blank" %> a copy!
+          </h3>
         <% end %>
 
-        <%= form_for @event, class: "form-inline" do |f| %>
-          <h4>Add an Event</h4>
-          <p>Please use discretion in describing your event and do not reference specific sexual acts or illegal activities. Lakes of Fire is a part of the larger community in which we do our thing and we will not publish events in the WWW that could negatively impact our relationship with the larger community, and in turn our future events.</p>
+        <% if @event %>
+          <% if !submissions_are_open && current_user.admin %>
+            <span class="text-success">
+              event submissions are closed, but, <b>as an admin</b>, you are still able to add and edit events!
+            </span>
+          <% end %>
 
-          <%= render 'event_form', f: f %>
+          <%= form_for @event do |f| %>
+            <h4>Add an Event</h4>
+            <p>Please use discretion in describing your event and do not reference specific sexual acts or illegal activities. Lakes of Fire is a part of the larger community in which we do our thing and we will not publish events in the WWW that could negatively impact our relationship with the larger community, and in turn our future events.</p>
 
-          <%= submit_tag "Add", :class=>"btn btn-success" %>
+            <%= render 'event_form', f: f %>
+
+            <%= submit_tag "Add", :class=>"btn btn-success" %>
+          <% end %>
+        <% else %>
+          Event submissions are closed!
         <% end %>
-      <% else %>
-        Event submissions are closed!
-      <% end %>
+      </div>
     </div>
   </div>
 

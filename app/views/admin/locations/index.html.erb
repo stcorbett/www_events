@@ -6,9 +6,9 @@
 <% if notice.present? || alert.present? || flash[:error].present? %>
   <div class="row">
     <div class="col-md-12">
-      <% if notice.present? %><div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= notice %></h3></div><% end %>
-      <% if alert.present? %><div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= alert %></h3></div><% end %>
-      <% if flash[:error].present? %><div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= flash[:error] %></h3></div><% end %>
+      <% if notice.present? %><div class="alert alert-info alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Notice:</strong> <%= notice %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
+      <% if alert.present? %><div class="alert alert-danger alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Alert:</strong> <%= alert %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
+      <% if flash[:error].present? %><div class="alert alert-danger alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Error:</strong> <%= flash[:error] %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
     </div>
   </div>
 <% end %>
@@ -16,8 +16,8 @@
 <div class="row">
   <%# Right Column: Form for New/Edit Location %>
   <div class="col-sm-5 col-sm-push-7">
-    <div id="form-panel" class="panel panel-default">
-      <div class="panel-body">
+    <div id="form-panel" class="card">
+      <div class="card-body">
         <h4 id="form-title">New Location</h4> <%# Title will be changed by JS when editing %>
         <%= render 'form', location: @form_location %>
       </div>
@@ -26,8 +26,8 @@
 
   <%# Left Column: List of Locations %>
   <div class="col-sm-7 col-sm-pull-5">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <h3>Locations</h3>
         <table class="table table-striped">
           <thead>
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cancelButton = document.createElement('button');
     cancelButton.setAttribute('type', 'button');
     cancelButton.setAttribute('id', 'cancel-edit-location');
-    cancelButton.classList.add('btn', 'btn-default', 'btn-sm', 'ml-2');
+    cancelButton.classList.add('btn', 'btn-light', 'btn-sm', 'ml-2');
     cancelButton.innerText = 'Cancel';
     if(submitButton && submitButton.parentNode) {
         submitButton.parentNode.insertBefore(cancelButton, submitButton.nextSibling);

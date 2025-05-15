@@ -77,6 +77,11 @@ h3,h4,h5 {
  border-bottom-width:1px;
  padding-bottom:10px;
 }
+
+h4 {
+  font-size: 18px;
+}
+
 .modal-dialog {
  width: 450px;
 }
@@ -206,3 +211,17 @@ ul.ui-autocomplete li:not(:last-child){
 }
 
 .ui-helper-hidden-accessible { display:none; }
+
+/* Custom style for card to mimic Bootstrap 3 well */
+.card-well-style {
+  background-color: #f5f5f5;
+  border: 1px solid #d2d2d2; /* From your theme's .well style */
+  border-radius: 3px;       /* From your theme's .well style */
+  box-shadow: 0 1px 0 #cfcfcf; /* From your theme's .well style */
+}
+
+/* Bootstrap 5 cards have padding on .card-body by default.
+   If you need to adjust it to more closely match B3's well padding (which was 19px): */
+.card-well-style .card-body {
+  /* padding: 19px; */ /* Uncomment and adjust if needed */
+}

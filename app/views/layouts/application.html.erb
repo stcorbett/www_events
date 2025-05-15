@@ -29,7 +29,7 @@
 
       <% unless I18n.t(:title_color).include?("translation missing") %>
         a.navbar-brand{
-          color: <%= I18n.t(:title_color) %>;
+          color: <%= I18n.t(:title_color) %> !important;
         }
       <% end %>
 
@@ -54,6 +54,23 @@
          /* If you want a specific color for admin items in dropdown, add it here */
       }
 
+      .bg-light {
+        background-color: #fff !important;
+      }
+
+      .btn-default {
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+      }
+
+      .btn-xs, .btn-group-xs>.btn {
+      
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+      }
     </style>
   </head>
   <body>

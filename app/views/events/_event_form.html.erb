@@ -3,185 +3,199 @@
 <%= render partial: 'word_length' %>
 
 <label for="event_title">What:</label>
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :title, class: "form-control", placeholder: "Title of the event" %>
-  <p class="help-block">What the event will go by in the WWW guide</p>
+  <p class="form-text">What the event will go by in the WWW guide</p>
 </div>
 
-<div class="form-group" >
+<div class="mb-3" >
   <div style="color: #737373; margin-bottom: 3px;">
     <span id="discription-length"></span>
     <span id="discription-comment"></span>
   </div>
   <%= f.text_area :event_description, class: "form-control", placeholder: "Description", rows: "5" %>
-  <p class="help-block">Brief description of the event, workshop, or performance</p>
+  <p class="form-text">Brief description of the event, workshop, or performance</p>
 </div>
 
-<div class="form-group" >
+<div class="mb-3" >
   <div class="row">
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="Offering drinks that aren't sober at all.">
-        <%= f.check_box :alcohol %>
-        Alcohol Served <a href="#_">?</a> (21+)
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :alcohol, class: "form-check-input", id: "event_alcohol" %>
+        <label class="form-check-label" for="event_alcohol" data-bs-toggle="tooltip" title="Offering drinks that aren't sober at all.">
+          Alcohol Served <a href="#_">?</a> (21+)
+        </label>
+      </div>
     </div>
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="Dream, build, create, contribute, and maybe take some art.">
-        <%= f.check_box :crafting %>
-        Crafting <a href="#_">?</a>
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :crafting, class: "form-check-input", id: "event_crafting" %>
+        <label class="form-check-label" for="event_crafting" data-bs-toggle="tooltip" title="Dream, build, create, contribute, and maybe take some art.">
+          Crafting <a href="#_">?</a>
+        </label>
+      </div>
     </div>
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="Nudity, sexuality, and similarly sinful adult themes.">
-        <%= f.check_box :red_light %>
-        Explicit <a href="#_">?</a> (18+)
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :red_light, class: "form-check-input", id: "event_red_light" %>
+        <label class="form-check-label" for="event_red_light" data-bs-toggle="tooltip" title="Nudity, sexuality, and similarly sinful adult themes.">
+          Explicit <a href="#_">?</a> (18+)
+        </label>
+      </div>
     </div>
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="Poofers, flow performance, and fire!  FIRE!">
-        <%= f.check_box :fire_art %>
-        Fire Art Performances <a href="#_">?</a>
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :fire_art, class: "form-check-input", id: "event_fire_art" %>
+        <label class="form-check-label" for="event_fire_art" data-bs-toggle="tooltip" title="Poofers, flow performance, and fire!  FIRE!">
+          Fire Art Performances <a href="#_">?</a>
+        </label>
+      </div>
     </div>
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="Offering food, whether snacks or meals, sober or otherwise.">
-        <%= f.check_box :food %>
-        Food <a href="#_">?</a>
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :food, class: "form-check-input", id: "event_food" %>
+        <label class="form-check-label" for="event_food" data-bs-toggle="tooltip" title="Offering food, whether snacks or meals, sober or otherwise.">
+          Food <a href="#_">?</a>
+        </label>
+      </div>
     </div>
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="Offering food or drinks for those who want to be 100% sober.">
-        <%= f.check_box :sober %>
-        Sober <a href="#_">?</a>
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :sober, class: "form-check-input", id: "event_sober" %>
+        <label class="form-check-label" for="event_sober" data-bs-toggle="tooltip" title="Offering food or drinks for those who want to be 100% sober.">
+          Sober <a href="#_">?</a>
+        </label>
+      </div>
     </div>
-    <div class="col-xs-6 mt-2">
-      <label data-toggle="tooltip" title="See a show (and in some cases be a performer).">
-        <%= f.check_box :spectacle %>
-        Spectacle <a href="#_">?</a>
-      </label>
+    <div class="col-6 mt-2">
+      <div class="form-check">
+        <%= f.check_box :spectacle, class: "form-check-input", id: "event_spectacle" %>
+        <label class="form-check-label" for="event_spectacle" data-bs-toggle="tooltip" title="See a show (and in some cases be a performer).">
+          Spectacle <a href="#_">?</a>
+        </label>
+      </div>
     </div>
   </div>
 
-  <p class="help-block">Are any of the above happening at your event?</p>
+  <p class="form-text">Are any of the above happening at your event?</p>
 </div>
 
 <label for="event_hosting_location">Where:</label>
-<div class="form-group" >
-  <p class="help-block">Where would someone go if they wanted to participate in this event?</p>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :where, "camp" %>
+<div class="mb-3" >
+  <p class="form-text">Where would someone go if they wanted to participate in this event?</p>
+  <div class="form-check">
+    <%= f.radio_button :where, "camp", class: "form-check-input", id: "event_where_camp" %>
+    <label class="form-check-label" for="event_where_camp">
       Our camp
     </label>
   </div>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :where, "location" %>
+  <div class="form-check">
+    <%= f.radio_button :where, "location", class: "form-check-input", id: "event_where_location_val" %>
+    <label class="form-check-label" for="event_where_location_val">
       A location around the lake
     </label>
   </div>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :where, "multiple_locations" %>
+  <div class="form-check">
+    <%= f.radio_button :where, "multiple_locations", class: "form-check-input", id: "event_where_multiple_locations" %>
+    <label class="form-check-label" for="event_where_multiple_locations">
       At non-specific locations
     </label>
   </div>
 </div>
 
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :where_camp, class: "form-control", placeholder: "Name of Camp" %>
 </div>
 
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :where_location, class: "form-control", placeholder: "Name of Location" %>
-  <p class="help-block">Eg: an Art Installation, the Nexus, the Effigy, etc.</p>
+  <p class="form-text">Eg: an Art Installation, the Nexus, the Effigy, etc.</p>
 </div>
 
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :where_imprecise, class: "form-control", placeholder: "Name of non-specific Location" %>
-  <p class="help-block">Eg: in the water, from A to B, where the music is Bumping!</p>
+  <p class="form-text">Eg: in the water, from A to B, where the music is Bumping!</p>
 </div>
 
 <label for="event_event_recurrence">Who:</label>
-<div class="form-group" >
-  <p class="help-block">Who is orchestrating this event?</p>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :who, "camp" %>
+<div class="mb-3" >
+  <p class="form-text">Who is orchestrating this event?</p>
+  <div class="form-check">
+    <%= f.radio_button :who, "camp", class: "form-check-input", id: "event_who_camp_val" %>
+    <label class="form-check-label" for="event_who_camp_val">
       My camp
     </label>
   </div>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :who, "just_me" %>
+  <div class="form-check">
+    <%= f.radio_button :who, "just_me", class: "form-check-input", id: "event_who_just_me" %>
+    <label class="form-check-label" for="event_who_just_me">
       Just me
     </label>
   </div>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :who, "lakes_of_fire" %>
+  <div class="form-check">
+    <%= f.radio_button :who, "lakes_of_fire", class: "form-check-input", id: "event_who_lakes_of_fire" %>
+    <label class="form-check-label" for="event_who_lakes_of_fire">
       A group or department within Lakes of Fire
     </label>
   </div>
 </div>
 
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :who_camp, class: "form-control", placeholder: "Name of Camp" %>
 </div>
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :who_department, class: "form-control", placeholder: "Name of Lakes of Fire Department or Group" %>
-  <p class="help-block">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
+  <p class="form-text">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
 </div>
 
 <label for="event_main_contact_person">Contact Person: <small style="color: #999;">(contact info won't be published)</small></label>
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :main_contact_person, class: "form-control", placeholder: "Name of Main Contact Person" %>
 </div>
-<div class="form-group" >
+<div class="mb-3" >
   <%= f.text_field :contact_person_email, class: "form-control", placeholder: "Email" %>
-  <p class="help-block">Email</p>
+  <p class="form-text">Email</p>
 </div>
 
 <label for="event_event_recurrence">When:</label>
-<div class="form-group" >
-  <p class="help-block">Does this event happen on multiple occasions or dates? or happen only once?</p>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :event_recurrence, "single" %>
+<div class="mb-3" >
+  <p class="form-text">Does this event happen on multiple occasions or dates? or happen only once?</p>
+  <div class="form-check">
+    <%= f.radio_button :event_recurrence, "single", class: "form-check-input", id: "event_event_recurrence_single_val" %>
+    <label class="form-check-label" for="event_event_recurrence_single_val">
       This event happens once
     </label>
   </div>
-  <div class="radio">
-    <label>
-      <%= f.radio_button :event_recurrence, "multiple" %>
+  <div class="form-check">
+    <%= f.radio_button :event_recurrence, "multiple", class: "form-check-input", id: "event_event_recurrence_multiple_val" %>
+    <label class="form-check-label" for="event_event_recurrence_multiple_val">
       This event happens multiple times
     </label>
   </div>
 </div>
 
-<div id="single_occurrance_event" class="form-group event_time_inputs" style="display:none;">
+<div id="single_occurrance_event" class="mb-3 event_time_inputs" style="display:none;">
   <%= f.fields_for :single_event_time do |event_time_form| %>
     <div class="row">
-      <div class="col-xs-4">
+      <div class="col-4">
         <%= event_time_form.select  :day_of_week,
                                     days_of_week_select_options,
                                     {:selected => event_time_form.object.day_of_week},
                                     {:class => "form-control day_of_week_input"} %>
       </div>
       <!-- render these nicely so jquery can pick them up -->
-      <div class="col-xs-4">
+      <div class="col-4">
         <%= event_time_form.text_field  :starting,
                                         class: "form-control time start",
                                         placeholder: "Starting time",
                                         date_pair_value: event_time_form.object.start_time %>
 
-        <label style="margin-top: 4px;">
-          <input type="checkbox" class="all_day_event" value="value">
-          All Day
-        </label>
+        <div class="form-check mt-1">
+          <input type="checkbox" class="all_day_event form-check-input" value="value" id="single_all_day_event">
+          <label class="form-check-label" for="single_all_day_event">All Day</label>
+        </div>
       </div>
-      <div class="col-xs-4">
+      <div class="col-4">
         <%= event_time_form.text_field  :ending,
                                         class: "form-control time end",
                                           placeholder: "Ending time",
@@ -195,26 +209,26 @@
 
   <%= f.fields_for :event_times, @event.event_times.sort_by(&:day_of_event_index) do |event_time_form| %>
     <% event_time = event_time_form.object %>
-    <div class="row event_time_inputs form-group">
-      <div class="col-xs-4">
+    <div class="row event_time_inputs mb-3">
+      <div class="col-4">
         <label for="event_<%= event_time.day_of_week.downcase %>_start_time">
           <%= lakes_of_fire_date(event_time.day_of_week).strftime("%A - %-m/%-d") %>
           <%= event_time_form.hidden_field :day_of_week, class: "day_of_week_input" %>
         </label>
       </div>
-      <div class="col-xs-4">
+      <div class="col-4">
         <%= event_time_form.text_field  :starting,
                                         class: "form-control time start #{event_time_form.object.day_of_week.downcase}",
                                         placeholder: "Starting time",
                                         date_pair_value: event_time_form.object.start_time %>
 
-        <label style="margin-top: 4px;">
-          <input type="checkbox" class="all_day_event" value="value">
-          All Day
-        </label>
+        <div class="form-check mt-1">
+          <input type="checkbox" class="all_day_event form-check-input" value="value" id="multiple_all_day_event_<%= event_time_form.index %>">
+          <label class="form-check-label" for="multiple_all_day_event_<%= event_time_form.index %>">All Day</label>
+        </div>
 
       </div>
-      <div class="col-xs-4">
+      <div class="col-4">
         <%= event_time_form.hidden_field :end_time %>
         <%= event_time_form.text_field  :ending,
                                         class: "form-control time end #{event_time_form.object.day_of_week.downcase}",
