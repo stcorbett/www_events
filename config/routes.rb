@@ -6,11 +6,11 @@ Rails.application.routes.draw do
   get "/events/checksum" => "events#md5"
 
   resources :events
-  resources :locations
+  resources :derived_locations
   resources :hosted_files
   get "/files/:name", to: "files#show", as: "files"
 
-  put 'locations', to: 'locations#update'
+  put 'locations', to: 'derived_locations#update'
   get "/print", to: "print#show"
   get "/privacy", to: "privacy#show"
 

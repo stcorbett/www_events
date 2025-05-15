@@ -1,12 +1,12 @@
-class Location
+class DerivedLocation
 
   attr_reader :hosting_location, :site_id
 
   def self.all
-    location_names = Event.configured_year.order("hosting_location ASC").pluck(:hosting_location, :site_id).uniq
+    location_names = Event.configured_year.order("site_id ASC").pluck(:site_id).uniq
 
     location_names.collect do |name, site_id|
-      Location.new(name, site_id)
+      DerivedLocation.new(name, site_id)
     end
   end
 
@@ -34,14 +34,15 @@ class Location
   end
 
   def events
-    @events ||= Event.configured_year.where(hosting_location: hosting_location, site_id: site_id).order("title ASC")
+    @events ||= Event.configured_year.where(site_id: site_id).order("title ASC")
   end
 
   def human_location
-    events.first.human_location
+    # events.first.human_location
+    "human_location"
   end
 
   def hex_tag
-    Digest::SHA1.hexdigest hosting_location
+    Digest::SHA1.hexdigest "hosting_location"
   end
 end

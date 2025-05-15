@@ -1,7 +1,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("#event_hosting_location").autocomplete({
-      source: <%= Location.all_locations.to_json.html_safe %>,
+      source: <%= DerivedLocation.all_locations.to_json.html_safe %>,
       minLength: 2,
       appendTo: "#event-form-autocomplete",
       messages: {

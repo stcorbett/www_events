@@ -1,12 +1,12 @@
-class LocationsController < ApplicationController
+class DerivedLocationsController < ApplicationController
   before_action :require_admin, only: :update
 
   def index
-    @locations = Location.all
+    @locations = DerivedLocation.all
   end
 
   def update
-    @location = Location.new(*location_params)
+    @location = DerivedLocation.new(*location_params)
     @location.update_event_attributes(event_params)
 
     redirect_to locations_path(updated_location: @location.hex_tag), notice: "Location Updated"
