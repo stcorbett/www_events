@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
 
   belongs_to :user
-  belongs_to :location
+  belongs_to :location, optional: true
   belongs_to :camp, optional: true
   belongs_to :department, optional: true
   has_many :event_times, dependent: :destroy
