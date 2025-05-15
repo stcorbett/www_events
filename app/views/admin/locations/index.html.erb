@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const locationData = this.dataset;
       
       formTitle.innerText = 'Edit Location: ' + locationData.name;
-      form.action = locationData.form_action;
+      form.action = locationData.formAction;
       
       let methodField = form.querySelector('input[name="_method"]');
       if (!methodField) {

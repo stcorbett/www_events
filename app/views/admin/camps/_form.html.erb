@@ -1,0 +1,22 @@
+<%= form_with(model: [:admin, camp], id: 'camp_form', local: true) do |form| %>
+  <% if camp.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h5><%= pluralize(camp.errors.count, "error") %> prohibited this camp from being saved:</h5>
+      <ul>
+        <% camp.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: 'camp_name', class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+    <%# Cancel button will be added by JS in index.html.erb %>
+  </div>
+<% end %> 

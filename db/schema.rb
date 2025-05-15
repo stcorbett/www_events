@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_15_210328) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_15_213350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_210328) do
     t.integer "location_id"
     t.string "who"
     t.string "where"
+    t.bigint "camp_id"
+    t.index ["camp_id"], name: "index_events_on_camp_id"
   end
 
   create_table "hosted_files", force: :cascade do |t|
@@ -103,4 +105,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_210328) do
     t.text "hearts"
   end
 
+  add_foreign_key "events", "camps"
 end
