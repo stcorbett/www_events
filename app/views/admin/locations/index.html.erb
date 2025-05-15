@@ -1,7 +1,3 @@
-<h1>Admin: Locations</h1>
-
-<%= link_to 'New Location', new_admin_location_path %>
-
 <%# Flash messages handling %>
 <% if notice.present? || alert.present? || flash[:error].present? %>
   <div class="row">
@@ -16,6 +12,8 @@
 <div class="row">
   <%# Right Column: Form for New/Edit Location %>
   <div class="col-sm-5 col-sm-push-7">
+    <h3 class='border-bottom-0'>Locations</h3>
+
     <div id="form-panel" class="card">
       <div class="card-body">
         <h4 id="form-title">New Location</h4> <%# Title will be changed by JS when editing %>
@@ -26,9 +24,10 @@
 
   <%# Left Column: List of Locations %>
   <div class="col-sm-7 col-sm-pull-5">
+    <h3 class='border-bottom-0'>&nbsp;</h3>
+
     <div class="card">
       <div class="card-body">
-        <h3>Locations</h3>
         <table class="table table-striped">
           <thead>
             <tr>

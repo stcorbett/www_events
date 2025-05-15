@@ -63,6 +63,10 @@ button.navbar-toggle:hover .icon-bar{
   margin-top: 5px;
 }
 
+.ml-2{
+  margin-left: 5px;
+}
+
 label {
   font-weight: 700;
 }
