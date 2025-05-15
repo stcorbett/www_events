@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get "/events" => "events#index"
   get "/events/checksum" => "events#md5"
 
+  namespace :admin do
+    resources :locations
+  end
+
   resources :events
   resources :derived_locations
   resources :hosted_files

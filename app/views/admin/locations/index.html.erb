@@ -1,0 +1,180 @@
+<h1>Admin: Locations</h1>
+
+<%= link_to 'New Location', new_admin_location_path %>
+
+<%# Flash messages handling %>
+<% if notice.present? || alert.present? || flash[:error].present? %>
+  <div class="row">
+    <div class="col-md-12">
+      <% if notice.present? %><div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= notice %></h3></div><% end %>
+      <% if alert.present? %><div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= alert %></h3></div><% end %>
+      <% if flash[:error].present? %><div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h3 style="border: 0;"><%= flash[:error] %></h3></div><% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <%# Right Column: Form for New/Edit Location %>
+  <div class="col-sm-5 col-sm-push-7">
+    <div id="form-panel" class="panel panel-default">
+      <div class="panel-body">
+        <h4 id="form-title">New Location</h4> <%# Title will be changed by JS when editing %>
+        <%= render 'form', location: @form_location %>
+      </div>
+    </div>
+  </div>
+
+  <%# Left Column: List of Locations %>
+  <div class="col-sm-7 col-sm-pull-5">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Locations</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Precision</th>
+              <th>Camp Site ID</th>
+              <th>Lat</th>
+              <th>Lng</th>
+              <th>Actions</th> <%# Re-added Actions column %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @locations.each do |location| %>
+              <tr id="location_<%= location.id %>">
+                <td><%= location.name %></td>
+                <td><%= location.precision %></td>
+                <td><%= location.camp_site_identifier %></td>
+                <td><%= location.lat %></td>
+                <td><%= location.lng %></td>
+                <td>
+                  <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-location-link',
+                      data: { id: location.id, 
+                              name: location.name, 
+                              precision: location.precision,
+                              camp_site_identifier: location.camp_site_identifier,
+                              lat: location.lat,
+                              lng: location.lng,
+                              form_action: admin_location_path(location) } %>
+                  
+                  <% if location.events.empty? %>
+                    <%= link_to 'Destroy', admin_location_path(location), method: :delete, 
+                                data: { confirm: 'Are you sure?' }, 
+                                class: 'btn btn-xs btn-outline-secondary ml-1' %>
+                  <% else %>
+                    <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: location has associated events. Please remove events first.">Destroy</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('location_form');
+  const formTitle = document.getElementById('form-title');
+  const nameField = document.getElementById('location_name');
+  const precisionField = document.getElementById('location_precision');
+  const campSiteIdentifierField = document.getElementById('location_camp_site_identifier');
+  const latField = document.getElementById('location_lat');
+  const lngField = document.getElementById('location_lng');
+  const submitButton = form.querySelector('input[type="submit"]');
+  const newLocationAction = "<%= admin_locations_path %>"; // For creating new locations
+
+  function resetFormToNew() {
+    formTitle.innerText = 'New Location';
+    form.action = newLocationAction;
+    const methodField = form.querySelector('input[name="_method"]');
+    if (methodField) methodField.remove();
+
+    nameField.value = '';
+    precisionField.value = ''; 
+    campSiteIdentifierField.value = '';
+    latField.value = '';
+    lngField.value = '';
+    submitButton.value = 'Create Location';
+    form.removeAttribute('data-editing-id');
+    // Ensure any active row highlighting is removed
+    document.querySelectorAll('#locations-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+  }
+
+  let cancelButton = document.getElementById('cancel-edit-location');
+  if (!cancelButton) {
+    cancelButton = document.createElement('button');
+    cancelButton.setAttribute('type', 'button');
+    cancelButton.setAttribute('id', 'cancel-edit-location');
+    cancelButton.classList.add('btn', 'btn-default', 'btn-sm', 'ml-2');
+    cancelButton.innerText = 'Cancel Edit / New'; // Updated text for clarity
+    if(submitButton && submitButton.parentNode) {
+        submitButton.parentNode.insertBefore(cancelButton, submitButton.nextSibling);
+    }
+  }
+  cancelButton.addEventListener('click', resetFormToNew);
+
+  // Re-activate and ensure this JS for edit links is correct
+  document.querySelectorAll('.edit-location-link').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      const locationData = this.dataset;
+      
+      formTitle.innerText = 'Edit Location: ' + locationData.name;
+      form.action = locationData.form_action;
+      
+      let methodField = form.querySelector('input[name="_method"]');
+      if (!methodField) {
+        methodField = document.createElement('input');
+        methodField.type = 'hidden';
+        methodField.name = '_method';
+        form.appendChild(methodField);
+      }
+      methodField.value = 'patch';
+      
+      nameField.value = locationData.name || '';
+      precisionField.value = locationData.precision || '';
+      campSiteIdentifierField.value = locationData.campSiteIdentifier || '';
+      latField.value = locationData.lat || '';
+      lngField.value = locationData.lng || '';
+      submitButton.value = 'Update Location';
+      form.setAttribute('data-editing-id', locationData.id);
+      
+      // Highlight the row being edited and remove from others
+      document.querySelectorAll('#locations-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+      this.closest('tr').classList.add('table-info');
+
+      form.scrollIntoView({ behavior: 'smooth' });
+      nameField.focus();
+    });
+  });
+  
+  const hasErrors = form.querySelector('.field_with_errors') || form.querySelector('.alert-danger');
+  const isNewRecordFormContext = <%= @form_location.new_record?.to_s %>;
+
+  if (!hasErrors && isNewRecordFormContext && !form.hasAttribute('data-editing-id')) {
+    resetFormToNew(); 
+  } else if (hasErrors && isNewRecordFormContext) {
+    formTitle.innerText = 'New Location'; 
+    submitButton.value = 'Create Location';
+  } else if (hasErrors && !isNewRecordFormContext) {
+    formTitle.innerText = 'Edit Location: ' + (nameField.value || 'Error in data'); 
+    submitButton.value = 'Update Location';
+  } else if (!hasErrors && !isNewRecordFormContext && form.hasAttribute('data-editing-id')){
+    // This case handles if an edit was in progress and page reloaded without error (e.g. browser refresh)
+    // It might be better to reset to new, or try to repopulate, but for now, let it be.
+    // Or ensure data is repopulated if @form_location is an existing record.
+     if (<%= !@form_location.new_record?.to_s %> && form.getAttribute('data-editing-id') === "<%= @form_location.id.to_s %>") {
+        formTitle.innerText = 'Edit Location: ' + nameField.value;
+        submitButton.value = 'Update Location';
+     } else {
+        resetFormToNew(); // Default to new if something is inconsistent
+     }
+  } else {
+    resetFormToNew(); // Default to new for any other unhandled state
+  }
+});
+</script> 

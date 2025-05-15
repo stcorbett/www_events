@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_09_015937) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_15_210328) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,7 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_09_015937) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
-    t.string "type"
+    t.string "precision"
     t.string "camp_site_identifier"
     t.bigint "neighborhood_id"
     t.float "lat"
