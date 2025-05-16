@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
 
   validates_associated :event_times
 
-  attr_accessor :current_event_time, :where_camp, :where_location, :where_imprecise, :who_camp, :who_department
+  attr_accessor :current_event_time, :where_camp, :where_camp_id, :where_location, :where_imprecise, :who_camp, :who_department
 
   validates :main_contact_person, :contact_person_email,
             :event_recurrence, :event_description, :user, :title,
@@ -102,6 +102,35 @@ class Event < ActiveRecord::Base
     write_attribute(:site_id, string)
   end
 
+  def where_object
+    return camp if camp.present?
+    return location if location.present?
+  end
+
+  def where
+    return 'camp' if camp.present?
+    return 'location' if location.present? && location.precision == 'specific'
+    return 'multiple_locations' if location.present? && location.precision == 'broad'
+  end
+
+  def where_camp
+    return camp.name if camp.present?
+  end
+
+  def where_camp_id
+    return camp.id if camp.present?
+  end
+
+  def where_camp_id=(id_string)
+    id_string = nil if id_string.to_i == 0
+    write_attribute(:camp_id, id_string)
+  end
+
+  def where_camp=(camp_name)
+    return if camp_id.present?
+    self.build_camp(name: camp_name)
+  end
+
   def lakes_of_fire_hash
     {
       "Title" => title,
@@ -126,10 +155,21 @@ class Event < ActiveRecord::Base
   end
 
   def human_location
-    if site_id.present?
-      "#{"hosting_location"} | Site #{site_id}"
+    return 'unknown' unless where_object.present?
+
+    where_object_name = case where_object
+    when Camp
+      "#{where_object.name} (camp)"
+    when Location
+      "#{where_object.name}"
     else
-      "#{"hosting_location"}"
+      ''
+    end
+
+    if site_id.present?
+      "#{where_object_name} | Site #{site_id}"
+    else
+      where_object_name
     end
   end
 

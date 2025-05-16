@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   skip_before_action :require_login, only: :index
+  before_action :load_camps_for_autocomplete, only: [:new, :create]
 
   def index
     respond_to do |format|
@@ -65,6 +66,10 @@ class EventsController < ApplicationController
 
 private
 
+  def load_camps_for_autocomplete
+    @camps_for_autocomplete = Camp.order(:name).map { |c| { id: c.id, name: c.name } }
+  end
+
   # new
   def new_event_attributes
     attributes = {}
@@ -102,7 +107,7 @@ private
   def event_params
     permitted = params.require(:event).permit(:main_contact_person, :contact_person_email,
                                               :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
-                                              :spectacle, :food, :sober, :crafting)
+                                              :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp)
 
     if params[:event][:event_recurrence] == "single"
       permitted["event_times"] = single_event_time

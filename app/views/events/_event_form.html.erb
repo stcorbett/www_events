@@ -103,9 +103,15 @@
   </div>
 </div>
 
-<div id="where_camp_event" class="mb-3" style="display:none;">
-  <div class="mb-3" >
-    <%= f.text_field :where_camp, class: "form-control", placeholder: "Name of Camp" %>
+<div id="where_camp_event" class="mb-3" style="">
+  <div class="mb-3 position-relative">
+    <%= f.label :where_camp, "Camp Name" %>
+    <%= f.text_field :where_camp, id: "event_where_camp_input", class: "form-control", placeholder: "Type to search or enter new camp", autocomplete: "off" %>
+    <%= f.hidden_field :where_camp_id, id: "event_where_camp_id_input" %>
+    <div id="where_camp_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
+      <%# Autocomplete suggestions will be populated here by JavaScript %>
+    </div>
+    <p class="form-text">Select an existing camp or type a new camp name. If new, it will be created.</p>
   </div>
 </div>
 
@@ -338,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const whereImpreciseDiv = document.getElementById('where_imprecise_event');
 
   // Get references to the input fields
-  const whereCampInput = document.getElementById('event_where_camp');
+  const whereCampInput = document.getElementById('event_where_camp_input');
   const whereLocationInput = document.getElementById('event_where_location');
   const whereImpreciseInput = document.getElementById('event_where_imprecise');
 
@@ -383,6 +389,68 @@ document.addEventListener('DOMContentLoaded', function() {
     whereMultipleLocationsRadio.addEventListener('change', toggleWhereSections);
     
     toggleWhereSections(); // Initial check
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const whereCampTextInput = document.getElementById('event_where_camp_input');
+  const whereCampIdHiddenInput = document.getElementById('event_where_camp_id_input');
+  const autocompleteDropdown = document.getElementById('where_camp_autocomplete_list');
+
+  let campsData = <%= @camps_for_autocomplete.to_json.html_safe %>;
+
+  if (whereCampTextInput && whereCampIdHiddenInput && autocompleteDropdown) {
+
+    whereCampTextInput.addEventListener('input', function(e) {
+      const inputValue = e.target.value.toLowerCase();
+      console.log(inputValue)
+      autocompleteDropdown.innerHTML = ''; 
+      whereCampIdHiddenInput.value = ''; 
+
+      if (inputValue.length === 0) {
+        autocompleteDropdown.style.display = 'none';
+        return;
+      }
+
+      const filteredCamps = campsData.filter(camp =>
+        camp.name.toLowerCase().includes(inputValue)
+      );
+
+      if (filteredCamps.length > 0) {
+        filteredCamps.forEach(camp => {
+          const item = document.createElement('a');
+          item.classList.add('list-group-item', 'list-group-item-action');
+          item.href = "#";
+          item.textContent = camp.name;
+          item.setAttribute('data-camp-id', camp.id);
+          item.addEventListener('click', function(event) {
+            event.preventDefault();
+            whereCampTextInput.value = camp.name;
+            whereCampIdHiddenInput.value = camp.id;
+            autocompleteDropdown.innerHTML = '';
+            autocompleteDropdown.style.display = 'none';
+          });
+          autocompleteDropdown.appendChild(item);
+        });
+        autocompleteDropdown.style.display = 'block';
+      } else {
+        autocompleteDropdown.style.display = 'none';
+      }
+    });
+
+    whereCampTextInput.addEventListener('blur', function(e) {
+      // Small delay to allow click event on dropdown to fire first
+      setTimeout(() => {
+        if (!autocompleteDropdown.matches(':hover')) { // Check if mouse is not over the dropdown
+            autocompleteDropdown.style.display = 'none';
+        }
+      }, 150);
+    });
+
+    // Optional: handle Enter key to select first item if any, or Tab to auto-select if one match
+    // This part can be complex and is omitted for brevity but can be added if needed.
   }
 });
 </script>
