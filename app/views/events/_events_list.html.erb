@@ -42,7 +42,7 @@
 
           <%= link_to event do %>
             <%= event.title %> -
-            <%= "event.hosting_location" %> -
+            <%= event.human_location %> -
 
             <%= event.current_event_time.starting.strftime("%l:%M %p") %>
             <% if event.categories.any? %>
