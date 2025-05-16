@@ -104,7 +104,6 @@
 
 <div id="where_camp_event" class="mb-3" style="">
   <div class="mb-3 position-relative">
-    <%= f.label :where_camp, "Camp Name" %>
     <%= f.text_field :where_camp, id: "event_where_camp_input", class: "form-control", placeholder: "Type to search or enter new camp", autocomplete: "off" %>
     <%= f.hidden_field :where_camp_id, id: "event_where_camp_id_input" %>
     <div id="where_camp_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
@@ -116,7 +115,6 @@
 
 <div id="where_location_event" class="mb-3" style="display:none;">
   <div class="mb-3 position-relative">
-    <%= f.label :where_location, "Location Name" %>
     <%= f.text_field :where_location, id: "event_where_location_input", class: "form-control", placeholder: "Type to search or enter new location", autocomplete: "off" %>
     <%= f.hidden_field :where_location_id, id: "event_where_location_id_input" %>
     <div id="where_location_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
@@ -409,7 +407,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     whereCampTextInput.addEventListener('input', function(e) {
       const inputValue = e.target.value.toLowerCase();
-      console.log(inputValue)
       autocompleteDropdown.innerHTML = ''; 
       whereCampIdHiddenInput.value = ''; 
 
