@@ -6,33 +6,33 @@
     <div class="well">
 
       <label>What:</label>
-      <div class="form-group" >
+      <div class="mb-3" >
         <%= @event.title %>
       </div>
 
       <label>Where:</label>
-      <div class="form-group" >
+      <div class="mb-3" >
         <%= @event.human_location %>
       </div>
 
       <label>Who:</label>
-      <div class="form-group" >
+      <div class="mb-3" >
         <%= @event.human_who %>
       </div>
 
       <% if user_owns_event(@event, current_user) || current_user.admin %>
         <label>Contact Person:</label>
         <small class="text-muted">(only visible to WWW team and event contact person)</small>
-        <div class="form-group" >
+        <div class="mb-3" >
           <%= @event.main_contact_person %>
         </div>
-        <div class="form-group" >
+        <div class="mb-3" >
           <%= @event.contact_person_email %>
         </div>
       <% end %>
 
       <label>When:</label>
-      <div class="form-group">
+      <div class="mb-3">
         <% @event.event_times.each do |time| %>
           <span class="<%= (current_user.heart_for?(time)) ? "hearted" : "not-hearted" %>">
             <a href="#_" class="heart-click" event-time-id="<%= time.id %>">
@@ -48,11 +48,11 @@
       </div>
 
       <label>Details:</label>
-      <div class="form-group" >
+      <div class="mb-3" >
         <%= @event.event_description %>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <% [@event.heart_count, 99].min.times do %>
           <span class="heart">&hearts;</span>
         <% end %>
@@ -62,7 +62,7 @@
         <% end %>
       </div>
 
-      <div class="form-group" >
+      <div class="mb-3" >
         <% @event.category_emojis.each do |category, emoji| %>
           <div class="category">
             <span class="mr-1"><%= emoji %></span>
@@ -72,7 +72,7 @@
       </div>
 
       <% if event_is_editable?(@event, current_user) %>
-        <div class="form-group" >
+        <div class="mb-3" >
           <%= link_to "Edit", edit_event_path(@event), :class => "btn btn-success" %>
           <%= link_to 'Cancel', :back, style: "color: #999; margin-left: 10px;" %>
         </div>

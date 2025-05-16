@@ -28,12 +28,12 @@
           </p>
 
           <%= form_for :location, method: :put, html: {id: "edit-location", style: "display: none;"} do |f| %>
-            <div class="form-group">
+            <div class="mb-3">
               <%= f.label :hosting_location, "Camp Name" %></br>
               <%= f.text_field :hosting_location, class: "form-control" %>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
               <%= f.label :site_id, "Site ID" %></br>
               <%= f.text_field :site_id, class: "form-control" %>
             </div>
@@ -41,7 +41,7 @@
             <%= f.hidden_field :original_site_id %>
             <%= f.hidden_field :original_hosting_location %>
 
-            <div class="form-group">
+            <div class="mb-3">
               <%= f.submit "Update Location", class: "btn btn-default" %>
             </div>
           <% end %>
