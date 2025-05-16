@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   skip_before_action :require_login, only: :index
-  before_action :load_camps_for_autocomplete, only: [:new, :create]
+  before_action :load_camps_for_autocomplete, only: [:new, :create, :edit, :update]
   before_action :load_locations_for_autocomplete, only: [:new, :create]
 
   def index
@@ -114,7 +114,8 @@ private
     permitted = params.require(:event).permit(:main_contact_person, :contact_person_email,
                                               :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
                                               :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp,
-                                              :where_location_id, :where_location, :where_imprecise_id, :where_imprecise)
+                                              :where_location_id, :where_location, :where_imprecise_id, :where_imprecise,
+                                              :hosting_camp_id, :who_camp)
 
     if params[:event][:event_recurrence] == "single"
       permitted["event_times"] = single_event_time

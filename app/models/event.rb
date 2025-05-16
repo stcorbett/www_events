@@ -186,6 +186,35 @@ class Event < ActiveRecord::Base
     self.build_location(name: location_name, precision: 'broad')
   end
 
+  def who
+    return 'camp' if hosting_camp.present?
+    return 'lakes_of_fire' if department.present?
+    'just_me'
+  end
+
+  def who_camp
+    return hosting_camp.name if hosting_camp.present?
+  end
+
+  def who_camp_id
+    return hosting_camp.id if hosting_camp.present?
+  end
+  
+  def who_camp_id=(id_string)
+    if id_string.to_i == 0
+      write_attribute(:hosting_camp_id, nil)
+    else
+      write_attribute(:hosting_camp_id, id_string.to_i)
+    end
+  end
+
+  def who_camp=(hosting_camp_name)
+    return if hosting_camp_id.present?
+    return if hosting_camp_name.blank?
+    
+    self.build_hosting_camp(name: hosting_camp_name)
+  end
+  
   def lakes_of_fire_hash
     {
       "Title" => title,
