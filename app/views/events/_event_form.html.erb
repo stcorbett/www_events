@@ -103,26 +103,32 @@
   </div>
 </div>
 
-<div class="mb-3" >
-  <%= f.text_field :where_camp, class: "form-control", placeholder: "Name of Camp" %>
+<div id="where_camp_event" class="mb-3" style="display:none;">
+  <div class="mb-3" >
+    <%= f.text_field :where_camp, class: "form-control", placeholder: "Name of Camp" %>
+  </div>
 </div>
 
-<div class="mb-3" >
-  <%= f.text_field :where_location, class: "form-control", placeholder: "Name of Location" %>
-  <p class="form-text">Eg: an Art Installation, the Nexus, the Effigy, etc.</p>
+<div id="where_location_event" class="mb-3" style="display:none;">
+  <div class="mb-3" >
+    <%= f.text_field :where_location, class: "form-control", placeholder: "Name of Location" %>
+    <p class="form-text">Eg: an Art Installation, the Nexus, the Effigy, etc.</p>
+  </div>
 </div>
 
-<div class="mb-3" >
-  <%= f.text_field :where_imprecise, class: "form-control", placeholder: "Name of non-specific Location" %>
-  <p class="form-text">Eg: in the water, from A to B, where the music is Bumping!</p>
+<div id="where_imprecise_event" class="mb-3" style="display:none;">
+  <div class="mb-3" >
+    <%= f.text_field :where_imprecise, class: "form-control", placeholder: "Name of non-specific Location" %>
+    <p class="form-text">Eg: in the water, from A to B, where the music is Bumping!</p>
+  </div>
 </div>
 
 <label for="event_event_recurrence">Who:</label>
 <div class="mb-3" >
   <p class="form-text">Who is orchestrating this event?</p>
   <div class="form-check">
-    <%= f.radio_button :who, "camp", class: "form-check-input", id: "event_who_camp_val" %>
-    <label class="form-check-label" for="event_who_camp_val">
+    <%= f.radio_button :who, "camp", class: "form-check-input", id: "event_who_camp" %>
+    <label class="form-check-label" for="event_who_camp">
       My camp
     </label>
   </div>
@@ -140,12 +146,17 @@
   </div>
 </div>
 
-<div class="mb-3" >
-  <%= f.text_field :who_camp, class: "form-control", placeholder: "Name of Camp" %>
+<div id="who_camp_event" class="mb-3" style="display:none;">
+  <div class="mb-3" >
+    <%= f.text_field :who_camp, class: "form-control", placeholder: "Name of Camp" %>
+  </div>
 </div>
-<div class="mb-3" >
-  <%= f.text_field :who_department, class: "form-control", placeholder: "Name of Lakes of Fire Department or Group" %>
-  <p class="form-text">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
+
+<div id="who_lakes_of_fire_event" class="mb-3" style="display:none;">
+  <div class="mb-3" >
+    <%= f.text_field :who_department, class: "form-control", placeholder: "Name of Lakes of Fire Department or Group" %>
+    <p class="form-text">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
+  </div>
 </div>
 
 <label for="event_main_contact_person">Contact Person: <small style="color: #999;">(contact info won't be published)</small></label>
