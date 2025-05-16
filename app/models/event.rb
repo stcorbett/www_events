@@ -246,8 +246,18 @@ class Event < ActiveRecord::Base
   def lakes_of_fire_hash
     {
       "Title" => title,
-      "Location" => "hosting_location",
+      "WhereType" => where,
+      "WhereName" => where_object&.name,
       "SiteId" => site_id,
+      "WhoType" => who,
+      "WhoName" => case who
+                   when 'camp'
+                     hosting_camp&.name
+                   when 'lakes_of_fire'
+                     department&.name
+                   else
+                     main_contact_person
+                   end,
       "StartTime" => current_event_time.starting.in_time_zone,
       "EndTime" => current_event_time.ending.in_time_zone,
       "Time" => current_event_time.starting.in_time_zone.strftime("%l:%M %p"),
@@ -262,6 +272,7 @@ class Event < ActiveRecord::Base
       "Sober" => !!sober,
       "Spectacle" => !!spectacle,
       "HumanLocation" => human_location,
+      "HumanWho" => human_who,
       "HumanTime" => current_event_time.human_time
     }
   end
