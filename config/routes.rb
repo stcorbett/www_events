@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   put 'locations', to: 'derived_locations#update'
   get "/print", to: "print#show"
   get "/privacy", to: "privacy#show"
+  get "/apis", to: "apis#index", as: "apis"
 
   get 'heart', to: 'hearts#create'
   get 'unheart', to: 'hearts#destroy'
