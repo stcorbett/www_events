@@ -1,4 +1,3 @@
-<%= render partial: 'location_autocomplete' %>
 <%= render partial: 'time_picker' %>
 <%= render partial: 'word_length' %>
 
@@ -116,9 +115,14 @@
 </div>
 
 <div id="where_location_event" class="mb-3" style="display:none;">
-  <div class="mb-3" >
-    <%= f.text_field :where_location, class: "form-control", placeholder: "Name of Location" %>
-    <p class="form-text">Eg: an Art Installation, the Nexus, the Effigy, etc.</p>
+  <div class="mb-3 position-relative">
+    <%= f.label :where_location, "Location Name" %>
+    <%= f.text_field :where_location, id: "event_where_location_input", class: "form-control", placeholder: "Type to search or enter new location", autocomplete: "off" %>
+    <%= f.hidden_field :where_location_id, id: "event_where_location_id_input" %>
+    <div id="where_location_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
+      <%# Autocomplete suggestions will be populated here by JavaScript %>
+    </div>
+    <p class="form-text">Select an existing location or type a new location name. If new, it will be created.</p>
   </div>
 </div>
 
@@ -345,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Get references to the input fields
   const whereCampInput = document.getElementById('event_where_camp_input');
-  const whereLocationInput = document.getElementById('event_where_location');
+  const whereLocationInput = document.getElementById('event_where_location_input');
   const whereImpreciseInput = document.getElementById('event_where_imprecise');
 
   function toggleWhereSections() {
@@ -451,6 +455,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Optional: handle Enter key to select first item if any, or Tab to auto-select if one match
     // This part can be complex and is omitted for brevity but can be added if needed.
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const whereLocationTextInput = document.getElementById('event_where_location_input');
+  const whereLocationIdHiddenInput = document.getElementById('event_where_location_id_input');
+  const autocompleteDropdown = document.getElementById('where_location_autocomplete_list');
+
+  let locationsData = <%= @locations_for_autocomplete.to_json.html_safe %>;
+
+  if (whereLocationTextInput && whereLocationIdHiddenInput && autocompleteDropdown) {
+
+    whereLocationTextInput.addEventListener('input', function(e) {
+      const inputValue = e.target.value.toLowerCase();
+      autocompleteDropdown.innerHTML = ''; 
+      whereLocationIdHiddenInput.value = ''; 
+
+      if (inputValue.length === 0) {
+        autocompleteDropdown.style.display = 'none';
+        return;
+      }
+
+      const filteredLocations = locationsData.filter(location =>
+        location.name.toLowerCase().includes(inputValue)
+      );
+
+      if (filteredLocations.length > 0) {
+        filteredLocations.forEach(location => {
+          const item = document.createElement('a');
+          item.classList.add('list-group-item', 'list-group-item-action');
+          item.href = "#";
+          item.textContent = location.name;
+          item.setAttribute('data-location-id', location.id);
+          item.addEventListener('click', function(event) {
+            event.preventDefault();
+            whereLocationTextInput.value = location.name;
+            whereLocationIdHiddenInput.value = location.id;
+            autocompleteDropdown.innerHTML = '';
+            autocompleteDropdown.style.display = 'none';
+          });
+          autocompleteDropdown.appendChild(item);
+        });
+        autocompleteDropdown.style.display = 'block';
+      } else {
+        autocompleteDropdown.style.display = 'none';
+      }
+    });
+
+    whereLocationTextInput.addEventListener('blur', function(e) {
+      // Small delay to allow click event on dropdown to fire first
+      setTimeout(() => {
+        if (!autocompleteDropdown.matches(':hover')) { // Check if mouse is not over the dropdown
+            autocompleteDropdown.style.display = 'none';
+        }
+      }, 150);
+    });
   }
 });
 </script>

@@ -4,6 +4,8 @@ class Location < ActiveRecord::Base
 
   PRECISION_VALUES = ["specific", "broad"].freeze
 
+  validates :name, uniqueness: true, presence: true
+
   validates :precision, inclusion: { in: PRECISION_VALUES, message: "%{value} is not a valid precision value" }
   validates :precision, presence: true
   

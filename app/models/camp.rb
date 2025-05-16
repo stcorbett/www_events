@@ -2,7 +2,7 @@ class Camp < ActiveRecord::Base
   belongs_to :location, optional: true
   has_many :events
 
-  validates :name, presence: true
+  validates :name, uniqueness: true, presence: true
 
   before_destroy :check_for_events
 

@@ -122,13 +122,41 @@ class Event < ActiveRecord::Base
   end
 
   def where_camp_id=(id_string)
-    id_string = nil if id_string.to_i == 0
-    write_attribute(:camp_id, id_string)
+    if id_string.to_i == 0
+      write_attribute(:camp_id, nil)
+    else
+      write_attribute(:camp_id, id_string.to_i)
+    end
   end
 
   def where_camp=(camp_name)
     return if camp_id.present?
+    return if camp_name.blank?
+
     self.build_camp(name: camp_name)
+  end
+  
+  def where_location
+    return location.name if location.present?
+  end
+  
+  def where_location_id
+    return location.id if location.present?
+  end
+  
+  def where_location_id=(id_string)
+    if id_string.to_i == 0
+      write_attribute(:location_id, nil)
+    else
+      write_attribute(:location_id, id_string.to_i)
+    end
+  end
+  
+  def where_location=(location_name)
+    return if location_id.present?
+    return if location_name.blank?
+
+    self.build_location(name: location_name, precision: 'specific')
   end
 
   def lakes_of_fire_hash
