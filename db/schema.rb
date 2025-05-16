@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_15_214144) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_16_200022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,8 +63,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_214144) do
     t.string "where"
     t.bigint "camp_id"
     t.bigint "department_id"
+    t.integer "hosting_camp_id"
     t.index ["camp_id"], name: "index_events_on_camp_id"
     t.index ["department_id"], name: "index_events_on_department_id"
+    t.index ["hosting_camp_id"], name: "index_events_on_hosting_camp_id"
   end
 
   create_table "hosted_files", force: :cascade do |t|

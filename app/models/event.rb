@@ -1,9 +1,10 @@
 class Event < ActiveRecord::Base
 
   belongs_to :user
-  belongs_to :location, optional: true
   belongs_to :camp, optional: true
+  belongs_to :location, optional: true
   belongs_to :department, optional: true
+  belongs_to :hosting_camp, class_name: 'Camp', optional: true
   has_many :event_times, dependent: :destroy
   has_one :single_event_time
   accepts_nested_attributes_for :event_times, :single_event_time
