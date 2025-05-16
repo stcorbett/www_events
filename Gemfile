@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby "3.4.3"
 
+# Required for Ruby 3.4+ compatibility
+gem 'mutex_m'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
 gem 'pg', '~> 1.5.4'
@@ -35,7 +38,6 @@ gem "ruby-lsp", require: false, group: :development
 gem "ruby-lsp-rails", require: false, group: :development
 
 group :development, :test do
-  gem 'mutex_m'
   gem 'pry'
   gem 'rspec-rails', '~> 7.1.1'
   gem 'factory_bot_rails'
