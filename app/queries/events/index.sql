@@ -5,7 +5,31 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
       events.title,
       events.event_description,
       events.site_id,
-      events.hosting_location,
+      CASE
+        WHEN events.camp_id IS NOT NULL THEN 'camp'
+        WHEN events.location_id IS NOT NULL THEN
+          CASE
+            WHEN locations.precision = 'specific' THEN 'location'
+            WHEN locations.precision = 'broad' THEN 'multiple_locations'
+            ELSE NULL
+          END
+        ELSE NULL
+      END AS where_type,
+      CASE
+        WHEN events.camp_id IS NOT NULL THEN camps.name
+        WHEN events.location_id IS NOT NULL THEN locations.name
+        ELSE NULL
+      END AS where_name,
+      CASE
+        WHEN events.hosting_camp_id IS NOT NULL THEN 'camp'
+        WHEN events.department_id IS NOT NULL THEN 'lakes_of_fire'
+        ELSE 'just_me'
+      END AS who_type,
+      CASE
+        WHEN events.hosting_camp_id IS NOT NULL THEN hosting_camps.name
+        WHEN events.department_id IS NOT NULL THEN departments.name
+        ELSE events.main_contact_person
+      END AS who_name,
       events.event_recurrence,
       events.heart_count,
       events.alcohol,
@@ -25,6 +49,10 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
         WHERE event_times.event_id = events.id
       )array_row) AS event_times
       FROM events
+      LEFT JOIN camps ON events.camp_id = camps.id
+      LEFT JOIN locations ON events.location_id = locations.id
+      LEFT JOIN camps hosting_camps ON events.hosting_camp_id = hosting_camps.id
+      LEFT JOIN departments ON events.department_id = departments.id
       WHERE
         EXISTS (
           SELECT 1
