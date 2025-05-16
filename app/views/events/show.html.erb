@@ -14,6 +14,12 @@
       <div class="form-group" >
         <%= @event.human_location %>
       </div>
+
+      <label>Who:</label>
+      <div class="form-group" >
+        <%= @event.human_who %>
+      </div>
+
       <% if user_owns_event(@event, current_user) || current_user.admin %>
         <label>Contact Person:</label>
         <small class="text-muted">(only visible to WWW team and event contact person)</small>

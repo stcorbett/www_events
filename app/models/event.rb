@@ -186,6 +186,11 @@ class Event < ActiveRecord::Base
     self.build_location(name: location_name, precision: 'broad')
   end
 
+  def who_object
+    return hosting_camp if hosting_camp.present?
+    return department if department.present?
+  end
+
   def who
     return 'camp' if hosting_camp.present?
     return 'lakes_of_fire' if department.present?
@@ -254,6 +259,19 @@ class Event < ActiveRecord::Base
       "#{where_object_name} | Site #{site_id}"
     else
       where_object_name
+    end
+  end
+
+  def human_who
+    return main_contact_person unless who_object.present?
+
+    case who_object
+    when Camp
+      "#{who_object.name} (camp)"
+    when Department
+      "#{who_object.name} (department)"
+    else
+      ''
     end
   end
 
