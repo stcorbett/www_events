@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   resources :events
   resources :derived_locations
   resources :hosted_files
+  resources :locations, only: [:index]
+  resources :camps, only: [:index]
+  resources :departments, only: [:index]
   get "/files/:name", to: "files#show", as: "files"
 
   put 'locations', to: 'derived_locations#update'
