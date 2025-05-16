@@ -10,34 +10,34 @@
     </div>
   <% end %>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :name %>
     <%= form.text_field :name, id: 'location_name', class: 'form-control' %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :precision %>
     <%= form.select :precision, Location::PRECISION_VALUES, { include_blank: 'Select a precision' }, { id: 'location_precision', class: 'form-control' } %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :camp_site_identifier, "Camp Site ID" %>
     <%= form.text_field :camp_site_identifier, id: 'location_camp_site_identifier', class: 'form-control' %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :lat, "Latitude" %>
     <%= form.number_field :lat, id: 'location_lat', class: 'form-control', step: :any %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :lng, "Longitude" %>
     <%= form.number_field :lng, id: 'location_lng', class: 'form-control', step: :any %>
   </div>
 
   <%# Add other fields for your Location model attributes here, ensuring they have unique IDs if targeted by JS %>
   <%# Example: %>
-  <%# <div class="form-group"> %>
+  <%# <div class="mb-3"> %>
   <%#   <%= form.label :some_other_attribute %>
   <%#   <%= form.text_field :some_other_attribute, id: 'location_some_other_attribute', class: 'form-control' %>
   <%# </div> %>
