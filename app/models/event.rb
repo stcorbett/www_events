@@ -158,6 +158,32 @@ class Event < ActiveRecord::Base
 
     self.build_location(name: location_name, precision: 'specific')
   end
+  
+  def where_imprecise
+    return location.name if location.present? && location.precision == 'broad'
+  end
+  
+  def where_imprecise_id
+    return location.id if location.present? && location.precision == 'broad'
+  end
+  
+  def where_imprecise_id=(id_string)
+    if id_string.to_i == 0
+      # Only clear if we have a broad precision location
+      if location && location.precision == 'broad'
+        write_attribute(:location_id, nil)
+      end
+    else
+      write_attribute(:location_id, id_string.to_i)
+    end
+  end
+  
+  def where_imprecise=(location_name)
+    return if location.present?
+    return if location_name.blank?
+    
+    self.build_location(name: location_name, precision: 'broad')
+  end
 
   def lakes_of_fire_hash
     {

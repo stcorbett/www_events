@@ -73,6 +73,7 @@ private
 
   def load_locations_for_autocomplete
     @locations_for_autocomplete = Location.where(precision: 'specific').order(:name).map { |l| { id: l.id, name: l.name } }
+    @imprecise_locations_for_autocomplete = Location.where(precision: 'broad').order(:name).map { |l| { id: l.id, name: l.name } }
   end
 
   # new
@@ -113,7 +114,7 @@ private
     permitted = params.require(:event).permit(:main_contact_person, :contact_person_email,
                                               :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
                                               :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp,
-                                              :where_location_id, :where_location)
+                                              :where_location_id, :where_location, :where_imprecise_id, :where_imprecise)
 
     if params[:event][:event_recurrence] == "single"
       permitted["event_times"] = single_event_time
