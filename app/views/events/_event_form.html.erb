@@ -84,8 +84,8 @@
 <div class="mb-3" >
   <p class="form-text">Where would someone go if they wanted to participate in this event?</p>
   <div class="form-check">
-    <%= f.radio_button :where, "camp", class: "form-check-input", id: "event_where_camp" %>
-    <label class="form-check-label" for="event_where_camp">
+    <%= f.radio_button :where, "camp", class: "form-check-input", id: "event_where_radio_camp" %>
+    <label class="form-check-label" for="event_where_radio_camp">
       Our camp
     </label>
   </div>
@@ -127,8 +127,8 @@
 <div class="mb-3" >
   <p class="form-text">Who is orchestrating this event?</p>
   <div class="form-check">
-    <%= f.radio_button :who, "camp", class: "form-check-input", id: "event_who_camp" %>
-    <label class="form-check-label" for="event_who_camp">
+    <%= f.radio_button :who, "camp", class: "form-check-input", id: "event_who_radio_camp" %>
+    <label class="form-check-label" for="event_who_radio_camp">
       My camp
     </label>
   </div>
@@ -250,3 +250,139 @@
   <% end %>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const singleRecurrenceRadio = document.getElementById('event_event_recurrence_single_val');
+  const multipleRecurrenceRadio = document.getElementById('event_event_recurrence_multiple_val');
+  const singleOccurrenceDiv = document.getElementById('single_occurrance_event');
+  const multipleOccurrenceDiv = document.getElementById('multiple_occurrance_event');
+
+  function toggleRecurrenceSections() {
+    if (!singleRecurrenceRadio || !multipleRecurrenceRadio || !singleOccurrenceDiv || !multipleOccurrenceDiv) {
+      return;
+    }
+
+    if (singleRecurrenceRadio.checked) {
+      singleOccurrenceDiv.style.display = 'block';
+      multipleOccurrenceDiv.style.display = 'none';
+    } else if (multipleRecurrenceRadio.checked) {
+      singleOccurrenceDiv.style.display = 'none';
+      multipleOccurrenceDiv.style.display = 'block';
+    } else {
+      singleOccurrenceDiv.style.display = 'none';
+      multipleOccurrenceDiv.style.display = 'none';
+    }
+  }
+
+  if (singleRecurrenceRadio && multipleRecurrenceRadio) {
+    singleRecurrenceRadio.addEventListener('change', toggleRecurrenceSections);
+    multipleRecurrenceRadio.addEventListener('change', toggleRecurrenceSections);
+    toggleRecurrenceSections(); // Initial check
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const whoCampRadio = document.getElementById('event_who_radio_camp');
+  const whoJustMeRadio = document.getElementById('event_who_just_me');
+  const whoLakesOfFireRadio = document.getElementById('event_who_lakes_of_fire');
+  
+  const whoCampDiv = document.getElementById('who_camp_event');
+  const whoLakesOfFireDiv = document.getElementById('who_lakes_of_fire_event');
+
+  // Get references to the input fields
+  const whoCampNameInput = document.getElementById('event_who_camp');
+  const whoDepartmentInput = document.getElementById('event_who_department');
+
+  function toggleWhoSections() {
+    if (!whoCampRadio || !whoJustMeRadio || !whoLakesOfFireRadio || !whoCampDiv || !whoLakesOfFireDiv || !whoCampNameInput || !whoDepartmentInput) {
+      return;
+    }
+
+    if (whoCampRadio.checked) {
+      whoCampDiv.style.display = 'block';
+      whoLakesOfFireDiv.style.display = 'none';
+      if (whoDepartmentInput) whoDepartmentInput.value = ''; // Clear other input
+    } else if (whoLakesOfFireRadio.checked) {
+      whoCampDiv.style.display = 'none';
+      if (whoCampNameInput) whoCampNameInput.value = ''; // Clear other input
+      whoLakesOfFireDiv.style.display = 'block';
+    } else { // Covers whoJustMeRadio.checked or if none are checked initially
+      whoCampDiv.style.display = 'none';
+      if (whoCampNameInput) whoCampNameInput.value = '';
+      whoLakesOfFireDiv.style.display = 'none';
+      if (whoDepartmentInput) whoDepartmentInput.value = '';
+    }
+  }
+
+  if (whoCampRadio && whoJustMeRadio && whoLakesOfFireRadio) {
+    whoCampRadio.addEventListener('change', toggleWhoSections);
+    whoJustMeRadio.addEventListener('change', toggleWhoSections);
+    whoLakesOfFireRadio.addEventListener('change', toggleWhoSections);
+    
+    toggleWhoSections(); // Initial check
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const whereCampRadio = document.getElementById('event_where_radio_camp');
+  const whereLocationRadio = document.getElementById('event_where_location_val');
+  const whereMultipleLocationsRadio = document.getElementById('event_where_multiple_locations');
+  
+  const whereCampDiv = document.getElementById('where_camp_event');
+  const whereLocationDiv = document.getElementById('where_location_event');
+  const whereImpreciseDiv = document.getElementById('where_imprecise_event');
+
+  // Get references to the input fields
+  const whereCampInput = document.getElementById('event_where_camp');
+  const whereLocationInput = document.getElementById('event_where_location');
+  const whereImpreciseInput = document.getElementById('event_where_imprecise');
+
+  function toggleWhereSections() {
+    if (!whereCampRadio || !whereLocationRadio || !whereMultipleLocationsRadio || 
+        !whereCampDiv || !whereLocationDiv || !whereImpreciseDiv || 
+        !whereCampInput || !whereLocationInput || !whereImpreciseInput) {
+      return;
+    }
+
+    if (whereCampRadio.checked) {
+      whereCampDiv.style.display = 'block';
+      whereLocationDiv.style.display = 'none';
+      if (whereLocationInput) whereLocationInput.value = '';
+      whereImpreciseDiv.style.display = 'none';
+      if (whereImpreciseInput) whereImpreciseInput.value = '';
+    } else if (whereLocationRadio.checked) {
+      whereCampDiv.style.display = 'none';
+      if (whereCampInput) whereCampInput.value = '';
+      whereLocationDiv.style.display = 'block';
+      whereImpreciseDiv.style.display = 'none';
+      if (whereImpreciseInput) whereImpreciseInput.value = '';
+    } else if (whereMultipleLocationsRadio.checked) {
+      whereCampDiv.style.display = 'none';
+      if (whereCampInput) whereCampInput.value = '';
+      whereLocationDiv.style.display = 'none';
+      if (whereLocationInput) whereLocationInput.value = '';
+      whereImpreciseDiv.style.display = 'block';
+    } else {
+      whereCampDiv.style.display = 'none';
+      if (whereCampInput) whereCampInput.value = '';
+      whereLocationDiv.style.display = 'none';
+      if (whereLocationInput) whereLocationInput.value = '';
+      whereImpreciseDiv.style.display = 'none';
+      if (whereImpreciseInput) whereImpreciseInput.value = '';
+    }
+  }
+
+  if (whereCampRadio && whereLocationRadio && whereMultipleLocationsRadio) {
+    whereCampRadio.addEventListener('change', toggleWhereSections);
+    whereLocationRadio.addEventListener('change', toggleWhereSections);
+    whereMultipleLocationsRadio.addEventListener('change', toggleWhereSections);
+    
+    toggleWhereSections(); // Initial check
+  }
+});
+</script>
