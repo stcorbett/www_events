@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   skip_before_action :require_login, only: :index
   before_action :load_camps_for_autocomplete, only: [:new, :create, :edit, :update]
   before_action :load_locations_for_autocomplete, only: [:new, :create]
+  before_action :load_departments_for_autocomplete, only: [:new, :create, :edit, :update]
 
   def index
     respond_to do |format|
@@ -76,6 +77,10 @@ private
     @imprecise_locations_for_autocomplete = Location.where(precision: 'broad').order(:name).map { |l| { id: l.id, name: l.name } }
   end
 
+  def load_departments_for_autocomplete
+    @departments_for_autocomplete = Department.order(:name).map { |d| { id: d.id, name: d.name } }
+  end
+
   # new
   def new_event_attributes
     attributes = {}
@@ -112,10 +117,10 @@ private
   # create/update
   def event_params
     permitted = params.require(:event).permit(:main_contact_person, :contact_person_email,
-                                              :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
-                                              :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp,
-                                              :where_location_id, :where_location, :where_imprecise_id, :where_imprecise,
-                                              :hosting_camp_id, :who_camp)
+                                               :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
+                                               :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp,
+                                               :where_location_id, :where_location, :where_imprecise_id, :where_imprecise,
+                                               :hosting_camp_id, :who_camp, :department_id, :who_department)
 
     if params[:event][:event_recurrence] == "single"
       permitted["event_times"] = single_event_time

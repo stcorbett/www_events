@@ -169,9 +169,13 @@
 </div>
 
 <div id="who_lakes_of_fire_event" class="mb-3" style="display:none;">
-  <div class="mb-3" >
-    <%= f.text_field :who_department, class: "form-control", placeholder: "Name of Lakes of Fire Department or Group" %>
-    <p class="form-text">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
+  <div class="mb-3 position-relative" >
+    <%= f.text_field :who_department, id: "event_who_department_input", class: "form-control", placeholder: "Type to search or enter new department", autocomplete: "off" %>
+    <%= f.hidden_field :department_id, id: "event_department_id_input" %>
+    <div id="who_department_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
+      <%# Autocomplete suggestions will be populated here by JavaScript %>
+    </div>
+    <p class="form-text">Select an existing department or type a new one. If new, it will be created.</p>
   </div>
 </div>
 
@@ -310,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Get references to the input fields
   const whoCampNameInput = document.getElementById('event_who_camp_input');
-  const whoDepartmentInput = document.getElementById('event_who_department');
+  const whoDepartmentInput = document.getElementById('event_who_department_input');
 
   function toggleWhoSections() {
     if (!whoCampRadio || !whoJustMeRadio || !whoLakesOfFireRadio || !whoCampDiv || !whoLakesOfFireDiv || !whoCampNameInput || !whoDepartmentInput) {
@@ -627,6 +631,64 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     whoCampTextInput.addEventListener('blur', function(e) {
+      // Small delay to allow click event on dropdown to fire first
+      setTimeout(() => {
+        if (!autocompleteDropdown.matches(':hover')) { // Check if mouse is not over the dropdown
+            autocompleteDropdown.style.display = 'none';
+        }
+      }, 150);
+    });
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const whoDepartmentTextInput = document.getElementById('event_who_department_input');
+  const departmentIdHiddenInput = document.getElementById('event_department_id_input');
+  const autocompleteDropdown = document.getElementById('who_department_autocomplete_list');
+
+  let departmentsData = <%= @departments_for_autocomplete.to_json.html_safe %>;
+  
+  if (whoDepartmentTextInput && departmentIdHiddenInput && autocompleteDropdown) {
+
+    whoDepartmentTextInput.addEventListener('input', function(e) {
+      const inputValue = e.target.value.toLowerCase();
+      autocompleteDropdown.innerHTML = ''; 
+      departmentIdHiddenInput.value = ''; 
+
+      if (inputValue.length === 0) {
+        autocompleteDropdown.style.display = 'none';
+        return;
+      }
+
+      const filteredDepartments = departmentsData.filter(department =>
+        department.name.toLowerCase().includes(inputValue)
+      );
+
+      if (filteredDepartments.length > 0) {
+        filteredDepartments.forEach(department => {
+          const item = document.createElement('a');
+          item.classList.add('list-group-item', 'list-group-item-action');
+          item.href = "#";
+          item.textContent = department.name;
+          item.setAttribute('data-department-id', department.id);
+          item.addEventListener('click', function(event) {
+            event.preventDefault();
+            whoDepartmentTextInput.value = department.name;
+            departmentIdHiddenInput.value = department.id;
+            autocompleteDropdown.innerHTML = '';
+            autocompleteDropdown.style.display = 'none';
+          });
+          autocompleteDropdown.appendChild(item);
+        });
+        autocompleteDropdown.style.display = 'block';
+      } else {
+        autocompleteDropdown.style.display = 'none';
+      }
+    });
+
+    whoDepartmentTextInput.addEventListener('blur', function(e) {
       // Small delay to allow click event on dropdown to fire first
       setTimeout(() => {
         if (!autocompleteDropdown.matches(':hover')) { // Check if mouse is not over the dropdown

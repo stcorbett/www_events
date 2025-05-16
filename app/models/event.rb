@@ -220,6 +220,29 @@ class Event < ActiveRecord::Base
     self.build_hosting_camp(name: hosting_camp_name)
   end
   
+  def who_department
+    return department.name if department.present?
+  end
+  
+  def who_department_id
+    return department.id if department.present?
+  end
+  
+  def who_department_id=(id_string)
+    if id_string.to_i == 0
+      write_attribute(:department_id, nil)
+    else
+      write_attribute(:department_id, id_string.to_i)
+    end
+  end
+  
+  def who_department=(department_name)
+    return if department_id.present?
+    return if department_name.blank?
+    
+    self.build_department(name: department_name)
+  end
+  
   def lakes_of_fire_hash
     {
       "Title" => title,
