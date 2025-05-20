@@ -216,8 +216,12 @@ class Event < ActiveRecord::Base
   def who_camp=(hosting_camp_name)
     return if hosting_camp_id.present?
     return if hosting_camp_name.blank?
-    
-    self.build_hosting_camp(name: hosting_camp_name)
+
+    if camp && camp.name == hosting_camp_name
+      self.hosting_camp = camp
+    else
+      self.build_hosting_camp(name: hosting_camp_name)
+    end
   end
   
   def who_department
