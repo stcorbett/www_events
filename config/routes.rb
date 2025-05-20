@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   get 'auth/:provider/callback', to: 'sessions#create'
 
-  get '/auth/facebook', as: "facebook_login"
+  # get '/auth/facebook', as: "facebook_login"
   get '/auth/google_oauth2', as: "google_login"
 
   get 'logout', to: 'sessions#destroy', as: "logout"
