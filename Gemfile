@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "3.4.3"
+ruby "3.3.1"
 
 # Required for Ruby 3.4+ compatibility
 gem 'mutex_m'
