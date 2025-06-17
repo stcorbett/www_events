@@ -1,11 +1,15 @@
 module Admin
   class CampsController < ApplicationController
     before_action :require_admin
-    before_action :set_camp, only: [:update, :destroy]
+    before_action :set_camp, only: [:show, :update, :destroy]
 
     def index
       @camps = Camp.all.order(name: :asc)
       @form_camp = Camp.new
+    end
+
+    def show
+      @events = @camp.events.includes(:event_times).order(title: :asc)
     end
 
     def create

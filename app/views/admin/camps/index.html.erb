@@ -42,6 +42,7 @@
                       data: { id: camp.id, 
                               name: camp.name, 
                               form_action: admin_camp_path(camp) } %>
+                  <%= link_to 'Show', admin_camp_path(camp), class: 'btn btn-xs btn-outline-info' %>
                   
                   <%# Conditional destroy based on Camp model associations (if any) %>
                   <%# For now, assuming direct destroy is okay %>
