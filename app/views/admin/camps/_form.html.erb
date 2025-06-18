@@ -15,6 +15,11 @@
     <%= form.text_field :name, id: 'camp_name', class: 'form-control' %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: 'camp_description', class: 'form-control', rows: 3 %>
+  </div>
+
   <div class="actions">
     <%= form.submit class: 'btn btn-primary' %>
     <%# Cancel button will be added by JS in index.html.erb %>

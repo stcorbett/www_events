@@ -4,6 +4,7 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
       SELECT
         camps.id,
         camps.name,
+        camps.description,
         (SELECT locations.name FROM locations WHERE locations.id = camps.location_id) AS location_name,
         camps.location_id,
         (SELECT COUNT(*) FROM events WHERE events.camp_id = camps.id) AS event_count,

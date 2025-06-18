@@ -12,6 +12,9 @@
 <div class="row">
   <div class="col-md-12">
     <h3><%= @camp.name %></h3>
+    <% if @camp.description.present? %>
+      <p class="mt-2"><%= @camp.description %></p>
+    <% end %>
     <p><%= link_to 'Back to Camps', admin_camps_path, class: 'btn btn-outline-secondary btn-sm' %></p>
 
     <h4>Events at this Camp</h4>

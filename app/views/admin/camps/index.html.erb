@@ -36,11 +36,19 @@
           <tbody>
             <% @camps.each do |camp| %>
               <tr id="camp_<%= camp.id %>">
-                <td><%= camp.name %></td>
+                <td>
+                  <div class="camp-info">
+                    <h6 class="mb-1"><%= camp.name %></h6>
+                    <% if camp.description.present? %>
+                      <p class="mb-0 text-muted small"><%= camp.description %></p>
+                    <% end %>
+                  </div>
+                </td>
                 <td>
                   <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-camp-link',
                       data: { id: camp.id, 
                               name: camp.name, 
+                              description: camp.description,
                               form_action: admin_camp_path(camp) } %>
                   <%= link_to 'Show', admin_camp_path(camp), class: 'btn btn-xs btn-outline-info' %>
                   
@@ -68,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('camp_form');
   const formTitle = document.getElementById('form-title');
   const nameField = document.getElementById('camp_name');
+  const descriptionField = document.getElementById('camp_description');
   const submitButton = form.querySelector('input[type="submit"]');
   const newCampAction = "<%= admin_camps_path %>";
 
@@ -110,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       methodField.value = 'patch';
       nameField.value = campData.name || '';
+      descriptionField.value = campData.description || '';
       submitButton.value = 'Update Camp';
       form.setAttribute('data-editing-id', campData.id);
       document.querySelectorAll('#camps-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));

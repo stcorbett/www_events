@@ -54,7 +54,7 @@ module Admin
     end
 
     def camp_params
-      params.require(:camp).permit(:name) # Only name is editable for now
+      params.require(:camp).permit(:name, :description)
     end
   end
 end 
