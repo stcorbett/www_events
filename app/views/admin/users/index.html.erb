@@ -1,0 +1,44 @@
+<%# Flash messages handling %>
+<% if notice.present? || alert.present? || flash[:error].present? %>
+  <div class="row">
+    <div class="col-md-12">
+      <% if notice.present? %><div class="alert alert-info alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Notice:</strong> <%= notice %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
+      <% if alert.present? %><div class="alert alert-danger alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Alert:</strong> <%= alert %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
+      <% if flash[:error].present? %><div class="alert alert-danger alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Error:</strong> <%= flash[:error] %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Users</h3>
+    
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Admin</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.admin ? 'Yes' : 'No' %></td>
+                <td>
+                  <%= link_to 'Show', admin_user_path(user), class: 'btn btn-outline-info btn-sm' %>
+                  <%= link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-outline-primary btn-sm' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

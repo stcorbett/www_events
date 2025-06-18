@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :locations
     resources :camps
     resources :departments
+    resources :users, only: [:index, :show, :edit, :update]
   end
 
   resources :events
