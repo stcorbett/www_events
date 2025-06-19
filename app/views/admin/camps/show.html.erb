@@ -15,6 +15,21 @@
     <% if @camp.description.present? %>
       <p class="mt-2"><%= @camp.description %></p>
     <% end %>
+
+  
+    <div class="card bg-light mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Location Details</h5>
+        <% if @camp.location %>
+          <p class="card-text mb-1"><strong>Latitude:</strong> <%= @camp.location.lat %></p>
+          <p class="card-text mb-1"><strong>Longitude:</strong> <%= @camp.location.lng %></p>
+          <p class="card-text mb-0"><strong>Site Identifier:</strong> <%= @camp.location.camp_site_identifier %></p>
+        <% else %>
+          <p class="card-text mb-0"><%= link_to 'Add location', edit_admin_camp_path(@camp) %></p>
+        <% end %>
+      </div>
+    </div>
+
     <p>
       <%= link_to 'Back to Camps', admin_camps_path, class: 'btn btn-outline-secondary btn-sm' %>
       <%= link_to 'Edit Camp', edit_admin_camp_path(@camp), class: 'btn btn-outline-primary btn-sm' %>

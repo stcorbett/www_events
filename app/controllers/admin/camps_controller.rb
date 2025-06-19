@@ -13,6 +13,7 @@ module Admin
     end
 
     def edit
+      @camp.build_location unless @camp.location
       @events = @camp.events.includes(:event_times).order(title: :asc)
     end
 
@@ -57,7 +58,11 @@ module Admin
     end
 
     def camp_params
-      params.require(:camp).permit(:name, :description)
+      p = params.require(:camp).permit(:name, :description, location_attributes: [:id, :lat, :lng, :camp_site_identifier, :name, :precision])
+      if p[:location_attributes].present?
+        p[:location_attributes].merge!(name: nil, precision: 'specific')
+      end
+      p
     end
   end
 end 

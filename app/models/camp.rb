@@ -2,6 +2,7 @@ class Camp < ActiveRecord::Base
   belongs_to :location, optional: true
   has_many :events
   has_many :hosted_events, class_name: 'Event', foreign_key: 'hosting_camp_id'
+  accepts_nested_attributes_for :location, reject_if: :all_blank
 
   validates :name, uniqueness: true, presence: true
 

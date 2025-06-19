@@ -20,6 +20,27 @@
     <%= form.text_area :description, id: 'camp_description', class: 'form-control', rows: 3 %>
   </div>
 
+  <hr>
+  <h5>Location Details</h5>
+  <%= form.fields_for :location do |location_form| %>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <%= location_form.label :lat, "Latitude" %>
+        <%= location_form.text_field :lat, class: 'form-control' %>
+      </div>
+      <div class="col-md-6 mb-3">
+        <%= location_form.label :lng, "Longitude" %>
+        <%= location_form.text_field :lng, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="mb-3">
+      <%= location_form.label :camp_site_identifier, "Camp Site Identifier" %>
+      <%= location_form.text_field :camp_site_identifier, class: 'form-control' %>
+    </div>
+
+  <% end %>
+
   <div class="actions">
     <%= form.submit class: 'btn btn-primary' %>
     <%# Cancel button will be added by JS in index.html.erb %>
