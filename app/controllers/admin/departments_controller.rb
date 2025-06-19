@@ -1,11 +1,15 @@
 module Admin
   class DepartmentsController < ApplicationController
     before_action :require_admin
-    before_action :set_department, only: [:update, :destroy]
+    before_action :set_department, only: [:show, :update, :destroy]
 
     def index
       @departments = Department.all.order(name: :asc)
       @form_department = Department.new
+    end
+
+    def show
+      @events = @department.events.includes(:event_times).order(title: :asc)
     end
 
     def create

@@ -36,12 +36,13 @@
           <tbody>
             <% @departments.each do |department| %>
               <tr id="department_<%= department.id %>">
-                <td><%= department.name %></td>
+                <td><%= link_to department.name, admin_department_path(department) %></td>
                 <td>
                   <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-department-link',
                       data: { id: department.id, 
                               name: department.name, 
                               form_action: admin_department_path(department) } %>
+                  <%= link_to 'Show', admin_department_path(department), class: 'btn btn-xs btn-outline-info' %>
                   
                   <%# Placeholder for conditional destroy based on Department model associations %>
                   <%# Example: if department.events.any? || department.users.any? %>

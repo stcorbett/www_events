@@ -31,7 +31,7 @@
           <% if @event.who_object.is_a?(Camp) %>
             <%= link_to @event.human_who, admin_camp_path(@event.who_object) %>
           <% elsif @event.who_object.is_a?(Department) %>
-            <%= link_to @event.human_who, admin_departments_path %>
+            <%= link_to @event.human_who, admin_department_path(@event.who_object) %>
           <% else %>
             <%= @event.human_who %>
           <% end %>
