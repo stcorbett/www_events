@@ -61,7 +61,7 @@
                   <% if location.events.empty? %>
                     <%= link_to 'Destroy', admin_location_path(location), method: :delete, 
                                 data: { confirm: 'Are you sure?' }, 
-                                class: 'btn btn-xs btn-outline-secondary ml-1' %>
+                                class: 'btn btn-xs btn-outline-danger ml-1' %>
                   <% else %>
                     <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: location has associated events. Please remove events first.">Destroy</span>
                   <% end %>
