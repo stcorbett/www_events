@@ -11,8 +11,18 @@
       </div>
 
       <label>Where:</label>
-      <div class="mb-3" >
-        <%= @event.human_location %>
+      <div class="mb-3">
+        <% if current_user&.admin? %>
+          <% if @event.where_object.is_a?(Camp) %>
+            <%= link_to @event.human_location, admin_camp_path(@event.where_object) %>
+          <% elsif @event.where_object.is_a?(Location) %>
+            <%= link_to @event.human_location, admin_locations_path %>
+          <% else %>
+            <%= @event.human_location %>
+          <% end %>
+        <% else %>
+          <%= @event.human_location %>
+        <% end %>
       </div>
 
       <label>Who:</label>
