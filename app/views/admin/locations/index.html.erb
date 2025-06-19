@@ -32,7 +32,7 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Precision</th>
+              <th>Type</th>
               <th>Camp Site ID</th>
               <th>Lat</th>
               <th>Lng</th>
@@ -42,8 +42,14 @@
           <tbody>
             <% @locations.each do |location| %>
               <tr id="location_<%= location.id %>">
-                <td><%= link_to location.name, admin_location_path(location) %></td>
-                <td><%= location.precision %></td>
+                <td>
+                  <% if location.camp.present? %>
+                    Camp <%= link_to location.camp.name, admin_camp_path(location.camp) %>
+                  <% else %>
+                    <%= link_to location.name, admin_location_path(location) %>
+                  <% end %>
+                </td>
+                <td><%= location.camp.present? ? "camp" : location.precision %></td>
                 <td><%= location.camp_site_identifier %></td>
                 <td><%= location.lat %></td>
                 <td><%= location.lng %></td>

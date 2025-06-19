@@ -14,49 +14,98 @@
       </div>
     </div>
 
-    <h4>Events at this Location</h4>
-    <% if @events.any? %>
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Times</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @events.each do |event| %>
+    <% if @location.camp.blank? %>
+      <h4>Events at this Location</h4>
+      <% if @events.any? %>
+        <div class="card">
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
                 <tr>
-                  <td><%= link_to event.title, event_path(event) %></td>
-                  <td>
-                    <% if event.event_times.any? %>
-                      <ul class="list-unstyled mb-0">
-                        <% event.event_times.each do |time| %>
-                          <li>
-                            <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>
-                            <%= time.starting.strftime('%I:%M %p') %>
-                            <%= " - #{time.ending.strftime('%I:%M %p')}" if time.ending.present? %>
-                            <%= " (All day)" if time.all_day %>
-                          </li>
-                        <% end %>
-                      </ul>
-                    <% else %>
-                      No scheduled times
-                    <% end %>
-                  </td>
-                  <td>
-                    <%= link_to 'Show', event_path(event), class: 'btn btn-outline-info btn-sm' %>
-                  </td>
+                  <th>Name</th>
+                  <th>Times</th>
+                  <th>Actions</th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <% @events.each do |event| %>
+                  <tr>
+                    <td><%= link_to event.title, event_path(event) %></td>
+                    <td>
+                      <% if event.event_times.any? %>
+                        <ul class="list-unstyled mb-0">
+                          <% event.event_times.each do |time| %>
+                            <li>
+                              <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>
+                              <%= time.starting.strftime('%I:%M %p') %>
+                              <%= " - #{time.ending.strftime('%I:%M %p')}" if time.ending.present? %>
+                              <%= " (All day)" if time.all_day %>
+                            </li>
+                          <% end %>
+                        </ul>
+                      <% else %>
+                        No scheduled times
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to 'Show', event_path(event), class: 'btn btn-outline-info btn-sm' %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    <% else %>
-      <div class="alert alert-info">No events are currently associated with this location.</div>
+      <% else %>
+        <div class="alert alert-info">No events are currently associated with this location.</div>
+      <% end %>
+    <% end %>
+
+    <% if @location.camp.present? %>
+      <h4>Events at the camp at this location</h4>
+      <% if @location.camp.events.any? %>
+        <div class="card">
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Times</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @location.camp.events.each do |event| %>
+                  <tr>
+                    <td><%= link_to event.title, event_path(event) %></td>
+                    <td>
+                      <% if event.event_times.any? %>
+                        <ul class="list-unstyled mb-0">
+                          <% event.event_times.each do |time| %>
+                            <li>
+                              <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>
+                              <%= time.starting.strftime('%I:%M %p') %>
+                              <%= " - #{time.ending.strftime('%I:%M %p')}" if time.ending.present? %>
+                              <%= " (All day)" if time.all_day %>
+                            </li>
+                          <% end %>
+                        </ul>
+                      <% else %>
+                        No scheduled times
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to 'Show', event_path(event), class: 'btn btn-outline-info btn-sm' %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% else %>
+        <div class="alert alert-info">No events are currently associated with the camp at this location.</div>
+      <% end %>
     <% end %>
   </div>
 </div>

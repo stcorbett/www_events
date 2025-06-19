@@ -5,12 +5,13 @@ module Admin
 
     # GET /admin/locations
     def index
-      @locations = Location.all.order(name: :asc)
+      @locations = Location.includes(:camp).order(name: :asc)
       @form_location = Location.new
     end
 
     def show
       @events = @location.events.includes(:event_times).order(title: :asc)
+      @location = Location.includes(camp: :events).find(params[:id])
     end
 
     # POST /admin/locations
