@@ -26,8 +26,18 @@
       </div>
 
       <label>Who:</label>
-      <div class="mb-3" >
-        <%= @event.human_who %>
+      <div class="mb-3">
+        <% if current_user&.admin? %>
+          <% if @event.who_object.is_a?(Camp) %>
+            <%= link_to @event.human_who, admin_camp_path(@event.who_object) %>
+          <% elsif @event.who_object.is_a?(Department) %>
+            <%= link_to @event.human_who, admin_departments_path %>
+          <% else %>
+            <%= @event.human_who %>
+          <% end %>
+        <% else %>
+          <%= @event.human_who %>
+        <% end %>
       </div>
 
       <% if user_owns_event(@event, current_user) || current_user.admin %>
