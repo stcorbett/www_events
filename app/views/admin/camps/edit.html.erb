@@ -1,24 +1,13 @@
-<%# Flash messages handling %>
-<% if notice.present? || alert.present? || flash[:error].present? %>
-  <div class="row">
-    <div class="col-md-12">
-      <% if notice.present? %><div class="alert alert-info alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Notice:</strong> <%= notice %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
-      <% if alert.present? %><div class="alert alert-danger alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Alert:</strong> <%= alert %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
-      <% if flash[:error].present? %><div class="alert alert-danger alert-dismissible fade show" role="alert"><h3 style="border: 0; margin-bottom: 0;"><strong>Error:</strong> <%= flash[:error] %></h3><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div><% end %>
-    </div>
-  </div>
-<% end %>
-
 <div class="row">
   <div class="col-md-12">
-    <h3><%= @camp.name %></h3>
-    <% if @camp.description.present? %>
-      <p class="mt-2"><%= @camp.description %></p>
-    <% end %>
-    <p>
-      <%= link_to 'Back to Camps', admin_camps_path, class: 'btn btn-outline-secondary btn-sm' %>
-      <%= link_to 'Edit Camp', edit_admin_camp_path(@camp), class: 'btn btn-outline-primary btn-sm' %>
-    </p>
+    <h3>Edit Camp: <%= @camp.name %></h3>
+    <p><%= link_to 'Back to Camps', admin_camps_path, class: 'btn btn-outline-secondary btn-sm' %></p>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <%= render 'form', camp: @camp %>
+      </div>
+    </div>
 
     <h4>Events at this Camp</h4>
     <% if @events.any? %>
@@ -38,7 +27,7 @@
                   <td><%= link_to event.title, event_path(event) %></td>
                   <td>
                     <% if event.event_times.any? %>
-                      <ul class="list-unstyled">
+                      <ul class="list-unstyled mb-0">
                         <% event.event_times.each do |time| %>
                           <li>
                             <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>

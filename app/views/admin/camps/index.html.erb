@@ -30,6 +30,8 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Events</th>
+              <th>Site ID</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -38,28 +40,30 @@
               <tr id="camp_<%= camp.id %>">
                 <td>
                   <div class="camp-info">
-                    <h6 class="mb-1"><%= camp.name %></h6>
+                    <h6 class="mb-1"><%= link_to camp.name, admin_camp_path(camp) %></h6>
                     <% if camp.description.present? %>
                       <p class="mb-0 text-muted small"><%= camp.description %></p>
                     <% end %>
                   </div>
                 </td>
                 <td>
-                  <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-camp-link',
-                      data: { id: camp.id, 
-                              name: camp.name, 
-                              description: camp.description,
-                              form_action: admin_camp_path(camp) } %>
+                  <% event_count = camp.events.size %>
+                  <% event_time_count = camp.events.sum { |event| event.event_times.size } %>
+                  <%= event_count %> (<%= event_time_count %>)
+                </td>
+                <td>
+                  <%= camp.location&.camp_site_identifier %>
+                </td>
+                <td>
+                  <%= link_to 'Edit', edit_admin_camp_path(camp), class: 'btn btn-xs btn-outline-primary' %>
                   <%= link_to 'Show', admin_camp_path(camp), class: 'btn btn-xs btn-outline-info' %>
                   
-                  <%# Conditional destroy based on Camp model associations (if any) %>
-                  <%# For now, assuming direct destroy is okay %>
-                  <% if camp.respond_to?(:events) && camp.events.any? %> <%# Example: if camp has events %>
+                  <% if camp.events.any? %>
                     <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: camp has associated events.">Destroy</span>
                   <% else %>
                      <%= link_to 'Destroy', admin_camp_path(camp), method: :delete, 
                                 data: { confirm: 'Are you sure?' }, 
-                                class: 'btn btn-xs btn-outline-secondary ml-1' %>
+                                class: 'btn btn-xs btn-danger ml-1', style: 'background-color: #dc3545; border-color: #dc3545; color: white;' %>
                   <% end %>
                 </td>
               </tr>
@@ -71,84 +75,4 @@
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('camp_form');
-  const formTitle = document.getElementById('form-title');
-  const nameField = document.getElementById('camp_name');
-  const descriptionField = document.getElementById('camp_description');
-  const submitButton = form.querySelector('input[type="submit"]');
-  const newCampAction = "<%= admin_camps_path %>";
-
-  function resetFormToNew() {
-    formTitle.innerText = 'New Camp';
-    form.action = newCampAction;
-    const methodField = form.querySelector('input[name="_method"]');
-    if (methodField) methodField.remove();
-    nameField.value = '';
-    submitButton.value = 'Create Camp';
-    form.removeAttribute('data-editing-id');
-    document.querySelectorAll('#camps-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
-  }
-
-  let cancelButton = document.getElementById('cancel-edit-camp');
-  if (!cancelButton) {
-    cancelButton = document.createElement('button');
-    cancelButton.setAttribute('type', 'button');
-    cancelButton.setAttribute('id', 'cancel-edit-camp');
-    cancelButton.classList.add('btn', 'btn-light', 'btn-sm', 'ml-2');
-    cancelButton.innerText = 'Cancel';
-    if(submitButton && submitButton.parentNode) {
-        submitButton.parentNode.insertBefore(cancelButton, submitButton.nextSibling);
-    }
-  }
-  cancelButton.addEventListener('click', resetFormToNew);
-
-  document.querySelectorAll('.edit-camp-link').forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      const campData = this.dataset;
-      formTitle.innerText = 'Edit Camp: ' + campData.name;
-      form.action = campData.formAction;
-      let methodField = form.querySelector('input[name="_method"]');
-      if (!methodField) {
-        methodField = document.createElement('input');
-        methodField.type = 'hidden';
-        methodField.name = '_method';
-        form.appendChild(methodField);
-      }
-      methodField.value = 'patch';
-      nameField.value = campData.name || '';
-      descriptionField.value = campData.description || '';
-      submitButton.value = 'Update Camp';
-      form.setAttribute('data-editing-id', campData.id);
-      document.querySelectorAll('#camps-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
-      this.closest('tr').classList.add('table-info');
-      form.scrollIntoView({ behavior: 'smooth' });
-      nameField.focus();
-    });
-  });
-  
-  const hasErrors = form.querySelector('.field_with_errors') || form.querySelector('.alert-danger');
-  const isNewRecordFormContext = <%= @form_camp.new_record?.to_s %>;
-
-  if (!hasErrors && isNewRecordFormContext && !form.hasAttribute('data-editing-id')) {
-    resetFormToNew(); 
-  } else if (hasErrors && isNewRecordFormContext) {
-    formTitle.innerText = 'New Camp'; 
-    submitButton.value = 'Create Camp';
-  } else if (hasErrors && !isNewRecordFormContext) {
-    formTitle.innerText = 'Edit Camp: ' + (nameField.value || 'Error in data'); 
-    submitButton.value = 'Update Camp';
-  } else if (!hasErrors && !isNewRecordFormContext && form.hasAttribute('data-editing-id')){
-     if (<%= !@form_camp.new_record?.to_s %> && form.getAttribute('data-editing-id') === "<%= @form_camp.id.to_s %>") {
-        formTitle.innerText = 'Edit Camp: ' + nameField.value;
-        submitButton.value = 'Update Camp';
-     } else {
-        resetFormToNew();
-     }
-  } else {
-    resetFormToNew();
-  }
-});
-</script> 
+ 

@@ -1,14 +1,18 @@
 module Admin
   class CampsController < ApplicationController
     before_action :require_admin
-    before_action :set_camp, only: [:show, :update, :destroy]
+    before_action :set_camp, only: [:show, :edit, :update, :destroy]
 
     def index
-      @camps = Camp.all.order(name: :asc)
+      @camps = Camp.includes(:location, events: :event_times).order(name: :asc)
       @form_camp = Camp.new
     end
 
     def show
+      @events = @camp.events.includes(:event_times).order(title: :asc)
+    end
+
+    def edit
       @events = @camp.events.includes(:event_times).order(title: :asc)
     end
 
@@ -17,7 +21,7 @@ module Admin
       if @camp.save
         redirect_to admin_camps_path, notice: 'Camp was successfully created.'
       else
-        @camps = Camp.all.order(name: :asc)
+        @camps = Camp.includes(:location, events: :event_times).order(name: :asc)
         @form_camp = @camp
         flash.now[:alert] = 'Error creating camp.'
         render :index
@@ -26,12 +30,11 @@ module Admin
 
     def update
       if @camp.update(camp_params)
-        redirect_to admin_camps_path, notice: 'Camp was successfully updated.'
+        redirect_to admin_camp_path(@camp), notice: 'Camp was successfully updated.'
       else
-        @camps = Camp.all.order(name: :asc)
-        @form_camp = @camp # This @camp has errors
+        @events = @camp.events.includes(:event_times).order(title: :asc)
         flash.now[:alert] = 'Error updating camp.'
-        render :index
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -40,7 +43,7 @@ module Admin
       if @camp.destroy
         redirect_to admin_camps_path, notice: 'Camp was successfully destroyed.'
       else
-        @camps = Camp.all.order(name: :asc)
+        @camps = Camp.includes(:location, events: :event_times).order(name: :asc)
         @form_camp = Camp.new 
         flash.now[:alert] = @camp.errors.full_messages.join(", ") || "Could not destroy camp."
         render :index
