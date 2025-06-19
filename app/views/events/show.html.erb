@@ -16,7 +16,7 @@
           <% if @event.where_object.is_a?(Camp) %>
             <%= link_to @event.human_location, admin_camp_path(@event.where_object) %>
           <% elsif @event.where_object.is_a?(Location) %>
-            <%= link_to @event.human_location, admin_locations_path %>
+            <%= link_to @event.human_location, admin_location_path(@event.where_object) %>
           <% else %>
             <%= @event.human_location %>
           <% end %>

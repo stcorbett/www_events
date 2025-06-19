@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3><%= @location.name %></h3>
+    <p><%= link_to 'Back to Locations', admin_locations_path, class: 'btn btn-outline-secondary btn-sm' %></p>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <p><strong>Precision:</strong> <%= @location.precision %></p>
+        <p><strong>Latitude:</strong> <%= @location.lat %></p>
+        <p><strong>Longitude:</strong> <%= @location.lng %></p>
+        <% if @location.neighborhood.present? %>
+          <p><strong>Neighborhood:</strong> <%= @location.neighborhood.name %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <h4>Events at this Location</h4>
+    <% if @events.any? %>
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Times</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @events.each do |event| %>
+                <tr>
+                  <td><%= link_to event.title, event_path(event) %></td>
+                  <td>
+                    <% if event.event_times.any? %>
+                      <ul class="list-unstyled mb-0">
+                        <% event.event_times.each do |time| %>
+                          <li>
+                            <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>
+                            <%= time.starting.strftime('%I:%M %p') %>
+                            <%= " - #{time.ending.strftime('%I:%M %p')}" if time.ending.present? %>
+                            <%= " (All day)" if time.all_day %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    <% else %>
+                      No scheduled times
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= link_to 'Show', event_path(event), class: 'btn btn-outline-info btn-sm' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% else %>
+      <div class="alert alert-info">No events are currently associated with this location.</div>
+    <% end %>
+  </div>
+</div>

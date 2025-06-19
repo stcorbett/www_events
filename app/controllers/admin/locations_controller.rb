@@ -1,12 +1,16 @@
 module Admin
   class LocationsController < ApplicationController
     before_action :require_admin
-    before_action :set_location, only: [:update, :destroy]
+    before_action :set_location, only: [:show, :update, :destroy]
 
     # GET /admin/locations
     def index
       @locations = Location.all.order(name: :asc)
       @form_location = Location.new
+    end
+
+    def show
+      @events = @location.events.includes(:event_times).order(title: :asc)
     end
 
     # POST /admin/locations

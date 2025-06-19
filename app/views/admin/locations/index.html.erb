@@ -42,12 +42,13 @@
           <tbody>
             <% @locations.each do |location| %>
               <tr id="location_<%= location.id %>">
-                <td><%= location.name %></td>
+                <td><%= link_to location.name, admin_location_path(location) %></td>
                 <td><%= location.precision %></td>
                 <td><%= location.camp_site_identifier %></td>
                 <td><%= location.lat %></td>
                 <td><%= location.lng %></td>
                 <td>
+                  <%= link_to 'Show', admin_location_path(location), class: 'btn btn-xs btn-outline-info' %>
                   <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-location-link',
                       data: { id: location.id, 
                               name: location.name, 
