@@ -12,7 +12,7 @@
 
       <label>Where:</label>
       <div class="mb-3">
-        <% if current_user&.admin? %>
+        <% if current_user.admin? %>
           <% if @event.where_object.is_a?(Camp) %>
             <%= link_to @event.human_location, admin_camp_path(@event.where_object) %>
           <% elsif @event.where_object.is_a?(Location) %>
@@ -27,7 +27,7 @@
 
       <label>Who:</label>
       <div class="mb-3">
-        <% if current_user&.admin? %>
+        <% if current_user.admin? %>
           <% if @event.who_object.is_a?(Camp) %>
             <%= link_to @event.human_who, admin_camp_path(@event.who_object) %>
           <% elsif @event.who_object.is_a?(Department) %>
@@ -40,14 +40,15 @@
         <% end %>
       </div>
 
-      <% if user_owns_event(@event, current_user) || current_user.admin %>
+      <% if user_owns_event(@event, current_user) || current_user.admin? %>
         <label>Contact Person:</label>
         <small class="text-muted">(only visible to WWW team and event contact person)</small>
         <div class="mb-3" >
-          <%= @event.main_contact_person %>
-        </div>
-        <div class="mb-3" >
-          <%= @event.contact_person_email %>
+          <% if current_user.admin? && @event.user.present? %>
+            <%= link_to "#{@event.main_contact_person} - #{@event.contact_person_email}", admin_user_path(@event.user) %>
+          <% else %>
+            <%= @event.main_contact_person %> - <%= @event.contact_person_email %>
+          <% end %>
         </div>
       <% end %>
 

@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
 
   validates :main_contact_person, :contact_person_email,
             :event_recurrence, :event_description, :user, :title,
+            :where_object, :who_object,
             presence: true
 
   validates_length_of :event_description, :minimum => 0, :maximum => 20000

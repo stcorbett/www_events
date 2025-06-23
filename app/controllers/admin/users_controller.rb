@@ -4,7 +4,7 @@ module Admin
     before_action :set_user, only: [:show, :update, :edit]
 
     def index
-      @users = User.all.order(:name)
+      @users = User.left_joins(:events).group(:id).select('users.*, COUNT(events.id) AS events_count').order(:name)
     end
 
     def show
