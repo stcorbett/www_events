@@ -699,3 +699,37 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  <% if current_user.camp %>
+    const userCamp = { id: <%= current_user.camp.id %>, name: '<%= j current_user.camp.name %>' };
+
+    const whereRadioCamp = document.getElementById('event_where_radio_camp');
+    const whereCampInput = document.getElementById('event_where_camp_input');
+    const whereCampIdInput = document.getElementById('event_where_camp_id_input');
+
+    const whoRadioCamp = document.getElementById('event_who_radio_camp');
+    const whoCampInput = document.getElementById('event_who_camp_input');
+    const hostingCampIdInput = document.getElementById('event_hosting_camp_id_input');
+
+    if (whereRadioCamp) {
+      whereRadioCamp.addEventListener('change', function() {
+        if (this.checked) {
+          whereCampInput.value = userCamp.name;
+          whereCampIdInput.value = userCamp.id;
+        }
+      });
+    }
+
+    if (whoRadioCamp) {
+      whoRadioCamp.addEventListener('change', function() {
+        if (this.checked) {
+          whoCampInput.value = userCamp.name;
+          hostingCampIdInput.value = userCamp.id;
+        }
+      });
+    }
+  <% end %>
+});
+</script>

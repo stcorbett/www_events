@@ -17,6 +17,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def camp
+    return unless events.last.present?
+
+    events.last.camp
+  end
+
   def editable_events
     Event.configured_year.joins(:user).where("users.email = ?", self.email)
   end
