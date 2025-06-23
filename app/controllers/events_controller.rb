@@ -120,7 +120,7 @@ private
                                                :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
                                                :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp,
                                                :where_location_id, :where_location, :where_imprecise_id, :where_imprecise,
-                                               :hosting_camp_id, :who_camp, :department_id, :who_department)
+                                               :hosting_camp_id, :who_camp, :department_id)
 
     if params[:event][:event_recurrence] == "single"
       permitted["event_times"] = single_event_time

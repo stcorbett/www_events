@@ -170,11 +170,11 @@
 
 <div id="who_lakes_of_fire_event" class="mb-3" style="display:none;">
   <div class="mb-3 position-relative" >
-    <%= f.text_field :who_department, id: "event_who_department_input", class: "form-control", placeholder: "Type to search or enter new department", autocomplete: "off" %>
-    <%= f.hidden_field :department_id, id: "event_department_id_input" %>
+    <%= f.collection_select :department_id, Department.order(:name), :id, :name, { include_blank: 'Select a Department' }, { class: 'form-select form-control', id: "event_department_id_input" } %>
     <div id="who_department_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
       <%# Autocomplete suggestions will be populated here by JavaScript %>
     </div>
+
     <p class="form-text">Eg: FAST, The ECs, Greeters, P-Ninjas, etc.</p>
   </div>
 </div>
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Get references to the input fields
   const whoCampNameInput = document.getElementById('event_who_camp_input');
-  const whoDepartmentInput = document.getElementById('event_who_department_input');
+  const whoDepartmentInput = document.getElementById('event_department_id_input');
 
   function toggleWhoSections() {
     if (!whoCampRadio || !whoJustMeRadio || !whoLakesOfFireRadio || !whoCampDiv || !whoLakesOfFireDiv || !whoCampNameInput || !whoDepartmentInput) {
