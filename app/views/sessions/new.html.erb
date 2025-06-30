@@ -17,10 +17,36 @@
       <p>Please contact <a href="mailto:info@lakesoffire.org">info@lakesoffire.org</a> if you have any questions.</p>
       <br/>
 
-      <p>
+      <p id="google-login-p">
         <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
       </p>
+
+      <div id="inapp-message" style="display: none;">
+        <div class="alert alert-warning">
+          <strong>In-app browser detected.</strong>
+          <p>
+            It looks like you're using an in-app browser (like for Facebook or Instagram). For security reasons, Google login is disabled in this mode.
+          </p>
+          <p>
+            To log in, please open this website in your phone's main browser (e.g., Chrome, Safari).
+          </p>
+        </div>
+        <p>
+          <%= link_to "Log In with Google", google_login_path %>
+        </p>
+      </div>
     </div>
   </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/detect-inapp@1.4.0/lib/inapp.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const i = new InApp();
+    if (i.isInApp) {
+      document.getElementById('google-login-p').style.display = 'none';
+      document.getElementById('inapp-message').style.display = 'block';
+    }
+  });
+</script>
