@@ -40,10 +40,10 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/detect-inapp@1.4.0/lib/inapp.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const i = new InApp();
+
     if (i.isInApp) {
       document.getElementById('google-login-p').style.display = 'none';
       document.getElementById('inapp-message').style.display = 'block';

@@ -18,6 +18,8 @@
 //= require Datepair
 //= require jquery.datepair
 //= require bootstrap-datepicker
+//= require lodash
+//= require inapp
 //= require scripts
 //= require_tree .
 
