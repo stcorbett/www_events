@@ -20,16 +20,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  year: 2025
-  event_name: "Doorways in Time"
+  year: 2026
+  event_name: "Grand Masquerade"
   event_time_zone: "Eastern Time (US & Canada)"
-  start_date: "2025-07-16"
+  start_date: "2026-07-15"
   start_time_hour: 10
-  end_date: "2025-07-20"
+  end_date: "2026-07-19"
   end_time_hour: 15
-  submissions_close_time: "2025-07-21 00:00:01"
+  submissions_close_time: "2026-07-20 00:00:01"
   background_image: "/bg-body.jpg"
-  title_color: "#ff3e47"
-  anchor_color: "#ff3e47"
-  anchor_color_darker: "#99252a"
+  title_color: "#f23228"
+  anchor_color: "#e76523"
+  anchor_color_darker: "#c57c25"
   download_map_url:
