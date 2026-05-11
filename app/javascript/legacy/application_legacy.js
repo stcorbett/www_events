@@ -29,6 +29,7 @@ $(document).ready(function(){
     $("#multiple_occurrance_event").hide();
   });
 
+  
   $("#event_event_recurrence_multiple").click(function () {
     $("#single_occurrance_event").hide();
     $("#multiple_occurrance_event").show();
