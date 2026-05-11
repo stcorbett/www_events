@@ -40,6 +40,7 @@ gem "ruby-lsp-rails", require: false, group: :development
 group :development, :test do
   gem 'pry'
   gem 'rspec-rails', '~> 7.1.1'
+  gem "capybara", "~> 3.40"
   gem 'factory_bot_rails'
   gem 'faker'
 end
