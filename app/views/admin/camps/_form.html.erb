@@ -49,6 +49,8 @@
 
   <div class="actions">
     <%= form.submit class: 'btn btn-primary' %>
-    <%# Cancel button will be added by JS in index.html.erb %>
+    <% if local_assigns[:merge_path].present? %>
+      <%= link_to "Merge and Remove Camp", local_assigns[:merge_path], class: 'btn btn-light text-secondary ms-2' %>
+    <% end %>
   </div>
 <% end %> 

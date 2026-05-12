@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>
+      Merge <%= resource_label %>: <%= @source.name %>
+      <small class="text-muted">id=<%= @source.id %></small>
+      <% if @source.archived %>
+        <span class="badge bg-secondary align-middle">Archived</span>
+      <% end %>
+    </h3>
+    <p>
+      <%= link_to "Back to Edit", edit_source_url, class: 'btn btn-outline-secondary btn-sm' %>
+    </p>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Pick the <%= resource_label.downcase %> to merge "<%= @source.name %>" into</h5>
+        <p class="text-muted small">
+          All events currently associated with <strong><%= @source.name %></strong>
+          will be reassigned to the selected <%= resource_label.downcase %>.
+          The <%= resource_label.downcase %> "<%= @source.name %>" will NOT be deleted by this step —
+          after the merge runs you'll be given the option to archive or delete it.
+          Archived <%= resource_label.downcase.pluralize %> are excluded from this list.
+        </p>
+
+        <%= form_tag merge_path_for(:new), method: :get do %>
+          <div class="mb-3">
+            <%= select_tag :target_id,
+                           options_for_select(@candidate_options),
+                           prompt: "Select a #{resource_label.downcase}...",
+                           class: "form-select",
+                           required: true %>
+          </div>
+          <%= submit_tag "Continue to Confirmation", class: "btn btn-primary" %>
+          <%= link_to "Cancel", edit_source_url, class: "btn btn-light text-secondary ms-2" %>
+        <% end %>
+      </div>
+    </div>
+
+    <h4>Events currently at <%= @source.name %></h4>
+    <%= render 'admin/events_table',
+               events:        @source_current_events,
+               empty_message: "No current events." %>
+
+    <h4 class="mt-4">Past Events</h4>
+    <%= render 'admin/events_table',
+               events:        @source_past_events,
+               empty_message: "No past events.",
+               show_year:     true %>
+  </div>
+</div>

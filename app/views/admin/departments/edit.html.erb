@@ -10,7 +10,7 @@
 
     <div class="card mb-3">
       <div class="card-body">
-        <%= render 'form', department: @department %>
+        <%= render 'form', department: @department, merge_path: merge_admin_department_path(@department) %>
       </div>
     </div>
 

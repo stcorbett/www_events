@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>Confirm Merge: <%= resource_label %></h3>
+    <p class="text-muted">
+      Review the two records below. Clicking "Confirm Merge" will reassign every event
+      from <strong><%= display_label(@source) %></strong> to
+      <strong><%= display_label(@target) %></strong> inside a single database transaction.
+      If any event fails to save, no changes will be committed.
+    </p>
+
+    <div class="mb-3">
+      <%= button_to "Confirm Merge", merge_path_for(:execute), method: :post, class: "btn btn-danger" %>
+      <%= link_to "Cancel", edit_source_url, class: "btn btn-light text-secondary ms-2" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card mb-3 border-warning">
+      <div class="card-header bg-warning-subtle">
+        <h5 class="mb-0">From <small class="text-muted">(will be left empty)</small></h5>
+      </div>
+      <div class="card-body">
+        <h6>
+          <%= @source.name %>
+          <small class="text-muted">id=<%= @source.id %></small>
+          <% if @source.archived %><span class="badge bg-secondary">Archived</span><% end %>
+        </h6>
+
+        <h6 class="mt-3">Current Events (<%= @source_current_events.size %>)</h6>
+        <%= render 'admin/events_table',
+                   events:        @source_current_events,
+                   empty_message: "No current events.",
+                   show_actions:  false,
+                   card_wrap:     false %>
+
+        <h6 class="mt-3">Past Events (<%= @source_past_events.size %>)</h6>
+        <%= render 'admin/events_table',
+                   events:        @source_past_events,
+                   empty_message: "No past events.",
+                   show_actions:  false,
+                   card_wrap:     false,
+                   show_year:     true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card mb-3 border-success">
+      <div class="card-header bg-success-subtle">
+        <h5 class="mb-0">Into <small class="text-muted">(receives all events)</small></h5>
+      </div>
+      <div class="card-body">
+        <h6>
+          <%= @target.name %>
+          <small class="text-muted">id=<%= @target.id %></small>
+        </h6>
+
+        <h6 class="mt-3">Current Events (<%= @target_current_events.size %>)</h6>
+        <%= render 'admin/events_table',
+                   events:        @target_current_events,
+                   empty_message: "No current events.",
+                   show_actions:  false,
+                   card_wrap:     false %>
+
+        <h6 class="mt-3">Past Events (<%= @target_past_events.size %>)</h6>
+        <%= render 'admin/events_table',
+                   events:        @target_past_events,
+                   empty_message: "No past events.",
+                   show_actions:  false,
+                   card_wrap:     false,
+                   show_year:     true %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -50,6 +50,9 @@
 
   <div class="actions">
     <%= form.submit class: 'btn btn-primary' %>
+    <% if local_assigns[:merge_path].present? %>
+      <%= link_to "Merge and Remove Location", local_assigns[:merge_path], class: 'btn btn-light text-secondary ms-2' %>
+    <% end %>
     <%# The Cancel button is added dynamically by JS in index.html.erb %>
   </div>
 <% end %> 

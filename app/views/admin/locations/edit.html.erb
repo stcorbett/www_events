@@ -10,7 +10,7 @@
 
     <div class="card mb-3">
       <div class="card-body">
-        <%= render 'form', location: @location %>
+        <%= render 'form', location: @location, merge_path: merge_admin_location_path(@location) %>
       </div>
     </div>
 

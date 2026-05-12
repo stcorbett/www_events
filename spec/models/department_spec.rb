@@ -33,4 +33,13 @@ RSpec.describe Department, type: :model do
       expect { department.save! }.not_to raise_error
     end
   end
+
+  describe "valid?(:merge)" do
+    # Departments have no merge-blocking validations — only events reference
+    # them, and the merge moves those by design. This spec locks that in.
+    it "is valid (departments have no merge-blocking dependents)" do
+      department = create(:department)
+      expect(department.valid?(:merge)).to eq(true)
+    end
+  end
 end

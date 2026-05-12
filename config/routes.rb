@@ -6,9 +6,36 @@ Rails.application.routes.draw do
   get "/events/checksum" => "events#md5"
 
   namespace :admin do
-    resources :locations
-    resources :camps
-    resources :departments
+    resources :locations do
+      member do
+        get    'merge',                    to: 'location_merges#new',            as: 'merge'
+        get    'merge/:target_id/confirm', to: 'location_merges#confirm',        as: 'merge_confirm'
+        post   'merge/:target_id',         to: 'location_merges#execute',        as: 'merge_execute'
+        get    'merge/:target_id/result',  to: 'location_merges#result',         as: 'merge_result'
+        patch  'merge/:target_id/archive', to: 'location_merges#archive_source', as: 'merge_archive'
+        delete 'merge/:target_id/delete',  to: 'location_merges#delete_source',  as: 'merge_delete'
+      end
+    end
+    resources :camps do
+      member do
+        get    'merge',                    to: 'camp_merges#new',            as: 'merge'
+        get    'merge/:target_id/confirm', to: 'camp_merges#confirm',        as: 'merge_confirm'
+        post   'merge/:target_id',         to: 'camp_merges#execute',        as: 'merge_execute'
+        get    'merge/:target_id/result',  to: 'camp_merges#result',         as: 'merge_result'
+        patch  'merge/:target_id/archive', to: 'camp_merges#archive_source', as: 'merge_archive'
+        delete 'merge/:target_id/delete',  to: 'camp_merges#delete_source',  as: 'merge_delete'
+      end
+    end
+    resources :departments do
+      member do
+        get    'merge',                    to: 'department_merges#new',            as: 'merge'
+        get    'merge/:target_id/confirm', to: 'department_merges#confirm',        as: 'merge_confirm'
+        post   'merge/:target_id',         to: 'department_merges#execute',        as: 'merge_execute'
+        get    'merge/:target_id/result',  to: 'department_merges#result',         as: 'merge_result'
+        patch  'merge/:target_id/archive', to: 'department_merges#archive_source', as: 'merge_archive'
+        delete 'merge/:target_id/delete',  to: 'department_merges#delete_source',  as: 'merge_delete'
+      end
+    end
     resources :users, only: [:index, :show, :edit, :update]
     get 'export',          to: 'export#index',    as: 'export'
     get 'export/download', to: 'export#download', as: 'export_download'

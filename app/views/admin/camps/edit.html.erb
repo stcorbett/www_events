@@ -5,7 +5,7 @@
 
     <div class="card mb-3">
       <div class="card-body">
-        <%= render 'form', camp: @camp %>
+        <%= render 'form', camp: @camp, merge_path: merge_admin_camp_path(@camp) %>
       </div>
     </div>
 

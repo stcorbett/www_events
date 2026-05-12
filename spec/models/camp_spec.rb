@@ -33,4 +33,15 @@ RSpec.describe Camp, type: :model do
       expect { camp.save! }.not_to raise_error
     end
   end
+
+  describe "valid?(:merge)" do
+    # Camps have no merge-blocking validations — anything that points at a Camp
+    # (events, hosted_events) is moved by the merge itself. This spec locks in
+    # that camps remain mergeable so the validation framework doesn't drift.
+    it "is valid (camps have no merge-blocking dependents)" do
+      camp = create(:camp)
+      Event # ensure constant is loaded so future merge_events! can run
+      expect(camp.valid?(:merge)).to eq(true)
+    end
+  end
 end
