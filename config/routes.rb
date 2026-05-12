@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :camps
     resources :departments
     resources :users, only: [:index, :show, :edit, :update]
+    get 'export',          to: 'export#index',    as: 'export'
+    get 'export/download', to: 'export#download', as: 'export_download'
   end
 
   resources :events
