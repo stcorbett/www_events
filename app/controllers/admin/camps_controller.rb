@@ -10,13 +10,13 @@ module Admin
     end
 
     def show
-      events = @camp.events.includes(:event_times).order(title: :asc)
+      events = @camp.events.ordered_by_first_event_time.includes(:event_times)
       @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     def edit
       @camp.build_location unless @camp.location
-      events = @camp.events.includes(:event_times).order(title: :asc)
+      events = @camp.events.ordered_by_first_event_time.includes(:event_times)
       @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 

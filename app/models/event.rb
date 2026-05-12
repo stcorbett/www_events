@@ -34,6 +34,17 @@ class Event < ActiveRecord::Base
     created_at > self.class.configured_year_cutoff
   end
 
+  # Orders events ascending by each event's earliest event_time.starting,
+  # with title as a stable tiebreaker. Events with no event_times sort to
+  # the end (NULLS LAST). Chain `.includes(:event_times)` if the view needs
+  # to render the event_times without N+1 queries.
+  scope :ordered_by_first_event_time, -> {
+    left_joins(:event_times)
+      .group("events.id")
+      .order(Arel.sql("MIN(event_times.starting) ASC NULLS LAST"))
+      .order(:title)
+  }
+
   def self.sorted_by_date(specific_date=nil)
     event_times = EventTime.configured_year.joins(:event).
                             order("event_times.starting ASC, event_times.all_day ASC, events.title ASC")

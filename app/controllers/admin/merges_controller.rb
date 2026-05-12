@@ -117,12 +117,12 @@ module Admin
     end
 
     def load_source_events
-      events = @source.events.includes(:event_times).order(title: :asc)
+      events = @source.events.ordered_by_first_event_time.includes(:event_times)
       @source_current_events, @source_past_events = events.partition(&:in_configured_year?)
     end
 
     def load_target_events
-      events = @target.events.includes(:event_times).order(title: :asc)
+      events = @target.events.ordered_by_first_event_time.includes(:event_times)
       @target_current_events, @target_past_events = events.partition(&:in_configured_year?)
     end
 

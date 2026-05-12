@@ -10,12 +10,12 @@ module Admin
     end
 
     def show
-      events = @department.events.includes(:event_times).order(title: :asc)
+      events = @department.events.ordered_by_first_event_time.includes(:event_times)
       @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     def edit
-      events = @department.events.includes(:event_times).order(title: :asc)
+      events = @department.events.ordered_by_first_event_time.includes(:event_times)
       @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 

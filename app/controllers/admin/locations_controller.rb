@@ -11,13 +11,13 @@ module Admin
     end
 
     def show
-      @location = Location.includes(:events, camp: { events: :event_times }).find(params[:id])
+      @location = Location.find(params[:id])
 
-      direct_events = @location.events.sort_by { |e| e.title.to_s }
-      @current_events, @past_events = direct_events.partition(&:in_configured_year?)
+      direct = @location.events.ordered_by_first_event_time.includes(:event_times)
+      @current_events, @past_events = direct.partition(&:in_configured_year?)
 
       if @location.camp.present?
-        camp_events = @location.camp.events.sort_by { |e| e.title.to_s }
+        camp_events = @location.camp.events.ordered_by_first_event_time.includes(:event_times)
         @current_camp_events, @past_camp_events = camp_events.partition(&:in_configured_year?)
       end
     end
@@ -30,7 +30,7 @@ module Admin
         return
       end
 
-      events = @location.events.includes(:event_times).order(title: :asc)
+      events = @location.events.ordered_by_first_event_time.includes(:event_times)
       @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
