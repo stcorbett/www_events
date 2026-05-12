@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const item = document.createElement('a');
           item.classList.add('list-group-item', 'list-group-item-action');
           item.href = "#";
-          item.textContent = camp.name;
+          item.textContent = camp.site_identifier ? `${camp.name} (site ${camp.site_identifier})` : camp.name;
           item.setAttribute('data-camp-id', camp.id);
           item.addEventListener('click', function(event) {
             event.preventDefault();
@@ -621,7 +621,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const item = document.createElement('a');
           item.classList.add('list-group-item', 'list-group-item-action');
           item.href = "#";
-          item.textContent = camp.name;
+          item.textContent = camp.site_identifier ? `${camp.name} (site ${camp.site_identifier})` : camp.name;
           item.setAttribute('data-camp-id', camp.id);
           item.addEventListener('click', function(event) {
             event.preventDefault();
