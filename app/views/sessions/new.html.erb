@@ -1,4 +1,6 @@
 <div class="row">
+  <% in_app_browser = params[:in_app_browser].present? %>
+  <% google_auth_config_missing = params[:google_auth_config_missing].present? %>
 
   <div class="col-md-6 col-sm-6">
     <% if t(:download_map_url).include?("http") %>
@@ -17,11 +19,20 @@
       <p>Please contact <a href="mailto:info@lakesoffire.org">info@lakesoffire.org</a> if you have any questions.</p>
       <br/>
 
-      <p id="google-login-p">
-        <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
+      <% if google_auth_config_missing %>
+        <div class="alert alert-warning">
+          <strong>Google login is not configured.</strong>
+          <p>Please restart the app after restoring the local Google OAuth config.</p>
+        </div>
+      <% end %>
+
+      <p id="google-login-p" style="<%= 'display: none;' if in_app_browser || google_auth_config_missing %>">
+        <% unless in_app_browser || google_auth_config_missing %>
+          <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
+        <% end %>
       </p>
 
-      <div id="inapp-message" style="display: none;">
+      <div id="inapp-message" style="<%= 'display: none;' unless in_app_browser %>">
         <div class="alert alert-warning">
           <strong>In-app browser detected.</strong>
           <p>
@@ -31,9 +42,6 @@
             To log in, please open this website in your phone's main browser (e.g., Chrome, Safari).
           </p>
         </div>
-        <p>
-          <%= link_to "Log In with Google", google_login_path %>
-        </p>
       </div>
     </div>
   </div>
@@ -42,7 +50,11 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const i = new InApp();
+    if (!window.InApp) {
+      return;
+    }
+
+    const i = new window.InApp();
 
     if (i.isInApp) {
       document.getElementById('google-login-p').style.display = 'none';

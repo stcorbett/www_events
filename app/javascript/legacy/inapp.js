@@ -17,12 +17,12 @@ class InApp {
 
   ua = '';
 
-  constructor(useragent) {
-    this.ua = useragent;
+  constructor(useragent = window.navigator.userAgent) {
+    this.ua = useragent || '';
   }
 
   get browser() {
-    return findKey(BROWSER, regex => regex.test(this.ua)) || 'other';
+    return Object.keys(BROWSER).find(name => BROWSER[name].test(this.ua)) || 'other';
   }
 
   get isMobile() {
@@ -35,11 +35,18 @@ class InApp {
 
   get isInApp() {
     const rules = [
+      '\\bFB[\\w_]+\\/',
+      '\\bInstagram\\b',
+      '\\bLine\\/',
+      '\\bMicroMessenger\\/',
+      '\\bTwitter\\b',
       'WebView',
       '(iPhone|iPod|iPad)(?!.*Safari\/)',
       'Android.*(wv)',
     ];
     const regex = new RegExp(`(${rules.join('|')})`, 'ig');
-    return Boolean(navigator.userAgent.match(regex));
+    return Boolean(this.ua.match(regex));
   }
 }
+
+window.InApp = InApp;
