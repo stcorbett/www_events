@@ -15,12 +15,13 @@ class Event < ActiveRecord::Base
 
   validates :main_contact_person, :contact_person_email,
             :event_recurrence, :event_description, :user, :title,
-            :where_object, :who_object,
+            :where_object,
             presence: true
 
   validates_length_of :event_description, :minimum => 0, :maximum => 20000
 
   validate :has_event_time
+  validate :has_who_object
 
   scope :configured_year, -> { where("events.created_at > ?", Date.new(LakesOfFireConfig.year,1,1)) }
 
@@ -76,6 +77,19 @@ class Event < ActiveRecord::Base
   def has_event_time
     if event_times.empty?
       errors.add(:event_times, "are needed")
+    end
+  end
+
+  def has_who_object
+    case who
+    when 'camp'
+      errors.add(:who_camp, "can't be blank") if hosting_camp.blank?
+    when 'lakes_of_fire'
+      errors.add(:department, "can't be blank") if department.blank?
+    when 'just_me'
+      true
+    else
+      errors.add(:who, "is not valid")
     end
   end
 
@@ -195,7 +209,7 @@ class Event < ActiveRecord::Base
   def who
     return 'camp' if hosting_camp.present?
     return 'lakes_of_fire' if department.present?
-    'just_me'
+    read_attribute(:who).presence || 'just_me'
   end
 
   def who_camp
