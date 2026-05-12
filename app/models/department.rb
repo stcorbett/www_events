@@ -2,7 +2,7 @@ class Department < ActiveRecord::Base
   belongs_to :location, optional: true
   has_many :events
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   scope :archived,     -> { where(archived: true) }
   scope :not_archived, -> { where(archived: false) }
