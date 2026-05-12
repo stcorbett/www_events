@@ -1,7 +1,7 @@
 module Admin
   class DepartmentsController < ApplicationController
     before_action :require_admin
-    before_action :set_department, only: [:show, :update, :destroy]
+    before_action :set_department, only: [:show, :edit, :update, :destroy]
 
     def index
       departments = Department.includes(:events).order(name: :asc)
@@ -10,6 +10,11 @@ module Admin
     end
 
     def show
+      events = @department.events.includes(:event_times).order(title: :asc)
+      @current_events, @past_events = events.partition(&:in_configured_year?)
+    end
+
+    def edit
       events = @department.events.includes(:event_times).order(title: :asc)
       @current_events, @past_events = events.partition(&:in_configured_year?)
     end
@@ -31,11 +36,10 @@ module Admin
       if @department.update(department_params)
         redirect_to admin_departments_path, notice: 'Department was successfully updated.'
       else
-        departments = Department.includes(:events).order(name: :asc)
-      @active_departments, @archived_departments = departments.partition { |d| !d.archived }
-        @form_department = @department # This @department has errors
+        events = @department.events.includes(:event_times).order(title: :asc)
+        @current_events, @past_events = events.partition(&:in_configured_year?)
         flash.now[:alert] = 'Error updating department.'
-        render :index
+        render :edit, status: :unprocessable_entity
       end
     end
 

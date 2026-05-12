@@ -33,15 +33,7 @@
           <% if location.camp.present? %>
             <%= link_to 'Edit', edit_admin_camp_path(location.camp), class: 'btn btn-xs btn-outline-primary' %>
           <% else %>
-            <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-location-link',
-                data: { id: location.id,
-                        name: location.name,
-                        precision: location.precision,
-                        camp_site_identifier: location.camp_site_identifier,
-                        lat: location.lat,
-                        lng: location.lng,
-                        archived: location.archived,
-                        form_action: admin_location_path(location) } %>
+            <%= link_to 'Edit', edit_admin_location_path(location), class: 'btn btn-xs btn-outline-primary' %>
           <% end %>
 
           <% if location.events.empty? %>

@@ -10,13 +10,13 @@
 <% end %>
 
 <div class="row">
-  <%# Left Column: Form for New/Edit Location %>
+  <%# Left Column: Form for New Location %>
   <div class="col-xl-5">
     <h3 class='border-bottom-0'>Locations</h3>
 
     <div id="form-panel" class="card">
       <div class="card-body">
-        <h4 id="form-title">New Location</h4> <%# Title will be changed by JS when editing %>
+        <h4>New Location</h4>
         <%= render 'form', location: @form_location %>
       </div>
     </div>
@@ -42,110 +42,3 @@
     <% end %>
   </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('location_form');
-  const formTitle = document.getElementById('form-title');
-  const nameField = document.getElementById('location_name');
-  const precisionField = document.getElementById('location_precision');
-  const campSiteIdentifierField = document.getElementById('location_camp_site_identifier');
-  const latField = document.getElementById('location_lat');
-  const lngField = document.getElementById('location_lng');
-  const archivedField = document.getElementById('location_archived');
-  const submitButton = form.querySelector('input[type="submit"]');
-  const newLocationAction = "<%= admin_locations_path %>"; // For creating new locations
-
-  function resetFormToNew() {
-    formTitle.innerText = 'New Location';
-    form.action = newLocationAction;
-    const methodField = form.querySelector('input[name="_method"]');
-    if (methodField) methodField.remove();
-
-    nameField.value = '';
-    precisionField.value = '';
-    campSiteIdentifierField.value = '';
-    latField.value = '';
-    lngField.value = '';
-    if (archivedField) archivedField.checked = false;
-    submitButton.value = 'Create Location';
-    form.removeAttribute('data-editing-id');
-    // Ensure any active row highlighting is removed
-    document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
-  }
-
-  let cancelButton = document.getElementById('cancel-edit-location');
-  if (!cancelButton) {
-    cancelButton = document.createElement('button');
-    cancelButton.setAttribute('type', 'button');
-    cancelButton.setAttribute('id', 'cancel-edit-location');
-    cancelButton.classList.add('btn', 'btn-light', 'btn-sm', 'ml-2');
-    cancelButton.innerText = 'Cancel';
-    if(submitButton && submitButton.parentNode) {
-        submitButton.parentNode.insertBefore(cancelButton, submitButton.nextSibling);
-    }
-  }
-  cancelButton.addEventListener('click', resetFormToNew);
-
-  // Re-activate and ensure this JS for edit links is correct
-  document.querySelectorAll('.edit-location-link').forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      const locationData = this.dataset;
-      
-      formTitle.innerText = 'Edit Location: ' + locationData.name;
-      form.action = locationData.formAction;
-      
-      let methodField = form.querySelector('input[name="_method"]');
-      if (!methodField) {
-        methodField = document.createElement('input');
-        methodField.type = 'hidden';
-        methodField.name = '_method';
-        form.appendChild(methodField);
-      }
-      methodField.value = 'patch';
-      
-      nameField.value = locationData.name || '';
-      precisionField.value = locationData.precision || '';
-      campSiteIdentifierField.value = locationData.campSiteIdentifier || '';
-      latField.value = locationData.lat || '';
-      lngField.value = locationData.lng || '';
-      if (archivedField) archivedField.checked = locationData.archived === 'true';
-      submitButton.value = 'Update Location';
-      form.setAttribute('data-editing-id', locationData.id);
-
-      // Highlight the row being edited and remove from others
-      document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
-      this.closest('tr').classList.add('table-info');
-
-      form.scrollIntoView({ behavior: 'smooth' });
-      nameField.focus();
-    });
-  });
-  
-  const hasErrors = form.querySelector('.field_with_errors') || form.querySelector('.alert-danger');
-  const isNewRecordFormContext = <%= @form_location.new_record?.to_s %>;
-
-  if (!hasErrors && isNewRecordFormContext && !form.hasAttribute('data-editing-id')) {
-    resetFormToNew(); 
-  } else if (hasErrors && isNewRecordFormContext) {
-    formTitle.innerText = 'New Location'; 
-    submitButton.value = 'Create Location';
-  } else if (hasErrors && !isNewRecordFormContext) {
-    formTitle.innerText = 'Edit Location: ' + (nameField.value || 'Error in data'); 
-    submitButton.value = 'Update Location';
-  } else if (!hasErrors && !isNewRecordFormContext && form.hasAttribute('data-editing-id')){
-    // This case handles if an edit was in progress and page reloaded without error (e.g. browser refresh)
-    // It might be better to reset to new, or try to repopulate, but for now, let it be.
-    // Or ensure data is repopulated if @form_location is an existing record.
-     if (<%= !@form_location.new_record?.to_s %> && form.getAttribute('data-editing-id') === "<%= @form_location.id.to_s %>") {
-        formTitle.innerText = 'Edit Location: ' + nameField.value;
-        submitButton.value = 'Update Location';
-     } else {
-        resetFormToNew(); // Default to new if something is inconsistent
-     }
-  } else {
-    resetFormToNew(); // Default to new for any other unhandled state
-  }
-});
-</script> 

@@ -1,7 +1,7 @@
 module Admin
   class LocationsController < ApplicationController
     before_action :require_admin
-    before_action :set_location, only: [:show, :update, :destroy]
+    before_action :set_location, only: [:show, :edit, :update, :destroy]
 
     # GET /admin/locations
     def index
@@ -20,6 +20,18 @@ module Admin
         camp_events = @location.camp.events.sort_by { |e| e.title.to_s }
         @current_camp_events, @past_camp_events = camp_events.partition(&:in_configured_year?)
       end
+    end
+
+    # GET /admin/locations/:id/edit
+    def edit
+      # Locations attached to a camp are edited via the camp's edit page.
+      if @location.camp.present?
+        redirect_to edit_admin_camp_path(@location.camp)
+        return
+      end
+
+      events = @location.events.includes(:event_times).order(title: :asc)
+      @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     # POST /admin/locations
@@ -41,11 +53,10 @@ module Admin
       if @location.update(location_params)
         redirect_to admin_locations_path, notice: 'Location was successfully updated.'
       else
-        locations = Location.includes(:camp, :events).order(name: :asc)
-        @active_locations, @archived_locations = locations.partition { |l| !l.archived }
-        @form_location = @location
+        events = @location.events.includes(:event_times).order(title: :asc)
+        @current_events, @past_events = events.partition(&:in_configured_year?)
         flash.now[:alert] = 'Error updating location.'
-        render :index
+        render :edit, status: :unprocessable_entity
       end
     end
 

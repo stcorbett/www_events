@@ -15,11 +15,7 @@
         <td><%= department.events.count(&:in_configured_year?) %></td>
         <td class="text-muted"><%= department.events.size %></td>
         <td>
-          <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-department-link',
-              data: { id: department.id,
-                      name: department.name,
-                      archived: department.archived,
-                      form_action: admin_department_path(department) } %>
+          <%= link_to 'Edit', edit_admin_department_path(department), class: 'btn btn-xs btn-outline-primary' %>
           <%= link_to 'Show', admin_department_path(department), class: 'btn btn-xs btn-outline-info' %>
 
           <% if department.events.any? %>

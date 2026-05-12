@@ -10,18 +10,18 @@
 <% end %>
 
 <div class="row">
-  <%# Right Column: Form for New/Edit Department %>
+  <%# Form for New Department %>
   <div class="col-md-6">
     <h3 class='border-bottom-0'>Departments</h3>
     <div id="form-panel" class="card">
       <div class="card-body">
-        <h4 id="form-title">New Department</h4>
+        <h4>New Department</h4>
         <%= render 'form', department: @form_department %>
       </div>
     </div>
   </div>
 
-  <%# Left Column: List of Departments %>
+  <%# List of Departments %>
   <div class="col-md-6">
     <h3 class='border-bottom-0'>&nbsp;</h3>
     <div class="card">
@@ -40,86 +40,3 @@
     <% end %>
   </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('department_form');
-  const formTitle = document.getElementById('form-title');
-  const nameField = document.getElementById('department_name');
-  const archivedField = document.getElementById('department_archived');
-  const submitButton = form.querySelector('input[type="submit"]');
-  const newDepartmentAction = "<%= admin_departments_path %>";
-
-  function resetFormToNew() {
-    formTitle.innerText = 'New Department';
-    form.action = newDepartmentAction;
-    const methodField = form.querySelector('input[name="_method"]');
-    if (methodField) methodField.remove();
-    nameField.value = '';
-    if (archivedField) archivedField.checked = false;
-    submitButton.value = 'Create Department';
-    form.removeAttribute('data-editing-id');
-    document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
-  }
-
-  let cancelButton = document.getElementById('cancel-edit-department');
-  if (!cancelButton) {
-    cancelButton = document.createElement('button');
-    cancelButton.setAttribute('type', 'button');
-    cancelButton.setAttribute('id', 'cancel-edit-department');
-    cancelButton.classList.add('btn', 'btn-light', 'btn-sm', 'ml-2');
-    cancelButton.innerText = 'Cancel';
-    if(submitButton && submitButton.parentNode) {
-        submitButton.parentNode.insertBefore(cancelButton, submitButton.nextSibling);
-    }
-  }
-  cancelButton.addEventListener('click', resetFormToNew);
-
-  document.querySelectorAll('.edit-department-link').forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      const departmentData = this.dataset;
-      formTitle.innerText = 'Edit Department: ' + departmentData.name;
-      form.action = departmentData.formAction; // Corrected from form_action
-      let methodField = form.querySelector('input[name="_method"]');
-      if (!methodField) {
-        methodField = document.createElement('input');
-        methodField.type = 'hidden';
-        methodField.name = '_method';
-        form.appendChild(methodField);
-      }
-      methodField.value = 'patch';
-      nameField.value = departmentData.name || '';
-      if (archivedField) archivedField.checked = departmentData.archived === 'true';
-      submitButton.value = 'Update Department';
-      form.setAttribute('data-editing-id', departmentData.id);
-      document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
-      this.closest('tr').classList.add('table-info');
-      form.scrollIntoView({ behavior: 'smooth' });
-      nameField.focus();
-    });
-  });
-  
-  const hasErrors = form.querySelector('.field_with_errors') || form.querySelector('.alert-danger');
-  const isNewRecordFormContext = <%= @form_department.new_record?.to_s %>;
-
-  if (!hasErrors && isNewRecordFormContext && !form.hasAttribute('data-editing-id')) {
-    resetFormToNew(); 
-  } else if (hasErrors && isNewRecordFormContext) {
-    formTitle.innerText = 'New Department'; 
-    submitButton.value = 'Create Department';
-  } else if (hasErrors && !isNewRecordFormContext) {
-    formTitle.innerText = 'Edit Department: ' + (nameField.value || 'Error in data'); 
-    submitButton.value = 'Update Department';
-  } else if (!hasErrors && !isNewRecordFormContext && form.hasAttribute('data-editing-id')){
-     if (<%= !@form_department.new_record?.to_s %> && form.getAttribute('data-editing-id') === "<%= @form_department.id.to_s %>") {
-        formTitle.innerText = 'Edit Department: ' + nameField.value;
-        submitButton.value = 'Update Department';
-     } else {
-        resetFormToNew();
-     }
-  } else {
-    resetFormToNew();
-  }
-});
-</script> 

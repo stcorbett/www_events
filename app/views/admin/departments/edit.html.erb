@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>
+      Edit Department: <%= @department.name %>
+      <% if @department.archived %>
+        <span class="badge bg-secondary align-middle">Archived</span>
+      <% end %>
+    </h3>
+    <p><%= link_to 'Back to Departments', admin_departments_path, class: 'btn btn-outline-secondary btn-sm' %></p>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <%= render 'form', department: @department %>
+      </div>
+    </div>
+
+    <h4>Events in this Department</h4>
+    <%= render 'admin/events_table',
+               events:        @current_events,
+               empty_message: 'No events are currently associated with this department.' %>
+
+    <h4 class="mt-4">Past Events</h4>
+    <%= render 'admin/events_table',
+               events:        @past_events,
+               empty_message: 'No past events for this department.',
+               show_year:     true %>
+  </div>
+</div>
