@@ -6,8 +6,9 @@ module Admin
       Location
     end
 
+    # See CampMergesController#move_events! for rationale on update_all.
     def move_events!
-      @source.events.find_each { |e| e.update!(location: @target) }
+      @source.events.update_all(location_id: @target.id, updated_at: Time.zone.now)
     end
   end
 end
