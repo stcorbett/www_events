@@ -65,11 +65,12 @@ class Event < ActiveRecord::Base
       food: '🍽',
       crafting: '🎨',
       sober: '⚖️',
+      kid_friendly: '👶',
     }
   end
 
   def categories
-    [:fire_art, :alcohol, :red_light, :spectacle, :food, :crafting, :sober].select do |sym|
+    [:fire_art, :alcohol, :red_light, :spectacle, :food, :crafting, :sober, :kid_friendly].select do |sym|
       send(sym)
     end
   end
@@ -290,6 +291,7 @@ class Event < ActiveRecord::Base
       "Craft" => !!crafting,
       "Sober" => !!sober,
       "Spectacle" => !!spectacle,
+      "KidFriendly" => !!kid_friendly,
       "HumanLocation" => human_location,
       "HumanWho" => human_who,
       "HumanTime" => current_event_time.human_time

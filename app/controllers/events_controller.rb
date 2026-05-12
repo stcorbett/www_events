@@ -118,7 +118,7 @@ private
   def event_params
     permitted = params.require(:event).permit(:main_contact_person, :contact_person_email,
                                                :event_recurrence, :event_description, :title, :fire_art, :red_light, :alcohol,
-                                               :spectacle, :food, :sober, :crafting, :where_camp_id, :where_camp,
+                                               :spectacle, :food, :sober, :crafting, :kid_friendly, :where_camp_id, :where_camp,
                                                :where_location_id, :where_location, :where_imprecise_id, :where_imprecise,
                                                :hosting_camp_id, :who_camp, :department_id)
 

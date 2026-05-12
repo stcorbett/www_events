@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_17_240426) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_11_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_17_240426) do
     t.bigint "camp_id"
     t.bigint "department_id"
     t.integer "hosting_camp_id"
+    t.boolean "kid_friendly"
     t.index ["camp_id"], name: "index_events_on_camp_id"
     t.index ["department_id"], name: "index_events_on_department_id"
     t.index ["hosting_camp_id"], name: "index_events_on_hosting_camp_id"

@@ -29,7 +29,7 @@ RSpec.describe "Event submission", type: :system do
       where: { type: :multiple_locations, name: "Where the music is kindest" },
       who: { type: :just_me },
       when: { type: :single, day: "Sat - 7/18", start: "6:00PM", ending: "7:15PM" },
-      categories: %w[event_sober]
+      categories: %w[event_sober event_kid_friendly]
     }
   ]
 
