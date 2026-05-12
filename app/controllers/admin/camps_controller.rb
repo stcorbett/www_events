@@ -9,12 +9,14 @@ module Admin
     end
 
     def show
-      @events = @camp.events.includes(:event_times).order(title: :asc)
+      events = @camp.events.includes(:event_times).order(title: :asc)
+      @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     def edit
       @camp.build_location unless @camp.location
-      @events = @camp.events.includes(:event_times).order(title: :asc)
+      events = @camp.events.includes(:event_times).order(title: :asc)
+      @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     def create
@@ -33,7 +35,8 @@ module Admin
       if @camp.update(camp_params)
         redirect_to admin_camp_path(@camp), notice: 'Camp was successfully updated.'
       else
-        @events = @camp.events.includes(:event_times).order(title: :asc)
+        events = @camp.events.includes(:event_times).order(title: :asc)
+        @current_events, @past_events = events.partition(&:in_configured_year?)
         flash.now[:alert] = 'Error updating camp.'
         render :edit, status: :unprocessable_entity
       end

@@ -1,0 +1,61 @@
+<%#
+  Renders a table of events with their event_times. Falls back to a Bootstrap
+  alert with `empty_message` when `events` is empty.
+
+  Locals:
+    events:        required — collection of Event records
+    empty_message: required — string shown in alert when events is empty
+    show_actions:  optional (default true)  — adds the Actions column with a "Show" link
+    card_wrap:     optional (default true)  — wraps the table in a Bootstrap card
+    show_year:     optional (default false) — prefixes each title with "(YYYY) "
+%>
+<% show_actions = local_assigns.fetch(:show_actions, true) %>
+<% card_wrap    = local_assigns.fetch(:card_wrap, true) %>
+<% show_year    = local_assigns.fetch(:show_year, false) %>
+
+<% if events.any? %>
+  <% if card_wrap %><div class="card"><div class="card-body"><% end %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Times</th>
+          <% if show_actions %><th>Actions</th><% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% events.each do |event| %>
+          <tr>
+            <td>
+              <% prefix = show_year ? "(#{event.created_at.year}) " : "" %>
+              <%= link_to "#{prefix}#{event.title}", event_path(event) %>
+            </td>
+            <td>
+              <% if event.event_times.any? %>
+                <ul class="list-unstyled mb-0">
+                  <% event.event_times.each do |time| %>
+                    <li>
+                      <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>
+                      <%= time.starting.strftime('%I:%M %p') %>
+                      <%= " - #{time.ending.strftime('%I:%M %p')}" if time.ending.present? %>
+                      <%= " (All day)" if time.all_day %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% else %>
+                No scheduled times
+              <% end %>
+            </td>
+            <% if show_actions %>
+              <td>
+                <%= link_to 'Show', event_path(event), class: 'btn btn-outline-info btn-sm' %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% if card_wrap %></div></div><% end %>
+<% else %>
+  <div class="alert alert-info"><%= empty_message %></div>
+<% end %>

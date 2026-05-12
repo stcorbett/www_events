@@ -13,7 +13,8 @@ module Admin
     end
 
     def show
-      @events = @user.events.includes(:event_times).order(title: :asc)
+      events = @user.events.includes(:event_times).order(title: :asc)
+      @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     def edit

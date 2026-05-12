@@ -9,7 +9,8 @@ module Admin
     end
 
     def show
-      @events = @department.events.includes(:event_times).order(title: :asc)
+      events = @department.events.includes(:event_times).order(title: :asc)
+      @current_events, @past_events = events.partition(&:in_configured_year?)
     end
 
     def create

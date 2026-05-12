@@ -10,8 +10,15 @@ module Admin
     end
 
     def show
-      @events = @location.events.includes(:event_times).order(title: :asc)
-      @location = Location.includes(camp: :events).find(params[:id])
+      @location = Location.includes(:events, camp: { events: :event_times }).find(params[:id])
+
+      direct_events = @location.events.sort_by { |e| e.title.to_s }
+      @current_events, @past_events = direct_events.partition(&:in_configured_year?)
+
+      if @location.camp.present?
+        camp_events = @location.camp.events.sort_by { |e| e.title.to_s }
+        @current_camp_events, @past_camp_events = camp_events.partition(&:in_configured_year?)
+      end
     end
 
     # POST /admin/locations

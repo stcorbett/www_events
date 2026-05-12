@@ -27,41 +27,19 @@
           
           <div class="col-md-6">
             <h4>Events Associated with User</h4>
-            <% if @events.any? %>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Times</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @events.each do |event| %>
-                    <tr>
-                      <td><%= link_to event.title, event_path(event) %></td>
-                      <td>
-                        <% if event.event_times.any? %>
-                          <ul class="list-unstyled">
-                            <% event.event_times.each do |time| %>
-                              <li>
-                                <%= time.day_of_week.present? ? "#{time.day_of_week}, " : "" %>
-                                <%= time.starting.strftime('%I:%M %p') %>
-                                <%= " - #{time.ending.strftime('%I:%M %p')}" if time.ending.present? %>
-                                <%= " (All day)" if time.all_day %>
-                              </li>
-                            <% end %>
-                          </ul>
-                        <% else %>
-                          No scheduled times
-                        <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            <% else %>
-              <div class="alert alert-info">This user is not associated with any events.</div>
-            <% end %>
+            <%= render 'admin/events_table',
+                       events:        @current_events,
+                       empty_message: 'This user is not associated with any events this year.',
+                       show_actions:  false,
+                       card_wrap:     false %>
+
+            <h4 class="mt-4">Past Events</h4>
+            <%= render 'admin/events_table',
+                       events:        @past_events,
+                       empty_message: 'This user has no events from previous years.',
+                       show_actions:  false,
+                       card_wrap:     false,
+                       show_year:     true %>
           </div>
         </div>
       </div>
