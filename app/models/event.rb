@@ -22,6 +22,7 @@ class Event < ActiveRecord::Base
 
   validate :has_event_time
   validate :has_who_object
+  validate :associated_records_not_archived, on: :create
 
   scope :configured_year, -> { where("events.created_at > ?", Date.new(LakesOfFireConfig.year,1,1)) }
 
@@ -87,6 +88,13 @@ class Event < ActiveRecord::Base
     if event_times.empty?
       errors.add(:event_times, "are needed")
     end
+  end
+
+  def associated_records_not_archived
+    errors.add(:camp,         "is inactive, a new event needs an active camp")         if camp&.archived
+    errors.add(:hosting_camp, "is inactive, a new event needs an active hosting camp") if hosting_camp&.archived
+    errors.add(:location,     "is inactive, a new event needs an active location")     if location&.archived
+    errors.add(:department,   "is inactive, a new event needs an active department")   if department&.archived
   end
 
   def has_who_object
