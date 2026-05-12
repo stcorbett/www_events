@@ -5,7 +5,7 @@ module Admin
 
     # GET /admin/locations
     def index
-      @locations = Location.includes(:camp).order(name: :asc)
+      @locations = Location.includes(:camp, :events).order(name: :asc)
       @form_location = Location.new
     end
 

@@ -10,8 +10,8 @@
 <% end %>
 
 <div class="row">
-  <%# Right Column: Form for New/Edit Location %>
-  <div class="col-sm-5 col-sm-push-7">
+  <%# Left Column: Form for New/Edit Location %>
+  <div class="col-xl-5">
     <h3 class='border-bottom-0'>Locations</h3>
 
     <div id="form-panel" class="card">
@@ -22,8 +22,8 @@
     </div>
   </div>
 
-  <%# Left Column: List of Locations %>
-  <div class="col-sm-7 col-sm-pull-5">
+  <%# Right Column: List of Locations %>
+  <div class="col-xl-7">
     <h3 class='border-bottom-0'>&nbsp;</h3>
 
     <div class="card">
@@ -36,6 +36,8 @@
               <th>Camp Site ID</th>
               <th>Lat</th>
               <th>Lng</th>
+              <th title="Events created this year">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
+              <th title="All-time events" class="text-muted">Events <small>(all time)</small></th>
               <th>Actions</th> <%# Re-added Actions column %>
             </tr>
           </thead>
@@ -53,6 +55,8 @@
                 <td><%= location.camp_site_identifier %></td>
                 <td><%= location.lat %></td>
                 <td><%= location.lng %></td>
+                <td><%= location.events.count(&:in_configured_year?) %></td>
+                <td class="text-muted"><%= location.events.size %></td>
                 <td>
                   <%= link_to 'Show', admin_location_path(location), class: 'btn btn-xs btn-outline-info' %>
                   <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-location-link',

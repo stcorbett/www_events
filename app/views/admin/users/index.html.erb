@@ -20,7 +20,8 @@
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>Events</th>
+              <th title="Events created this year">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
+              <th title="All-time events" class="text-muted">Events <small>(all time)</small></th>
               <th>Admin</th>
               <th>Actions</th>
             </tr>
@@ -30,7 +31,8 @@
               <tr>
                 <td><%= link_to user.name, admin_user_path(user) %></td>
                 <td><%= link_to user.email, admin_user_path(user) %></td>
-                <td><%= user.events_count %></td>
+                <td><%= user.current_year_events_count %></td>
+                <td class="text-muted"><%= user.events_count %></td>
                 <td><%= user.admin ? 'Yes' : 'No' %></td>
                 <td>
                   <%= link_to 'Show', admin_user_path(user), class: 'btn btn-outline-info btn-sm' %>

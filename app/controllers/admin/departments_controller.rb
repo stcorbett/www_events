@@ -4,7 +4,7 @@ module Admin
     before_action :set_department, only: [:show, :update, :destroy]
 
     def index
-      @departments = Department.all.order(name: :asc)
+      @departments = Department.includes(:events).order(name: :asc)
       @form_department = Department.new
     end
 
@@ -17,7 +17,7 @@ module Admin
       if @department.save
         redirect_to admin_departments_path, notice: 'Department was successfully created.'
       else
-        @departments = Department.all.order(name: :asc)
+        @departments = Department.includes(:events).order(name: :asc)
         @form_department = @department
         flash.now[:alert] = 'Error creating department.'
         render :index
@@ -28,7 +28,7 @@ module Admin
       if @department.update(department_params)
         redirect_to admin_departments_path, notice: 'Department was successfully updated.'
       else
-        @departments = Department.all.order(name: :asc)
+        @departments = Department.includes(:events).order(name: :asc)
         @form_department = @department # This @department has errors
         flash.now[:alert] = 'Error updating department.'
         render :index
@@ -41,7 +41,7 @@ module Admin
       if @department.destroy
         redirect_to admin_departments_path, notice: 'Department was successfully destroyed.'
       else
-        @departments = Department.all.order(name: :asc)
+        @departments = Department.includes(:events).order(name: :asc)
         @form_department = Department.new 
         flash.now[:alert] = @department.errors.full_messages.join(", ") || "Could not destroy department."
         render :index

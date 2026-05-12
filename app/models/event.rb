@@ -25,6 +25,14 @@ class Event < ActiveRecord::Base
 
   scope :configured_year, -> { where("events.created_at > ?", Date.new(LakesOfFireConfig.year,1,1)) }
 
+  def self.configured_year_cutoff
+    Date.new(LakesOfFireConfig.year, 1, 1).in_time_zone
+  end
+
+  def in_configured_year?
+    created_at > self.class.configured_year_cutoff
+  end
+
   def self.sorted_by_date(specific_date=nil)
     event_times = EventTime.configured_year.joins(:event).
                             order("event_times.starting ASC, event_times.all_day ASC, events.title ASC")

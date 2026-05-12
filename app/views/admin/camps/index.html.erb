@@ -19,7 +19,8 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Events</th>
+              <th title="Events created this year (event_times in parens)">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
+              <th title="All-time events across every year (event_times in parens)" class="text-muted">Events <small>(all time)</small></th>
               <th>Site ID</th>
               <th>Actions</th>
             </tr>
@@ -36,9 +37,13 @@
                   </div>
                 </td>
                 <td>
-                  <% event_count = camp.events.size %>
-                  <% event_time_count = camp.events.sum { |event| event.event_times.size } %>
-                  <%= event_count %> (<%= event_time_count %>)
+                  <% this_year_events = camp.events.select(&:in_configured_year?) %>
+                  <%= this_year_events.size %>
+                  (<%= this_year_events.sum { |event| event.event_times.size } %>)
+                </td>
+                <td class="text-muted">
+                  <%= camp.events.size %>
+                  (<%= camp.events.sum { |event| event.event_times.size } %>)
                 </td>
                 <td>
                   <%= camp.location&.camp_site_identifier %>

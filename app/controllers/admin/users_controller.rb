@@ -4,7 +4,12 @@ module Admin
     before_action :set_user, only: [:show, :update, :edit]
 
     def index
-      @users = User.left_joins(:events).group(:id).select('users.*, COUNT(events.id) AS events_count').order(:name)
+      cutoff = ActiveRecord::Base.connection.quote(Event.configured_year_cutoff)
+      @users = User.left_joins(:events).group(:id).select(
+        'users.*',
+        'COUNT(events.id) AS events_count',
+        "COUNT(events.id) FILTER (WHERE events.created_at > #{cutoff}) AS current_year_events_count"
+      ).order(:name)
     end
 
     def show

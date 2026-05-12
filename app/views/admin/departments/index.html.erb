@@ -30,6 +30,8 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th title="Events created this year">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
+              <th title="All-time events" class="text-muted">Events <small>(all time)</small></th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -37,6 +39,8 @@
             <% @departments.each do |department| %>
               <tr id="department_<%= department.id %>">
                 <td><%= link_to department.name, admin_department_path(department) %></td>
+                <td><%= department.events.count(&:in_configured_year?) %></td>
+                <td class="text-muted"><%= department.events.size %></td>
                 <td>
                   <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-department-link',
                       data: { id: department.id, 
