@@ -1,0 +1,58 @@
+<%# locals: locations:, table_id: 'locations-table' %>
+<table class="table table-striped" id="<%= local_assigns.fetch(:table_id, 'locations-table') %>">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Camp Site ID</th>
+      <th>Lat</th>
+      <th>Lng</th>
+      <th title="Events created this year">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
+      <th title="All-time events" class="text-muted">Events <small>(all time)</small></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% locations.each do |location| %>
+      <tr id="location_<%= location.id %>">
+        <td>
+          <% if location.camp.present? %>
+            Camp <%= link_to location.camp.name, admin_camp_path(location.camp) %>
+          <% else %>
+            <%= link_to location.name, admin_location_path(location) %>
+          <% end %>
+        </td>
+        <td><%= location.camp.present? ? "camp" : location.precision %></td>
+        <td><%= location.camp_site_identifier %></td>
+        <td><%= location.lat %></td>
+        <td><%= location.lng %></td>
+        <td><%= location.events.count(&:in_configured_year?) %></td>
+        <td class="text-muted"><%= location.events.size %></td>
+        <td>
+          <%= link_to 'Show', admin_location_path(location), class: 'btn btn-xs btn-outline-info' %>
+          <% if location.camp.present? %>
+            <%= link_to 'Edit', edit_admin_camp_path(location.camp), class: 'btn btn-xs btn-outline-primary' %>
+          <% else %>
+            <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-location-link',
+                data: { id: location.id,
+                        name: location.name,
+                        precision: location.precision,
+                        camp_site_identifier: location.camp_site_identifier,
+                        lat: location.lat,
+                        lng: location.lng,
+                        archived: location.archived,
+                        form_action: admin_location_path(location) } %>
+          <% end %>
+
+          <% if location.events.empty? %>
+            <%= link_to 'Destroy', admin_location_path(location), method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-xs btn-outline-danger ml-1' %>
+          <% else %>
+            <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: location has associated events. Please remove events first.">Destroy</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

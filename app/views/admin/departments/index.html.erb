@@ -26,44 +26,18 @@
     <h3 class='border-bottom-0'>&nbsp;</h3>
     <div class="card">
       <div class="card-body">
-        <table class="table table-striped" id="departments-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th title="Events created this year">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
-              <th title="All-time events" class="text-muted">Events <small>(all time)</small></th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @departments.each do |department| %>
-              <tr id="department_<%= department.id %>">
-                <td><%= link_to department.name, admin_department_path(department) %></td>
-                <td><%= department.events.count(&:in_configured_year?) %></td>
-                <td class="text-muted"><%= department.events.size %></td>
-                <td>
-                  <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-department-link',
-                      data: { id: department.id, 
-                              name: department.name, 
-                              form_action: admin_department_path(department) } %>
-                  <%= link_to 'Show', admin_department_path(department), class: 'btn btn-xs btn-outline-info' %>
-                  
-                  <%# Placeholder for conditional destroy based on Department model associations %>
-                  <%# Example: if department.events.any? || department.users.any? %>
-                  <% if department.respond_to?(:events) && department.events.any? %> 
-                    <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: department has associated records.">Destroy</span>
-                  <% else %>
-                     <%= link_to 'Destroy', admin_department_path(department), method: :delete, 
-                                data: { confirm: 'Are you sure?' }, 
-                                class: 'btn btn-xs btn-outline-danger ml-1' %>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render 'table', departments: @active_departments, table_id: 'departments-table' %>
       </div>
     </div>
+
+    <% if @archived_departments.any? %>
+      <h4 class="mt-4">Archived Departments</h4>
+      <div class="card">
+        <div class="card-body">
+          <%= render 'table', departments: @archived_departments, table_id: 'archived-departments-table' %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 
@@ -72,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('department_form');
   const formTitle = document.getElementById('form-title');
   const nameField = document.getElementById('department_name');
+  const archivedField = document.getElementById('department_archived');
   const submitButton = form.querySelector('input[type="submit"]');
   const newDepartmentAction = "<%= admin_departments_path %>";
 
@@ -81,9 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const methodField = form.querySelector('input[name="_method"]');
     if (methodField) methodField.remove();
     nameField.value = '';
+    if (archivedField) archivedField.checked = false;
     submitButton.value = 'Create Department';
     form.removeAttribute('data-editing-id');
-    document.querySelectorAll('#departments-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+    document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
   }
 
   let cancelButton = document.getElementById('cancel-edit-department');
@@ -114,9 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       methodField.value = 'patch';
       nameField.value = departmentData.name || '';
+      if (archivedField) archivedField.checked = departmentData.archived === 'true';
       submitButton.value = 'Update Department';
       form.setAttribute('data-editing-id', departmentData.id);
-      document.querySelectorAll('#departments-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+      document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
       this.closest('tr').classList.add('table-info');
       form.scrollIntoView({ behavior: 'smooth' });
       nameField.focus();

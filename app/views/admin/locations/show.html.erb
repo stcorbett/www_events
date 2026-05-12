@@ -1,6 +1,11 @@
 <div class="row">
   <div class="col-md-12">
-    <h3><%= @location.name %></h3>
+    <h3>
+      <%= @location.name %>
+      <% if @location.archived %>
+        <span class="badge bg-secondary align-middle">Archived</span>
+      <% end %>
+    </h3>
     <p><%= link_to 'Back to Locations', admin_locations_path, class: 'btn btn-outline-secondary btn-sm' %></p>
 
     <div class="card mb-3">

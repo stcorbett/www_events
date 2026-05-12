@@ -4,7 +4,8 @@ module Admin
     before_action :set_camp, only: [:show, :edit, :update, :destroy]
 
     def index
-      @camps = Camp.includes(:location, events: :event_times).order(name: :asc)
+      camps = Camp.includes(:location, events: :event_times).order(name: :asc)
+      @active_camps, @archived_camps = camps.partition { |c| !c.archived }
       @form_camp = Camp.new
     end
 
@@ -24,7 +25,8 @@ module Admin
       if @camp.save
         redirect_to admin_camps_path, notice: 'Camp was successfully created.'
       else
-        @camps = Camp.includes(:location, events: :event_times).order(name: :asc)
+        camps = Camp.includes(:location, events: :event_times).order(name: :asc)
+      @active_camps, @archived_camps = camps.partition { |c| !c.archived }
         @form_camp = @camp
         flash.now[:alert] = 'Error creating camp.'
         render :index
@@ -47,7 +49,8 @@ module Admin
       if @camp.destroy
         redirect_to admin_camps_path, notice: 'Camp was successfully destroyed.'
       else
-        @camps = Camp.includes(:location, events: :event_times).order(name: :asc)
+        camps = Camp.includes(:location, events: :event_times).order(name: :asc)
+      @active_camps, @archived_camps = camps.partition { |c| !c.archived }
         @form_camp = Camp.new 
         flash.now[:alert] = @camp.errors.full_messages.join(", ") || "Could not destroy camp."
         render :index
@@ -61,7 +64,7 @@ module Admin
     end
 
     def camp_params
-      p = params.require(:camp).permit(:name, :description, location_attributes: [:id, :lat, :lng, :camp_site_identifier, :name, :precision])
+      p = params.require(:camp).permit(:name, :description, :archived, location_attributes: [:id, :lat, :lng, :camp_site_identifier, :name, :precision])
       if p[:location_attributes].present?
         p[:location_attributes].merge!(name: nil, precision: 'specific')
       end

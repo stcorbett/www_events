@@ -69,16 +69,16 @@ class EventsController < ApplicationController
 private
 
   def load_camps_for_autocomplete
-    @camps_for_autocomplete = Camp.order(:name).map { |c| { id: c.id, name: c.name } }
+    @camps_for_autocomplete = Camp.not_archived.order(:name).map { |c| { id: c.id, name: c.name } }
   end
 
   def load_locations_for_autocomplete
-    @locations_for_autocomplete = Location.where(precision: 'specific').order(:name).map { |l| { id: l.id, name: l.name } }
-    @imprecise_locations_for_autocomplete = Location.where(precision: 'broad').order(:name).map { |l| { id: l.id, name: l.name } }
+    @locations_for_autocomplete = Location.not_archived.where(precision: 'specific').order(:name).map { |l| { id: l.id, name: l.name } }
+    @imprecise_locations_for_autocomplete = Location.not_archived.where(precision: 'broad').order(:name).map { |l| { id: l.id, name: l.name } }
   end
 
   def load_departments_for_autocomplete
-    @departments_for_autocomplete = Department.order(:name).map { |d| { id: d.id, name: d.name } }
+    @departments_for_autocomplete = Department.not_archived.order(:name).map { |d| { id: d.id, name: d.name } }
   end
 
   # new

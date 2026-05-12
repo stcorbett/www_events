@@ -1,6 +1,11 @@
 <div class="row">
   <div class="col-md-12">
-    <h3><%= @department.name %></h3>
+    <h3>
+      <%= @department.name %>
+      <% if @department.archived %>
+        <span class="badge bg-secondary align-middle">Archived</span>
+      <% end %>
+    </h3>
     <p><%= link_to 'Back to Departments', admin_departments_path, class: 'btn btn-outline-secondary btn-sm' %></p>
 
     <% if @department.location.present? %>

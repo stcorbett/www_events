@@ -15,6 +15,12 @@
     <%= form.text_field :name, id: 'department_name', class: 'form-control' %>
   </div>
 
+  <div class="mb-3 form-check">
+    <%= form.check_box :archived, id: 'department_archived', class: 'form-check-input' %>
+    <%= form.label :archived, 'Archived', for: 'department_archived', class: 'form-check-label' %>
+    <small class="form-text text-muted d-block">Setting this flag removes the record from the autocomplete and other interfaces where participants interact.</small>
+  </div>
+
   <div class="actions">
     <%= form.submit class: 'btn btn-primary' %>
     <%# Cancel button will be added by JS in index.html.erb %>

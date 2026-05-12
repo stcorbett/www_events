@@ -28,60 +28,18 @@
 
     <div class="card">
       <div class="card-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Camp Site ID</th>
-              <th>Lat</th>
-              <th>Lng</th>
-              <th title="Events created this year">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
-              <th title="All-time events" class="text-muted">Events <small>(all time)</small></th>
-              <th>Actions</th> <%# Re-added Actions column %>
-            </tr>
-          </thead>
-          <tbody>
-            <% @locations.each do |location| %>
-              <tr id="location_<%= location.id %>">
-                <td>
-                  <% if location.camp.present? %>
-                    Camp <%= link_to location.camp.name, admin_camp_path(location.camp) %>
-                  <% else %>
-                    <%= link_to location.name, admin_location_path(location) %>
-                  <% end %>
-                </td>
-                <td><%= location.camp.present? ? "camp" : location.precision %></td>
-                <td><%= location.camp_site_identifier %></td>
-                <td><%= location.lat %></td>
-                <td><%= location.lng %></td>
-                <td><%= location.events.count(&:in_configured_year?) %></td>
-                <td class="text-muted"><%= location.events.size %></td>
-                <td>
-                  <%= link_to 'Show', admin_location_path(location), class: 'btn btn-xs btn-outline-info' %>
-                  <%= link_to 'Edit', '#', class: 'btn btn-xs btn-outline-primary edit-location-link',
-                      data: { id: location.id, 
-                              name: location.name, 
-                              precision: location.precision,
-                              camp_site_identifier: location.camp_site_identifier,
-                              lat: location.lat,
-                              lng: location.lng,
-                              form_action: admin_location_path(location) } %>
-                  
-                  <% if location.events.empty? %>
-                    <%= link_to 'Destroy', admin_location_path(location), method: :delete, 
-                                data: { confirm: 'Are you sure?' }, 
-                                class: 'btn btn-xs btn-outline-danger ml-1' %>
-                  <% else %>
-                    <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: location has associated events. Please remove events first.">Destroy</span>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render 'table', locations: @active_locations, table_id: 'locations-table' %>
       </div>
     </div>
+
+    <% if @archived_locations.any? %>
+      <h4 class="mt-4">Archived Locations</h4>
+      <div class="card">
+        <div class="card-body">
+          <%= render 'table', locations: @archived_locations, table_id: 'archived-locations-table' %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 
@@ -94,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const campSiteIdentifierField = document.getElementById('location_camp_site_identifier');
   const latField = document.getElementById('location_lat');
   const lngField = document.getElementById('location_lng');
+  const archivedField = document.getElementById('location_archived');
   const submitButton = form.querySelector('input[type="submit"]');
   const newLocationAction = "<%= admin_locations_path %>"; // For creating new locations
 
@@ -104,14 +63,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (methodField) methodField.remove();
 
     nameField.value = '';
-    precisionField.value = ''; 
+    precisionField.value = '';
     campSiteIdentifierField.value = '';
     latField.value = '';
     lngField.value = '';
+    if (archivedField) archivedField.checked = false;
     submitButton.value = 'Create Location';
     form.removeAttribute('data-editing-id');
     // Ensure any active row highlighting is removed
-    document.querySelectorAll('#locations-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+    document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
   }
 
   let cancelButton = document.getElementById('cancel-edit-location');
@@ -150,11 +110,12 @@ document.addEventListener('DOMContentLoaded', function() {
       campSiteIdentifierField.value = locationData.campSiteIdentifier || '';
       latField.value = locationData.lat || '';
       lngField.value = locationData.lng || '';
+      if (archivedField) archivedField.checked = locationData.archived === 'true';
       submitButton.value = 'Update Location';
       form.setAttribute('data-editing-id', locationData.id);
-      
+
       // Highlight the row being edited and remove from others
-      document.querySelectorAll('#locations-table tbody tr.table-info').forEach(row => row.classList.remove('table-info'));
+      document.querySelectorAll('tr.table-info').forEach(row => row.classList.remove('table-info'));
       this.closest('tr').classList.add('table-info');
 
       form.scrollIntoView({ behavior: 'smooth' });

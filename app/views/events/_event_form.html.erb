@@ -178,7 +178,7 @@
 
 <div id="who_lakes_of_fire_event" class="mb-3" style="display:none;">
   <div class="mb-3 position-relative" >
-    <%= f.collection_select :department_id, Department.order(:name), :id, :name, { include_blank: 'Select a Department' }, { class: 'form-select form-control', id: "event_department_id_input" } %>
+    <%= f.collection_select :department_id, Department.not_archived.order(:name), :id, :name, { include_blank: 'Select a Department' }, { class: 'form-select form-control', id: "event_department_id_input" } %>
     <div id="who_department_autocomplete_list" class="list-group position-absolute w-100" style="z-index: 1000; display: none;">
       <%# Autocomplete suggestions will be populated here by JavaScript %>
     </div>

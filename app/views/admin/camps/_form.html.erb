@@ -20,6 +20,12 @@
     <%= form.text_area :description, id: 'camp_description', class: 'form-control', rows: 3 %>
   </div>
 
+  <div class="mb-3 form-check">
+    <%= form.check_box :archived, id: 'camp_archived', class: 'form-check-input' %>
+    <%= form.label :archived, 'Archived', for: 'camp_archived', class: 'form-check-label' %>
+    <small class="form-text text-muted d-block">Setting this flag removes the record from the interfaces where participants interact, like autocomplete interfaces.</small>
+  </div>
+
   <hr>
   <h5>Location Details</h5>
   <%= form.fields_for :location do |location_form| %>

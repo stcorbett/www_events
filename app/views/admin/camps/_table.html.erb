@@ -1,0 +1,50 @@
+<%# locals: camps: %>
+<table class="table table-striped" id="<%= local_assigns.fetch(:table_id, 'camps-table') %>">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th title="Events created this year (event_times in parens)">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
+      <th title="All-time events across every year (event_times in parens)" class="text-muted">Events <small>(all time)</small></th>
+      <th>Site ID</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% camps.each do |camp| %>
+      <tr id="camp_<%= camp.id %>">
+        <td>
+          <div class="camp-info">
+            <h6 class="mb-1"><%= link_to camp.name, admin_camp_path(camp) %></h6>
+            <% if camp.description.present? %>
+              <p class="mb-0 text-muted small"><%= camp.description %></p>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <% this_year_events = camp.events.select(&:in_configured_year?) %>
+          <%= this_year_events.size %>
+          (<%= this_year_events.sum { |event| event.event_times.size } %>)
+        </td>
+        <td class="text-muted">
+          <%= camp.events.size %>
+          (<%= camp.events.sum { |event| event.event_times.size } %>)
+        </td>
+        <td>
+          <%= camp.location&.camp_site_identifier %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_admin_camp_path(camp), class: 'btn btn-xs btn-outline-primary' %>
+          <%= link_to 'Show', admin_camp_path(camp), class: 'btn btn-xs btn-outline-info' %>
+
+          <% if camp.events.any? %>
+            <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: camp has associated events.">Destroy</span>
+          <% else %>
+             <%= link_to 'Destroy', admin_camp_path(camp), method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-xs btn-outline-danger ml-1' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

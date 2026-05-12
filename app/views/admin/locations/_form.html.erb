@@ -35,6 +35,12 @@
     <%= form.number_field :lng, id: 'location_lng', class: 'form-control', step: :any %>
   </div>
 
+  <div class="mb-3 form-check">
+    <%= form.check_box :archived, id: 'location_archived', class: 'form-check-input' %>
+    <%= form.label :archived, 'Archived', for: 'location_archived', class: 'form-check-label' %>
+    <small class="form-text text-muted d-block">Setting this flag removes the record from the autocomplete and other interfaces where participants interact.</small>
+  </div>
+
   <%# Add other fields for your Location model attributes here, ensuring they have unique IDs if targeted by JS %>
   <%# Example: %>
   <%# <div class="mb-3"> %>

@@ -4,6 +4,9 @@ class Department < ActiveRecord::Base
 
   validates :name, presence: true
 
+  scope :archived,     -> { where(archived: true) }
+  scope :not_archived, -> { where(archived: false) }
+
   before_destroy :check_for_events
 
   private

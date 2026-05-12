@@ -12,6 +12,9 @@ class Location < ActiveRecord::Base
   validates :lat, numericality: true, allow_nil: true
   validates :lng, numericality: true, allow_nil: true
 
+  scope :archived,     -> { where(archived: true) }
+  scope :not_archived, -> { where(archived: false) }
+
   before_destroy :check_for_events
 
   private
