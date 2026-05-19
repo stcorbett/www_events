@@ -39,6 +39,7 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
       events.crafting,
       events.food,
       events.sober,
+      events.kid_friendly,
       (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (      SELECT
         event_times.id AS event_time_id,
         event_times.starting,
