@@ -308,6 +308,18 @@ document.addEventListener('DOMContentLoaded', function() {
     multipleRecurrenceRadio.addEventListener('change', toggleRecurrenceSections);
     toggleRecurrenceSections(); // Initial check
   }
+
+  // Mutually-exclusive category checkboxes. When one is checked, deselect its pair.
+  function bindMutualExclusion(idA, idB) {
+    const a = document.getElementById(idA);
+    const b = document.getElementById(idB);
+    if (!a || !b) return;
+    a.addEventListener('change', function() { if (a.checked) b.checked = false; });
+    b.addEventListener('change', function() { if (b.checked) a.checked = false; });
+  }
+
+  bindMutualExclusion('event_alcohol',      'event_sober');     // Alcohol Served <-> Sober
+  bindMutualExclusion('event_kid_friendly', 'event_red_light'); // Kid Friendly <-> Explicit
 });
 </script>
 
