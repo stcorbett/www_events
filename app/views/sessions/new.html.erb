@@ -34,11 +34,11 @@
         <% unless in_app_browser || google_auth_config_missing %>
           <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
         <% end %>
-        <%= link_to "Log In with Email", email_login_path, class: "btn btn-info ms-2" %>
+        <%= link_to "Log In with Email", email_login_path, class: "invisible btn btn-info ms-2" %>
       </p>
 
       <p id="email-only-login" style="<%= 'display: none;' unless in_app_browser || google_auth_config_missing %>">
-        <%= link_to "Log In with Email", email_login_path, class: "btn btn-info" %>
+        <%= link_to "Log In with Email", email_login_path, class: "invisible btn btn-info" %>
       </p>
 
       <div id="inapp-message" style="<%= 'display: none;' unless in_app_browser %>">
