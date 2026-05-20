@@ -41,6 +41,25 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # If the MAILERTOGO_* env vars are set locally (e.g. via `heroku config:pull`,
+  # a .env file, or your shell), route dev mail through the same SMTP relay as
+  # production. Otherwise the Rails default (no delivery) applies.
+  if ENV['MAILERTOGO_SMTP_HOST'].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.smtp_settings = {
+      address:              ENV['MAILERTOGO_SMTP_HOST'],
+      port:                 ENV.fetch('MAILERTOGO_SMTP_PORT', 587).to_i,
+      user_name:            ENV['MAILERTOGO_SMTP_USER'],
+      password:             ENV['MAILERTOGO_SMTP_PASSWORD'],
+      domain:               ENV['MAILERTOGO_DOMAIN'],
+      authentication:       :plain,
+      enable_starttls_auto: true
+    }
+  end
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
