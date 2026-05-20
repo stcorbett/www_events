@@ -63,6 +63,12 @@ Rails.application.routes.draw do
   get '/auth/google_oauth2', as: "google_login"
 
   get 'logout', to: 'sessions#destroy', as: "logout"
-  get 'login', to: 'sessions#new', as: "login"
+  get 'login',  to: 'sessions#new',     as: "login"
+
+  # Email login flow
+  get  'login/email',        to: 'email_logins#new',          as: 'email_login'
+  post 'login/email',        to: 'email_logins#create'
+  get  'login/email/sent',   to: 'email_logins#sent',         as: 'email_login_sent'
+  get  'login/email/:token', to: 'email_logins#authenticate', as: 'email_login_authenticate'
 
 end

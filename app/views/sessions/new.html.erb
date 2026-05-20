@@ -26,10 +26,19 @@
         </div>
       <% end %>
 
+      <% if alert.present? %>
+        <div class="alert alert-warning"><%= alert %></div>
+      <% end %>
+
       <p id="google-login-p" style="<%= 'display: none;' if in_app_browser || google_auth_config_missing %>">
         <% unless in_app_browser || google_auth_config_missing %>
           <%= link_to "Log In with Google", google_login_path, class: "btn btn-info" %>
         <% end %>
+        <%= link_to "Log In with Email", email_login_path, class: "btn btn-info ms-2" %>
+      </p>
+
+      <p id="email-only-login" style="<%= 'display: none;' unless in_app_browser || google_auth_config_missing %>">
+        <%= link_to "Log In with Email", email_login_path, class: "btn btn-info" %>
       </p>
 
       <div id="inapp-message" style="<%= 'display: none;' unless in_app_browser %>">
@@ -58,6 +67,7 @@
 
     if (i.isInApp) {
       document.getElementById('google-login-p').style.display = 'none';
+      document.getElementById('email-only-login').style.display = '';
       document.getElementById('inapp-message').style.display = 'block';
     }
   });

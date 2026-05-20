@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-6 col-sm-6">
+    <div class="well">
+      <h4>Sign in with email</h4>
+      <p>
+        Enter your email address and we'll send you a sign-in link.
+        No password needed — clicking the link in the email signs you in.
+      </p>
+      <p class="text-muted small">
+        If you don't have an account yet, use "Create Account" to make one
+        and we'll send you the same kind of sign-in link.
+      </p>
+
+      <% if alert.present? %>
+        <div class="alert alert-warning"><%= alert %></div>
+      <% end %>
+      <% if @error.present? %>
+        <div class="alert alert-warning"><%= @error %></div>
+      <% end %>
+
+      <%= form_tag email_login_path, method: :post do %>
+        <div class="form-group">
+          <label for="email_input">Email</label>
+          <%= text_field_tag :email, @email, type: 'email', id: 'email_input', class: 'form-control', placeholder: 'you@example.com', required: true, autofocus: true %>
+        </div>
+        <div class="mt-3">
+          <%= submit_tag "Send Login Email", name: 'commit', class: 'btn btn-info' %>
+          <%= submit_tag "Create Account",   name: 'commit', class: 'btn btn-light text-secondary ms-2' %>
+        </div>
+      <% end %>
+
+      <p class="mt-3">
+        <%= link_to "← Back to other sign-in options", login_path %>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<p>Hi<%= " #{@user.name}" if @user.name.present? %>,</p>
+
+<p>Click the link below to sign in to the WhatWhereWhen event guide:</p>
+
+<p><%= link_to "Sign in to WhatWhereWhen", @url %></p>
+
+<p>This link is good for one hour. If you didn't request it, you can ignore this email.</p>
+
+<p>— Lakes of Fire Info_Bot</p>
