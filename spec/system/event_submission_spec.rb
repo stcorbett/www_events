@@ -79,6 +79,42 @@ RSpec.describe "Event submission", type: :system do
     end
   end
 
+  it "does not offer or attach previous-year camps from the event camp interface" do
+    previous_year_camp = create(:camp, name: "Previous Year Camp", year: LakesOfFireConfig.year - 1)
+    current_year_camp = create(:camp, name: "Current Year Camp", year: LakesOfFireConfig.year)
+
+    visit "/auth/google_oauth2"
+    visit events_path
+
+    expect(page.html).to include(current_year_camp.name)
+    expect(page.html).not_to include(previous_year_camp.name)
+
+    fill_in "event_title", with: "Historic Camp Test"
+    fill_in "event_event_description", with: "historic camp test with a clear description for the guide."
+
+    choose "event_where_radio_camp"
+    fill_in "event_where_camp_input", with: previous_year_camp.name, visible: :all
+    find("#event_where_camp_id_input", visible: :all).set(previous_year_camp.id)
+
+    choose "event_who_radio_camp"
+    fill_in "event_who_camp_input", with: previous_year_camp.name, visible: :all
+    find("#event_hosting_camp_id_input", visible: :all).set(previous_year_camp.id)
+
+    fill_in "event_main_contact_person", with: "Ada Camper"
+    fill_in "event_contact_person_email", with: "ada@example.test"
+    fill_single_time(type: :single, day: "Wed - 7/15", start: "11:00AM", ending: "12:00PM")
+
+    expect do
+      click_button "Add"
+    end.to change(Event, :count).by(1)
+
+    event = Event.find_by!(title: "Historic Camp Test")
+    expect(event.camp).not_to eq(previous_year_camp)
+    expect(event.camp.name).to eq(previous_year_camp.name)
+    expect(event.camp.year).to eq(LakesOfFireConfig.year)
+    expect(event.hosting_camp).to eq(event.camp)
+  end
+
   def submit_event(scenario)
     visit "/auth/google_oauth2"
     visit events_path

@@ -1,6 +1,25 @@
 require "rails_helper"
 
 RSpec.describe Camp, type: :model do
+  describe "validations" do
+    it "allows the same name in different years" do
+      create(:camp, name: "Camp Intermittent", year: 2025)
+
+      camp = build(:camp, name: "Camp Intermittent", year: 2026)
+
+      expect(camp).to be_valid
+    end
+
+    it "requires names to be unique within a year" do
+      create(:camp, name: "Camp Same Year", year: 2026)
+
+      camp = build(:camp, name: "Camp Same Year", year: 2026)
+
+      expect(camp).not_to be_valid
+      expect(camp.errors[:name]).to include("has already been taken")
+    end
+  end
+
   describe "associated_records_not_archived (on: :create)" do
     it "is invalid when its location is archived" do
       archived_location = create(:location, archived: true)

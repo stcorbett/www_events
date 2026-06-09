@@ -13,6 +13,22 @@
   <%# List of Camps %>
   <div class="col-lg-8 order-lg-2">
     <h3 class='border-bottom-0'>&nbsp;</h3>
+
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item">
+        <%= link_to 'this year',
+                    admin_camps_path,
+                    class: "nav-link #{'active' if @selected_year == @current_year}" %>
+      </li>
+      <% @previous_camp_years.each do |year| %>
+        <li class="nav-item">
+          <%= link_to year,
+                      admin_camps_path(year: year),
+                      class: "nav-link #{'active' if @selected_year == year}" %>
+        </li>
+      <% end %>
+    </ul>
+
     <div class="card">
       <div class="card-body">
         <%= render 'table', camps: @active_camps, table_id: 'camps-table' %>

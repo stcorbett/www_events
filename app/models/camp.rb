@@ -4,16 +4,25 @@ class Camp < ActiveRecord::Base
   has_many :hosted_events, class_name: 'Event', foreign_key: 'hosting_camp_id'
   accepts_nested_attributes_for :location, reject_if: :all_blank
 
-  validates :name, uniqueness: true, presence: true
+  before_validation :set_default_year, on: :create
+
+  validates :name, uniqueness: { scope: :year }, presence: true
+  validates :year, presence: true, numericality: { only_integer: true }
 
   scope :archived,     -> { where(archived: true) }
   scope :not_archived, -> { where(archived: false) }
+  scope :for_year,     ->(year) { where(year: year) }
+  scope :current_year, -> { for_year(LakesOfFireConfig.year) }
 
   validate :associated_records_not_archived, on: :create
 
   before_destroy :check_for_events
 
   private
+
+  def set_default_year
+    self.year ||= LakesOfFireConfig.year
+  end
 
   def associated_records_not_archived
     errors.add(:location, "is inactive, a new camp needs an active location") if location&.archived

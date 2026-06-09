@@ -722,8 +722,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  <% if current_user.camp %>
-    const userCamp = { id: <%= current_user.camp.id %>, name: '<%= j current_user.camp.name %>' };
+  <% user_camp = current_user.camp %>
+  <% current_year_user_camp = user_camp if user_camp&.year == LakesOfFireConfig.year %>
+  <% if current_year_user_camp %>
+    const userCamp = { id: <%= current_year_user_camp.id %>, name: '<%= j current_year_user_camp.name %>' };
 
     const whereRadioCamp = document.getElementById('event_where_radio_camp');
     const whereCampInput = document.getElementById('event_where_camp_input');

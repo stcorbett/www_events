@@ -69,7 +69,7 @@ class EventsController < ApplicationController
 private
 
   def load_camps_for_autocomplete
-    @camps_for_autocomplete = Camp.not_archived.includes(:location).order(:name).map do |c|
+    @camps_for_autocomplete = Camp.current_year.not_archived.includes(:location).order(:name).map do |c|
       { id: c.id, name: c.name, site_identifier: c.location&.camp_site_identifier.presence }
     end
   end

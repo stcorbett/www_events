@@ -4,8 +4,7 @@ module Admin
     before_action :set_camp, only: [:show, :edit, :update, :destroy]
 
     def index
-      camps = Camp.includes(:location, events: :event_times).order(name: :asc)
-      @active_camps, @archived_camps = camps.partition { |c| !c.archived }
+      load_index_camps
       @form_camp = Camp.new
     end
 
@@ -25,8 +24,7 @@ module Admin
       if @camp.save
         redirect_to admin_camps_path, notice: 'Camp was successfully created.'
       else
-        camps = Camp.includes(:location, events: :event_times).order(name: :asc)
-      @active_camps, @archived_camps = camps.partition { |c| !c.archived }
+        load_index_camps
         @form_camp = @camp
         flash.now[:alert] = 'Error creating camp.'
         render :index
@@ -47,11 +45,10 @@ module Admin
     def destroy
       # Note: Add before_destroy callback in Camp model if deletion needs to be conditional
       if @camp.destroy
-        redirect_to admin_camps_path, notice: 'Camp was successfully destroyed.'
+        redirect_to admin_camps_path(year: @camp.year), notice: 'Camp was successfully destroyed.'
       else
-        camps = Camp.includes(:location, events: :event_times).order(name: :asc)
-      @active_camps, @archived_camps = camps.partition { |c| !c.archived }
-        @form_camp = Camp.new 
+        load_index_camps(@camp.year)
+        @form_camp = Camp.new
         flash.now[:alert] = @camp.errors.full_messages.join(", ") || "Could not destroy camp."
         render :index
       end
@@ -63,6 +60,20 @@ module Admin
       @camp = Camp.find(params[:id])
     end
 
+    def load_index_camps(selected_year = params[:year].presence)
+      @current_year = LakesOfFireConfig.year
+      @camp_years = Camp.distinct.order(year: :desc).pluck(:year)
+      @previous_camp_years = @camp_years.reject { |year| year == @current_year }
+      @selected_year = selected_year.to_s.to_i.nonzero? || @current_year
+
+      unless @selected_year == @current_year || @camp_years.include?(@selected_year)
+        @selected_year = @current_year
+      end
+
+      camps = Camp.for_year(@selected_year).includes(:location, events: :event_times).order(name: :asc)
+      @active_camps, @archived_camps = camps.partition { |camp| !camp.archived }
+    end
+
     def camp_params
       p = params.require(:camp).permit(:name, :description, :archived, location_attributes: [:id, :lat, :lng, :camp_site_identifier, :name, :precision])
       if p[:location_attributes].present?
@@ -71,4 +82,4 @@ module Admin
       p
     end
   end
-end 
+end

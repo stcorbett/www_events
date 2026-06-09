@@ -166,18 +166,14 @@ class Event < ActiveRecord::Base
   end
 
   def where_camp_id=(id_string)
-    if id_string.to_i == 0
-      write_attribute(:camp_id, nil)
-    else
-      write_attribute(:camp_id, id_string.to_i)
-    end
+    write_attribute(:camp_id, current_year_camp_id_from(id_string))
   end
 
   def where_camp=(camp_name)
     return if camp_id.present?
     return if camp_name.blank?
 
-    self.build_camp(name: camp_name)
+    self.camp = current_year_camp_named(camp_name)
   end
   
   def where_location
@@ -249,11 +245,11 @@ class Event < ActiveRecord::Base
   end
   
   def who_camp_id=(id_string)
-    if id_string.to_i == 0
-      write_attribute(:hosting_camp_id, nil)
-    else
-      write_attribute(:hosting_camp_id, id_string.to_i)
-    end
+    self.hosting_camp_id = id_string
+  end
+
+  def hosting_camp_id=(id_string)
+    write_attribute(:hosting_camp_id, current_year_camp_id_from(id_string))
   end
 
   def who_camp=(hosting_camp_name)
@@ -263,7 +259,7 @@ class Event < ActiveRecord::Base
     if camp && camp.name == hosting_camp_name
       self.hosting_camp = camp
     else
-      self.build_hosting_camp(name: hosting_camp_name)
+      self.hosting_camp = current_year_camp_named(hosting_camp_name)
     end
   end
   
@@ -365,6 +361,19 @@ class Event < ActiveRecord::Base
 
   def category_emojis
     self.class.category_emojis.slice(*categories)
+  end
+
+  private
+
+  def current_year_camp_id_from(id_string)
+    id = id_string.to_i
+    return nil if id.zero?
+
+    Camp.current_year.not_archived.where(id: id).pick(:id)
+  end
+
+  def current_year_camp_named(camp_name)
+    Camp.current_year.not_archived.find_or_initialize_by(name: camp_name)
   end
 
 end
