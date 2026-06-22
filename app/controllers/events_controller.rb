@@ -75,8 +75,8 @@ private
   end
 
   def load_locations_for_autocomplete
-    @locations_for_autocomplete = Location.not_archived.where(precision: 'specific').order(:name).map { |l| { id: l.id, name: l.name } }
-    @imprecise_locations_for_autocomplete = Location.not_archived.where(precision: 'broad').order(:name).map { |l| { id: l.id, name: l.name } }
+    @locations_for_autocomplete = Location.not_archived.where(precision: 'specific').where.not(name: [nil, ""]).order(:name).map { |l| { id: l.id, name: l.name } }
+    @imprecise_locations_for_autocomplete = Location.not_archived.where(precision: 'broad').where.not(name: [nil, ""]).order(:name).map { |l| { id: l.id, name: l.name } }
   end
 
   def load_departments_for_autocomplete

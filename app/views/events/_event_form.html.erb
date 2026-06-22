@@ -99,7 +99,7 @@
   <div class="form-check">
     <%= f.radio_button :where, "location", class: "form-check-input", id: "event_where_location_val" %>
     <label class="form-check-label" for="event_where_location_val">
-      A location around the lake
+      A location in the event
     </label>
   </div>
   <div class="form-check">
@@ -509,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const filteredLocations = locationsData.filter(location =>
-        location.name.toLowerCase().includes(inputValue)
+        (location.name || '').toLowerCase().includes(inputValue)
       );
 
       if (filteredLocations.length > 0) {
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       const filteredLocations = impreciseLocationsData.filter(location =>
-        location.name.toLowerCase().includes(inputValue)
+        (location.name || '').toLowerCase().includes(inputValue)
       );
 
       if (filteredLocations.length > 0) {

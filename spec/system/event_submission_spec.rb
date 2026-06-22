@@ -115,6 +115,22 @@ RSpec.describe "Event submission", type: :system do
     expect(event.hosting_camp).to eq(event.camp)
   end
 
+  it "excludes blank-named locations from the location autocomplete data" do
+    named_location = create(:location, name: "Art Hub", precision: "specific")
+    create(:location, name: nil, precision: "specific", camp_site_identifier: "73 & 74")
+    create(:location, name: nil, precision: "broad")
+
+    visit "/auth/google_oauth2"
+    visit events_path
+
+    locations_json = page.html.match(/let locationsData = (.*?);/)[1]
+    imprecise_locations_json = page.html.match(/let impreciseLocationsData = (.*?);/)[1]
+
+    expect(JSON.parse(locations_json)).to include({ "id" => named_location.id, "name" => named_location.name })
+    expect(JSON.parse(locations_json)).not_to include(hash_including("name" => nil))
+    expect(JSON.parse(imprecise_locations_json)).not_to include(hash_including("name" => nil))
+  end
+
   def submit_event(scenario)
     visit "/auth/google_oauth2"
     visit events_path
