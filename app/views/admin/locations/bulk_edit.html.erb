@@ -31,6 +31,9 @@
                   </td>
                   <td>
                     <strong><%= row[:display_name] %></strong>
+                    <% if row[:attached_record_summary].present? %>
+                      <span class="text-muted small ms-2">(<%= row[:attached_record_summary] %>)</span>
+                    <% end %>
                     <div class="text-muted small"><%= row[:details] %></div>
                   </td>
                   <td><%= row[:current_events_count] %></td>

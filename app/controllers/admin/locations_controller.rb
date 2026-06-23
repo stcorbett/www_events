@@ -115,6 +115,7 @@ module Admin
             record_id: location.id,
             dom_id: "bulk_location_location_#{location.id}",
             display_name: bulk_location_display_name(location, camp, departments),
+            attached_record_summary: bulk_attached_record_summary(camp, departments),
             details: bulk_location_details(location, camp, departments),
             archived: location.archived? || camp&.archived? || departments.any?(&:archived?),
             location_id: location.id,
@@ -132,6 +133,7 @@ module Admin
               record_id: camp.id,
               dom_id: "bulk_location_camp_#{camp.id}",
               display_name: "Camp #{camp.name}",
+              attached_record_summary: nil,
               details: "camp without location | year #{camp.year}",
               archived: camp.archived?,
               location_id: nil,
@@ -150,6 +152,7 @@ module Admin
               record_id: department.id,
               dom_id: "bulk_location_department_#{department.id}",
               display_name: "Department #{department.name}",
+              attached_record_summary: nil,
               details: "department without location",
               archived: department.archived?,
               location_id: nil,
@@ -164,24 +167,22 @@ module Admin
       end
 
       def bulk_location_display_name(location, camp, departments)
-        return "Camp #{camp.name}" if camp.present?
-
-        if departments.any?
-          prefix = departments.one? ? "Department" : "Departments"
-          return "#{prefix} #{departments.map(&:name).to_sentence}"
-        end
-
         return location.name if location.name.present?
         return "Site #{location.camp_site_identifier}" if location.camp_site_identifier.present?
 
         "Location ##{location.id}"
       end
 
+      def bulk_attached_record_summary(camp, departments)
+        attached_records = []
+        attached_records << "camp: #{camp.name}" if camp.present?
+        attached_records << "departments: #{departments.map(&:name).to_sentence}" if departments.any?
+        attached_records.join(" | ").presence
+      end
+
       def bulk_location_details(location, camp, departments)
         details = ["location ##{location.id}", location.precision]
-        details << "location: #{location.name}" if location.name.present? && (camp.present? || departments.any?)
         details << "site: #{location.camp_site_identifier}" if location.camp_site_identifier.present?
-        details << "departments: #{departments.map(&:name).to_sentence}" if camp.present? && departments.any?
         details.compact.join(" | ")
       end
 

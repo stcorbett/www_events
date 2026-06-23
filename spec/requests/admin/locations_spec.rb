@@ -36,7 +36,9 @@ RSpec.describe "Admin::Locations", type: :request do
       location_row = document.at_css("#bulk_location_location_#{location.id}")
       department_row = document.at_css("#bulk_location_department_#{standalone_department.id}")
 
+      expect(location_row.at_css("strong").text).to eq("The Meadow")
       expect(location_row.text).to include("Camp Spark")
+      expect(location_row.text).to include("camp: Camp Spark")
       expect(location_row.text).to include("departments: Rangers")
       expect(location_row.css("td")[2].text.strip).to eq("2")
       expect(location_row.css("td")[3].text.strip).to eq("1")
