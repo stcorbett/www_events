@@ -7,6 +7,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :locations do
+      collection do
+        get  'bulk_edit'
+        post 'bulk_update'
+      end
+
       member do
         get    'merge',                    to: 'location_merges#new',            as: 'merge'
         get    'merge/:target_id/confirm', to: 'location_merges#confirm',        as: 'merge_confirm'

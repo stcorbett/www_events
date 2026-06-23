@@ -1,0 +1,50 @@
+<%= render 'admin/flash_messages' %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3 class="border-bottom-0">Bulk Edit Locations</h3>
+
+    <div class="card">
+      <div class="card-body">
+        <%= form_tag bulk_update_admin_locations_path, method: :post do %>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <%= link_to 'Back to Locations', admin_locations_path, class: 'btn btn-outline-secondary btn-sm' %>
+            <%= submit_tag 'update locations', class: 'btn btn-primary' %>
+          </div>
+
+          <table class="table table-striped" id="bulk-locations-table">
+            <thead>
+              <tr>
+                <th>archived</th>
+                <th>camp/location/department name</th>
+                <th>Events (<%= LakesOfFireConfig.year %>)</th>
+                <th>Events (previous years)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @bulk_location_rows.each do |row| %>
+                <tr id="<%= row[:dom_id] %>">
+                  <td>
+                    <% input_name = "#{row[:param_scope]}[#{row[:record_id]}][archived]" %>
+                    <%= hidden_field_tag input_name, '0', id: nil %>
+                    <%= check_box_tag input_name, '1', row[:archived], id: "#{row[:dom_id]}_archived" %>
+                  </td>
+                  <td>
+                    <strong><%= row[:display_name] %></strong>
+                    <div class="text-muted small"><%= row[:details] %></div>
+                  </td>
+                  <td><%= row[:current_events_count] %></td>
+                  <td><%= row[:previous_events_count] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="d-flex justify-content-end mt-3">
+            <%= submit_tag 'update locations', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
