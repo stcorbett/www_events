@@ -2,6 +2,7 @@ class Location < ActiveRecord::Base
   belongs_to :neighborhood, optional: true
   has_many :events
   has_one :camp
+  has_many :camps
   has_many :departments
 
   PRECISION_VALUES = ["specific", "broad"].freeze

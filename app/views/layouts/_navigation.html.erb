@@ -22,19 +22,29 @@
           <%= link_to "Privacy", privacy_path, class: "nav-link" %>
         </li>
 
-        <% if current_user && current_user.admin? %>
+        <% if current_user && admin_or_superadmin_logged_in? %>
           <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle admin-dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
               Admin
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><%= link_to "APIs", apis_path, class: "dropdown-item admin-nav-item" %></li>
-              <li><%= link_to "Backup", admin_export_path, class: "dropdown-item admin-nav-item" %></li>
-              <li><%= link_to "Camps", admin_camps_path, class: "dropdown-item admin-nav-item" %></li>
-              <li><%= link_to "Departments", admin_departments_path, class: "dropdown-item admin-nav-item" %></li>
-              <li><%= link_to "Files", hosted_files_path, class: "dropdown-item admin-nav-item" %></li>
-              <li><%= link_to "Locations", admin_locations_path, class: "dropdown-item admin-nav-item" %></li>
-              <li><%= link_to "Users", admin_users_path, class: "dropdown-item admin-nav-item" %></li>
+              <% if current_user.admin? %>
+                <li><%= link_to "APIs", apis_path, class: "dropdown-item admin-nav-item" %></li>
+                <li><%= link_to "Backup", admin_export_path, class: "dropdown-item admin-nav-item" %></li>
+                <li><%= link_to "Camps", admin_camps_path, class: "dropdown-item admin-nav-item" %></li>
+                <li><%= link_to "Departments", admin_departments_path, class: "dropdown-item admin-nav-item" %></li>
+                <li><%= link_to "Files", hosted_files_path, class: "dropdown-item admin-nav-item" %></li>
+                <li><%= link_to "Locations", admin_locations_path, class: "dropdown-item admin-nav-item" %></li>
+                <li><%= link_to "Users", admin_users_path, class: "dropdown-item admin-nav-item" %></li>
+              <% end %>
+
+              <% if current_user.superadmin? %>
+                <% if current_user.admin? %>
+                  <li><hr class="dropdown-divider"></li>
+                <% end %>
+                <li><h6 class="dropdown-header">superadmin</h6></li>
+                <li><%= link_to "Events", superadmin_events_path, class: "dropdown-item admin-nav-item" %></li>
+              <% end %>
             </ul>
           </li>
         <% end %>

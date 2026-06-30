@@ -1,0 +1,59 @@
+<%= render "admin/flash_messages" %>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>All Events</h3>
+
+    <div class="card">
+      <div class="card-body">
+        <% if @events.any? %>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Camp affiliations</th>
+                  <th>Who</th>
+                  <th>Times</th>
+                  <th>Categories</th>
+                  <th>Contact</th>
+                  <th>Submitted by</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @events.each do |event| %>
+                  <tr>
+                    <td><%= link_to event.title, event_path(event) %></td>
+                    <td><%= event.human_location %></td>
+                    <td><%= superadmin_event_camp_affiliations(event) %></td>
+                    <td><%= event.human_who %></td>
+                    <td>
+                      <ul class="list-unstyled mb-0">
+                        <% superadmin_event_times(event).each do |time| %>
+                          <li><%= time %></li>
+                        <% end %>
+                      </ul>
+                    </td>
+                    <td><%= superadmin_event_categories(event) %></td>
+                    <td>
+                      <div><%= event.main_contact_person %></div>
+                      <div class="text-muted"><%= event.contact_person_email %></div>
+                    </td>
+                    <td><%= superadmin_event_submitter(event) %></td>
+                    <td><%= event.created_at.strftime("%Y-%m-%d") %></td>
+                    <td><%= link_to "Show", event_path(event), class: "btn btn-outline-info btn-sm" %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <div class="alert alert-info mb-0">There are no events yet.</div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

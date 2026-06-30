@@ -13,6 +13,12 @@ module AdminRequestHelpers
     user
   end
 
+  def sign_in_as_superadmin(admin: false)
+    user = create(:user, admin: admin, superadmin: true)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+    user
+  end
+
   # Builds a minimally-valid Event tied to whatever foreign keys you pass.
   # The event_time falls inside the configured-year start/end window so it
   # passes the EventTime "Can't start before Lakes of Fire Starts" validation.

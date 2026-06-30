@@ -46,6 +46,10 @@ Rails.application.routes.draw do
     get 'export/download', to: 'export#download', as: 'export_download'
   end
 
+  namespace :superadmin do
+    resources :events, only: [:index]
+  end
+
   resources :events
   resources :derived_locations
   resources :hosted_files

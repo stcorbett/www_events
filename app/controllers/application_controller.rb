@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :require_login
 
-  helper_method :current_user, :admin_logged_in?, :submissions_are_open
+  helper_method :current_user, :admin_logged_in?, :superadmin_logged_in?,
+                :admin_or_superadmin_logged_in?, :submissions_are_open
 
   def require_login
     if !logged_in?
@@ -28,8 +29,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_superadmin
+    if !superadmin_logged_in?
+      redirect_to login_path
+    end
+  end
+
   def admin_logged_in?
-    !!current_user.admin
+    !!current_user&.admin?
+  end
+
+  def superadmin_logged_in?
+    !!current_user&.superadmin?
+  end
+
+  def admin_or_superadmin_logged_in?
+    admin_logged_in? || superadmin_logged_in?
   end
 
   def submissions_are_open
