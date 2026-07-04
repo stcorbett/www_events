@@ -18,6 +18,13 @@ class Camp < ActiveRecord::Base
 
   before_destroy :check_for_events
 
+  def associated_events?
+    associated_as_location = events.loaded? ? events.any? : events.exists?
+    associated_as_host = hosted_events.loaded? ? hosted_events.any? : hosted_events.exists?
+
+    associated_as_location || associated_as_host
+  end
+
   private
 
   def set_default_year
@@ -29,8 +36,8 @@ class Camp < ActiveRecord::Base
   end
 
   def check_for_events
-    if events.any?
-      errors.add(:base, "Cannot delete camp with associated events. Please reassign or delete events first.")
+    if associated_events?
+      errors.add(:base, "Cannot delete camp with associated events as a location or host. Please reassign or delete events first.")
       throw(:abort) # This prevents the destroy action from completing
     end
   end

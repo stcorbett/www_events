@@ -63,4 +63,39 @@ RSpec.describe Camp, type: :model do
       expect(camp.valid?(:merge)).to eq(true)
     end
   end
+
+  describe "destroy protection" do
+    it "does not destroy a camp that is only associated as the hosting camp" do
+      where_camp = create(:camp, name: "Where Camp")
+      hosting_camp = create(:camp, name: "Hosting Camp")
+      create_event(camp: where_camp, hosting_camp: hosting_camp)
+
+      expect { hosting_camp.destroy }.not_to change(Camp, :count)
+      expect(hosting_camp.errors[:base]).to include(
+        "Cannot delete camp with associated events as a location or host. Please reassign or delete events first."
+      )
+    end
+  end
+
+  def create_event(**attrs)
+    event = Event.new(
+      {
+        user: create(:user),
+        title: "Spec Event #{SecureRandom.hex(2)}",
+        main_contact_person: "Person",
+        contact_person_email: "person@example.test",
+        event_recurrence: "single",
+        event_description: "desc"
+      }.merge(attrs)
+    )
+    start_at = LakesOfFireConfig.start_time + 1.hour
+    event.event_times.build(
+      starting: start_at,
+      ending: start_at + 1.hour,
+      day_of_week: "Wednesday",
+      all_day: false
+    )
+    event.save!
+    event
+  end
 end

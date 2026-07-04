@@ -49,6 +49,24 @@ RSpec.describe "Admin::CampMerges", type: :request do
         expect(response.body).to include("Confirm Merge")
       end
 
+      it "warns about events where the source camp is Who but not Where" do
+        where_camp = create(:camp, name: "Hotel Notel")
+        create_valid_event(
+          title: "Kink Circus",
+          camp: where_camp,
+          hosting_camp: source
+        )
+
+        get merge_confirm_admin_camp_path(source, target_id: target.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Review hosted events at other places")
+        expect(response.body).to include("Kink Circus")
+        expect(response.body).to include("Hotel Notel (camp)")
+        expect(response.body).to include("Source Camp (camp)")
+        expect(response.body).to include("Target Camp (camp)")
+      end
+
       it "404s when the target id is for an archived camp" do
         expect {
           get merge_confirm_admin_camp_path(source, target_id: archived_camp.id)
@@ -117,6 +135,16 @@ RSpec.describe "Admin::CampMerges", type: :request do
       it "redirects to the result page when delete is blocked (e.g. source still has events)" do
         # Leave an event on the source so Camp#check_for_events aborts the destroy.
         create_valid_event(camp: source, hosting_camp: target)
+
+        expect {
+          delete merge_delete_admin_camp_path(source, target_id: target.id)
+        }.not_to change(Camp, :count)
+
+        expect(response).to redirect_to(merge_result_admin_camp_path(source, target_id: target.id))
+      end
+
+      it "redirects to the result page when the source is still hosting an event elsewhere" do
+        create_valid_event(camp: target, hosting_camp: source)
 
         expect {
           delete merge_delete_admin_camp_path(source, target_id: target.id)

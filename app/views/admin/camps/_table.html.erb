@@ -36,8 +36,8 @@
           <%= link_to 'Edit', edit_admin_camp_path(camp), class: 'btn btn-xs btn-outline-primary' %>
           <%= link_to 'Show', admin_camp_path(camp), class: 'btn btn-xs btn-outline-info' %>
 
-          <% if camp.events.any? %>
-            <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: camp has associated events.">Destroy</span>
+          <% if camp.associated_events? %>
+            <span class="btn btn-xs btn-outline-secondary disabled ml-1" title="Cannot delete: camp has associated events as a location or host.">Destroy</span>
           <% else %>
              <%= link_to 'Destroy', admin_camp_path(camp), method: :delete,
                         data: { confirm: 'Are you sure?' },

@@ -70,7 +70,7 @@ module Admin
         @selected_year = @current_year
       end
 
-      camps = Camp.for_year(@selected_year).includes(:location, events: :event_times).order(name: :asc)
+      camps = Camp.for_year(@selected_year).includes(:location, :hosted_events, events: :event_times).order(name: :asc)
       @active_camps, @archived_camps = camps.partition { |camp| !camp.archived }
     end
 

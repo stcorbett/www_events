@@ -10,6 +10,39 @@
       If any event fails to save, no changes will be committed.
     </p>
 
+    <% if @source_hosted_elsewhere_events.present? %>
+      <div class="alert alert-warning mt-3">
+        <h5 class="alert-heading">Review hosted events at other places</h5>
+        <p>
+          These events list <strong><%= display_label(@source) %></strong> as Who, but their Where is a different
+          camp or location. Confirming the merge will change Who to
+          <strong><%= display_label(@target) %></strong> and leave Where unchanged.
+        </p>
+        <div class="table-responsive">
+          <table class="table table-sm mb-0">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Where</th>
+                <th>Who now</th>
+                <th>Who after merge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @source_hosted_elsewhere_events.each do |event| %>
+                <tr>
+                  <td><%= link_to event.title, event_path(event) %></td>
+                  <td><%= event.human_location %></td>
+                  <td><%= event.human_who %></td>
+                  <td><%= @target.name %> (camp)</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
     <div class="mb-3">
       <%= button_to "Confirm Merge", merge_path_for(:execute), method: :post, class: "btn btn-danger" %>
       <%= link_to "Cancel", edit_source_url, class: "btn btn-light text-secondary ms-2" %>
