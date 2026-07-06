@@ -29,18 +29,22 @@
           <%= admin_archived_record_marker("location") if @camp.location&.archived? %>
         </h5>
         <% if @camp.location %>
-          <p class="card-text mb-1">
-            <strong>Location:</strong>
-            <%= admin_associated_record_label(
-                  @camp.location,
-                  record_type_name: "location",
-                  text: @camp.location.name.presence || "location ##{@camp.location.id}",
-                  path: admin_location_path(@camp.location)
-                ) %>
-          </p>
+          <% if @camp.location.name.present? %>
+            <p class="card-text mb-1">
+              <strong>Location:</strong>
+              <%= admin_associated_record_label(
+                    @camp.location,
+                    record_type_name: "location",
+                    text: @camp.location.name,
+                    path: admin_location_path(@camp.location)
+                  ) %>
+            </p>
+          <% end %>
           <p class="card-text mb-1"><strong>Latitude:</strong> <%= @camp.location.lat %></p>
           <p class="card-text mb-1"><strong>Longitude:</strong> <%= @camp.location.lng %></p>
-          <p class="card-text mb-0"><strong>Site Identifier:</strong> <%= @camp.location.camp_site_identifier %></p>
+          <% if @camp.location.camp_site_identifier.present? %>
+            <p class="card-text mb-0"><strong>Site Identifier:</strong> <%= @camp.location.camp_site_identifier %></p>
+          <% end %>
         <% else %>
           <p class="card-text mb-0"><%= link_to 'Add location', edit_admin_camp_path(@camp) %></p>
         <% end %>

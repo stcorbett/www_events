@@ -3,14 +3,16 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th title="Events created this year (event_times in parens)">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
-      <th title="All-time events across every year (event_times in parens)" class="text-muted">Events <small>(all time)</small></th>
+      <th title="Events created this year (event_times in parens when different)">Events <small class="text-muted">(<%= LakesOfFireConfig.year %>)</small></th>
       <th>Site ID</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% camps.each do |camp| %>
+      <% this_year_events = camp.events.select(&:in_configured_year?) %>
+      <% this_year_event_count = this_year_events.size %>
+      <% this_year_event_time_count = this_year_events.sum { |event| event.event_times.size } %>
       <tr id="camp_<%= camp.id %>">
         <td>
           <div class="camp-info">
@@ -21,20 +23,17 @@
           </div>
         </td>
         <td>
-          <% this_year_events = camp.events.select(&:in_configured_year?) %>
-          <%= this_year_events.size %>
-          (<%= this_year_events.sum { |event| event.event_times.size } %>)
-        </td>
-        <td class="text-muted">
-          <%= camp.events.size %>
-          (<%= camp.events.sum { |event| event.event_times.size } %>)
+          <%= this_year_event_count %>
+          <% if this_year_event_time_count != this_year_event_count %>
+            (<%= this_year_event_time_count %>)
+          <% end %>
         </td>
         <td>
-          <% if camp.location.present? %>
+          <% if camp.location.present? && (camp.location.camp_site_identifier.present? || camp.location.name.present?) %>
             <%= admin_associated_record_label(
                   camp.location,
                   record_type_name: "location",
-                  text: camp.location.camp_site_identifier.presence || camp.location.name.presence || "location ##{camp.location.id}",
+                  text: camp.location.camp_site_identifier.presence || camp.location.name,
                   path: admin_location_path(camp.location)
                 ) %>
           <% end %>

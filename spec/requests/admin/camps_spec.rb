@@ -7,6 +7,10 @@ RSpec.describe "Admin::Camps", type: :request do
     Nokogiri::HTML(response.body).at_css("##{id}").text
   end
 
+  def camp_index_cells(camp)
+    Nokogiri::HTML(response.body).css("tr#camp_#{camp.id} td").map { |cell| cell.text.squish }
+  end
+
   describe "GET /admin/camps" do
     it "shows current camps by default and lists previous years as tabs" do
       current_camp = create(:camp, name: "Current Year Camp", year: LakesOfFireConfig.year)
@@ -42,6 +46,44 @@ RSpec.describe "Admin::Camps", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("A12")
       expect(response.body).to include("this location is archived")
+    end
+
+    it "does not show a fallback location name for unnamed camp location records" do
+      unnamed_location = create(:location, name: nil, camp_site_identifier: nil)
+      site_id_location = create(:location, name: nil, camp_site_identifier: "C34")
+      named_location = create(:location, name: "Named Camp Location", camp_site_identifier: nil)
+      unnamed_camp = create(:camp, name: "Camp With Default Location", location: unnamed_location)
+      site_id_camp = create(:camp, name: "Camp With Site ID Location", location: site_id_location)
+      named_location_camp = create(:camp, name: "Camp With Named Location", location: named_location)
+
+      get admin_camps_path
+
+      expect(response).to have_http_status(:ok)
+      expect(camp_index_cells(unnamed_camp)[2]).to eq("")
+      expect(camp_index_cells(site_id_camp)[2]).to include("C34")
+      expect(camp_index_cells(named_location_camp)[2]).to include("Named Camp Location")
+      expect(response.body).not_to include("location ##{unnamed_location.id}")
+    end
+
+    it "only shows event time counts in parens when they differ from current-year event counts" do
+      current_only_camp = create(:camp, name: "Camp With One Time")
+      two_time_camp = create(:camp, name: "Camp With Two Times")
+      create_valid_event(title: "Single Time Event", camp: current_only_camp, hosting_camp: current_only_camp)
+      two_time_event = create_valid_event(title: "Multi Time Event", camp: two_time_camp, hosting_camp: two_time_camp)
+      start_at = LakesOfFireConfig.start_time + 2.hours
+      two_time_event.event_times.create!(
+        starting: start_at,
+        ending: start_at + 1.hour,
+        day_of_week: "Wednesday"
+      )
+
+      get admin_camps_path
+
+      expect(response).to have_http_status(:ok)
+      headers = Nokogiri::HTML(response.body).css("#camps-table th").map { |header| header.text.squish }
+      expect(headers).to eq(["Name", "Events (#{LakesOfFireConfig.year})", "Site ID", "Actions"])
+      expect(camp_index_cells(current_only_camp)[1]).to eq("1")
+      expect(camp_index_cells(two_time_camp)[1]).to eq("1 (2)")
     end
   end
 
@@ -169,6 +211,19 @@ RSpec.describe "Admin::Camps", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("archived location")
       expect(response.body).to include("this location is archived")
+    end
+
+    it "only shows the location name row when the camp location has a name" do
+      location = create(:location, name: nil, camp_site_identifier: "B12")
+      camp = create(:camp, name: "Camp With Default Location", location: location)
+
+      get admin_camp_path(camp)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("<strong>Location:</strong>")
+      expect(response.body).not_to include("location ##{location.id}")
+      expect(response.body).to include("<strong>Site Identifier:</strong>")
+      expect(response.body).to include("B12")
     end
   end
 end
