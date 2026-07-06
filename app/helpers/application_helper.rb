@@ -83,6 +83,14 @@ module ApplicationHelper
     end
   end
 
+  def admin_camp_event_details(event, camp)
+    details = []
+    details << safe_join(["at ", admin_event_where_label(event, link: true)]) unless event.camp_id == camp.id
+    details << safe_join([admin_event_who_label(event, link: true), " operating"]) unless event.hosting_camp_id == camp.id
+
+    safe_join(details, tag.br)
+  end
+
   private
 
   def admin_event_associated_record_label(record, text, link:)

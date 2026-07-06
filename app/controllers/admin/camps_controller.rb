@@ -9,14 +9,15 @@ module Admin
     end
 
     def show
-      events = @camp.events.ordered_by_first_event_time.includes(:event_times)
-      @current_events, @past_events = events.partition(&:in_configured_year?)
+      associated_events = Event
+        .where("events.camp_id = :camp_id OR events.hosting_camp_id = :camp_id", camp_id: @camp.id)
+        .ordered_by_first_event_time
+        .includes(:event_times, :camp, :hosting_camp, :location, :department)
 
-      hosted_events = @camp.hosted_events
-                           .where("events.camp_id IS NULL OR events.camp_id != ?", @camp.id)
-                           .ordered_by_first_event_time
-                           .includes(:event_times, :camp, :location)
-      @current_hosted_events, @past_hosted_events = hosted_events.partition(&:in_configured_year?)
+      current_events, @past_events = associated_events.partition(&:in_configured_year?)
+      @current_owned_events = current_events.select { |event| event.camp_id == @camp.id && event.hosting_camp_id == @camp.id }
+      @current_events_at_camp = current_events.select { |event| event.camp_id == @camp.id && event.hosting_camp_id != @camp.id }
+      @current_organizing_events = current_events.select { |event| event.hosting_camp_id == @camp.id && event.camp_id != @camp.id }
     end
 
     def edit

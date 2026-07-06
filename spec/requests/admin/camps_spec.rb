@@ -3,6 +3,10 @@ require "rails_helper"
 RSpec.describe "Admin::Camps", type: :request do
   before { sign_in_as_admin }
 
+  def section_text(id)
+    Nokogiri::HTML(response.body).at_css("##{id}").text
+  end
+
   describe "GET /admin/camps" do
     it "shows current camps by default and lists previous years as tabs" do
       current_camp = create(:camp, name: "Current Year Camp", year: LakesOfFireConfig.year)
@@ -42,7 +46,44 @@ RSpec.describe "Admin::Camps", type: :request do
   end
 
   describe "GET /admin/camps/:id" do
-    it "shows events hosted by the camp even when they happen at a different camp" do
+    it "splits current events by this camp's role" do
+      camp = create(:camp, name: "Camp Role Split")
+      other_camp = create(:camp, name: "Other Role Camp")
+      create_valid_event(
+        title: "Owned Here",
+        camp: camp,
+        hosting_camp: camp
+      )
+      create_valid_event(
+        title: "Guest Operating Here",
+        camp: camp,
+        hosting_camp: other_camp
+      )
+      create_valid_event(
+        title: "Camp Organizing Elsewhere",
+        camp: other_camp,
+        hosting_camp: camp
+      )
+
+      get admin_camp_path(camp)
+
+      expect(response).to have_http_status(:ok)
+      expect(section_text("camp-owned-events")).to include("Owned Here")
+      expect(section_text("camp-owned-events")).not_to include("Guest Operating Here")
+      expect(section_text("camp-owned-events")).not_to include("Camp Organizing Elsewhere")
+
+      expect(section_text("camp-events-at-camp")).to include("Guest Operating Here")
+      expect(section_text("camp-events-at-camp")).to include("Other Role Camp (camp)")
+      expect(section_text("camp-events-at-camp")).not_to include("Owned Here")
+      expect(section_text("camp-events-at-camp")).not_to include("Camp Organizing Elsewhere")
+
+      expect(section_text("camp-organizing-events")).to include("Camp Organizing Elsewhere")
+      expect(section_text("camp-organizing-events")).to include("Other Role Camp (camp)")
+      expect(section_text("camp-organizing-events")).not_to include("Owned Here")
+      expect(section_text("camp-organizing-events")).not_to include("Guest Operating Here")
+    end
+
+    it "shows events organized by the camp even when they happen at a different camp" do
       where_camp = create(:camp, name: "Where Camp")
       hosting_camp = create(:camp, name: "Hosting Camp")
       create_valid_event(
@@ -54,13 +95,12 @@ RSpec.describe "Admin::Camps", type: :request do
       get admin_camp_path(hosting_camp)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("No events are currently associated with this camp.")
-      expect(response.body).to include("Hosted Events by this Camp")
-      expect(response.body).to include("Hosted Somewhere Else")
-      expect(response.body).to include("Where Camp (camp)")
+      expect(section_text("camp-owned-events")).to include("No current events are both hosted by and located at this camp.")
+      expect(section_text("camp-organizing-events")).to include("Hosted Somewhere Else")
+      expect(section_text("camp-organizing-events")).to include("Where Camp (camp)")
     end
 
-    it "does not duplicate events that are both at and hosted by the camp in the hosted section" do
+    it "does not duplicate events that are both at and hosted by the camp in the organizing section" do
       camp = create(:camp, name: "Camp Both")
       other_camp = create(:camp, name: "Other Camp")
       create_valid_event(
@@ -78,8 +118,45 @@ RSpec.describe "Admin::Camps", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.body.scan("Hosted At Its Own Camp").size).to eq(1)
-      expect(response.body).to include("Hosted At Another Camp")
-      expect(response.body).to include("Other Camp (camp)")
+      expect(section_text("camp-owned-events")).to include("Hosted At Its Own Camp")
+      expect(section_text("camp-organizing-events")).not_to include("Hosted At Its Own Camp")
+      expect(section_text("camp-organizing-events")).to include("Hosted At Another Camp")
+      expect(section_text("camp-organizing-events")).to include("Other Camp (camp)")
+    end
+
+    it "merges past events and shows details for external roles" do
+      camp = create(:camp, name: "Past Camp")
+      other_camp = create(:camp, name: "Other Past Camp")
+      past_time = Event.configured_year_cutoff - 1.day
+
+      internal_event = create_valid_event(
+        title: "Past Owned Here",
+        camp: camp,
+        hosting_camp: camp
+      )
+      guest_event = create_valid_event(
+        title: "Past Guest Operating Here",
+        camp: camp,
+        hosting_camp: other_camp
+      )
+      elsewhere_event = create_valid_event(
+        title: "Past Organizing Elsewhere",
+        camp: other_camp,
+        hosting_camp: camp
+      )
+      [internal_event, guest_event, elsewhere_event].each do |event|
+        event.update_columns(created_at: past_time, updated_at: past_time)
+      end
+
+      get admin_camp_path(camp)
+
+      past_events = section_text("camp-past-events")
+      expect(response).to have_http_status(:ok)
+      expect(past_events).to include("Past Owned Here")
+      expect(past_events).to include("Past Guest Operating Here")
+      expect(past_events).to include("Other Past Camp (camp) operating")
+      expect(past_events).to include("Past Organizing Elsewhere")
+      expect(past_events).to include("at Other Past Camp (camp)")
     end
 
     it "marks an archived associated location" do

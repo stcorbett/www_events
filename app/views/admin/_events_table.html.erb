@@ -9,11 +9,15 @@
     card_wrap:     optional (default true)  — wraps the table in a Bootstrap card
     show_year:     optional (default false) — prefixes each title with "(YYYY) "
     show_where:    optional (default false) — adds a Where column
+    show_who:      optional (default false) — adds a Who column
+    details_for:   optional                 — callable that returns Details cell content
 %>
 <% show_actions = local_assigns.fetch(:show_actions, true) %>
 <% card_wrap    = local_assigns.fetch(:card_wrap, true) %>
 <% show_year    = local_assigns.fetch(:show_year, false) %>
 <% show_where   = local_assigns.fetch(:show_where, false) %>
+<% show_who     = local_assigns.fetch(:show_who, false) %>
+<% details_for  = local_assigns[:details_for] %>
 
 <% if events.any? %>
   <% if card_wrap %><div class="card"><div class="card-body"><% end %>
@@ -22,6 +26,8 @@
         <tr>
           <th>Name</th>
           <% if show_where %><th>Where</th><% end %>
+          <% if show_who %><th>Who</th><% end %>
+          <% if details_for %><th>Details</th><% end %>
           <th>Times</th>
           <% if show_actions %><th>Actions</th><% end %>
         </tr>
@@ -35,6 +41,12 @@
             </td>
             <% if show_where %>
               <td><%= admin_event_where_label(event, link: true) %></td>
+            <% end %>
+            <% if show_who %>
+              <td><%= admin_event_who_label(event, link: true) %></td>
+            <% end %>
+            <% if details_for %>
+              <td><%= details_for.call(event) %></td>
             <% end %>
             <td>
               <% if event.event_times.any? %>

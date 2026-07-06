@@ -52,28 +52,36 @@
       <%= link_to 'Edit Camp', edit_admin_camp_path(@camp), class: 'btn btn-outline-primary btn-sm' %>
     </p>
 
-    <h4>Events at this Camp</h4>
-    <%= render 'admin/events_table',
-               events:        @current_events,
-               empty_message: 'No events are currently associated with this camp.' %>
+    <section id="camp-owned-events">
+      <h4>Events</h4>
+      <%= render 'admin/events_table',
+                 events:        @current_owned_events,
+                 empty_message: 'No current events are both hosted by and located at this camp.' %>
+    </section>
 
-    <h4 class="mt-4">Hosted Events by this Camp</h4>
-    <%= render 'admin/events_table',
-               events:        @current_hosted_events,
-               empty_message: 'No current hosted events for this camp.',
-               show_where:    true %>
+    <section id="camp-events-at-camp" class="mt-4">
+      <h4>Events at this Camp</h4>
+      <%= render 'admin/events_table',
+                 events:        @current_events_at_camp,
+                 empty_message: 'No current events are located at this camp and operated by someone else.',
+                 show_who:      true %>
+    </section>
 
-    <h4 class="mt-4">Past Events</h4>
-    <%= render 'admin/events_table',
-               events:        @past_events,
-               empty_message: 'No past events for this camp.',
-               show_year:     true %>
+    <section id="camp-organizing-events" class="mt-4">
+      <h4>Organizing</h4>
+      <%= render 'admin/events_table',
+                 events:        @current_organizing_events,
+                 empty_message: 'No current events are operated by this camp somewhere else.',
+                 show_where:    true %>
+    </section>
 
-    <h4 class="mt-4">Past Hosted Events</h4>
-    <%= render 'admin/events_table',
-               events:        @past_hosted_events,
-               empty_message: 'No past hosted events for this camp.',
-               show_year:     true,
-               show_where:    true %>
+    <section id="camp-past-events" class="mt-4">
+      <h4>Past Events</h4>
+      <%= render 'admin/events_table',
+                 events:        @past_events,
+                 empty_message: 'No past events for this camp.',
+                 show_year:     true,
+                 details_for:   ->(event) { admin_camp_event_details(event, @camp) } %>
+    </section>
   </div>
 </div>
