@@ -11,6 +11,39 @@ RSpec.describe "Admin::Locations", type: :request do
       expect(response.body).to include("bulk edit")
       expect(response.body).to include(bulk_edit_admin_locations_path)
     end
+
+    it "marks archived associated camps and departments" do
+      location = create(:location, name: "Associated Records Location")
+      camp = create(:camp, name: "Archived Location Camp", location: location)
+      department = create(:department, name: "Archived Location Department", location: location)
+      camp.update!(archived: true)
+      department.update!(archived: true)
+
+      get admin_locations_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Archived Location Camp")
+      expect(response.body).to include("this camp is archived")
+      expect(response.body).to include("Archived Location Department")
+      expect(response.body).to include("this department is archived")
+    end
+  end
+
+  describe "GET /admin/locations/:id" do
+    it "marks archived associated camps and departments" do
+      location = create(:location, name: "Associated Records Location")
+      camp = create(:camp, name: "Archived Location Camp", location: location)
+      department = create(:department, name: "Archived Location Department", location: location)
+      camp.update!(archived: true)
+      department.update!(archived: true)
+
+      get admin_location_path(location)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Associated Records")
+      expect(response.body).to include("this camp is archived")
+      expect(response.body).to include("this department is archived")
+    end
   end
 
   describe "GET /admin/locations/bulk_edit" do

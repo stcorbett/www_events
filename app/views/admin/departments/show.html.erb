@@ -9,11 +9,18 @@
     <p><%= link_to 'Back to Departments', admin_departments_path, class: 'btn btn-outline-secondary btn-sm' %></p>
 
     <% if @department.location.present? %>
-      <h4>Location</h4>
+      <h4>
+        Location
+        <%= admin_archived_record_marker("location") if @department.location.archived? %>
+      </h4>
       <div class="card mb-3">
         <div class="card-body">
-          <p><strong>Name:</strong> <%= @department.location.name %></p>
-          <p><strong>Address:</strong> <%= @department.location.address %></p>
+          <p>
+            <strong>Name:</strong>
+            <%= admin_associated_record_label(@department.location, record_type_name: "location", path: admin_location_path(@department.location)) %>
+          </p>
+          <p><strong>Precision:</strong> <%= @department.location.precision %></p>
+          <p><strong>Site Identifier:</strong> <%= @department.location.camp_site_identifier %></p>
         </div>
       </div>
     <% end %>

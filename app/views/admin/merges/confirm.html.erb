@@ -32,8 +32,8 @@
               <% @source_hosted_elsewhere_events.each do |event| %>
                 <tr>
                   <td><%= link_to event.title, event_path(event) %></td>
-                  <td><%= event.human_location %></td>
-                  <td><%= event.human_who %></td>
+                  <td><%= admin_event_where_label(event, link: true) %></td>
+                  <td><%= admin_event_who_label(event, link: true) %></td>
                   <td><%= @target.name %> (camp)</td>
                 </tr>
               <% end %>

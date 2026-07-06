@@ -11,6 +11,12 @@ module Admin
     def show
       events = @camp.events.ordered_by_first_event_time.includes(:event_times)
       @current_events, @past_events = events.partition(&:in_configured_year?)
+
+      hosted_events = @camp.hosted_events
+                           .where("events.camp_id IS NULL OR events.camp_id != ?", @camp.id)
+                           .ordered_by_first_event_time
+                           .includes(:event_times, :camp, :location)
+      @current_hosted_events, @past_hosted_events = hosted_events.partition(&:in_configured_year?)
     end
 
     def edit

@@ -11,6 +11,7 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
         (SELECT COUNT(*) FROM events WHERE events.location_id = locations.id) AS event_count,
         (SELECT COUNT(*) FROM camps WHERE camps.location_id = locations.id) AS camp_count
       FROM locations
+      WHERE locations.archived = false
       ORDER BY locations.name ASC
     )array_row)
   ) object_row

@@ -27,9 +27,9 @@
                 <% @events.each do |event| %>
                   <tr>
                     <td><%= link_to event.title, event_path(event) %></td>
-                    <td><%= event.human_location %></td>
+                    <td><%= admin_event_where_label(event) %></td>
                     <td><%= superadmin_event_camp_affiliations(event) %></td>
-                    <td><%= event.human_who %></td>
+                    <td><%= admin_event_who_label(event) %></td>
                     <td>
                       <ul class="list-unstyled mb-0">
                         <% superadmin_event_times(event).each do |time| %>

@@ -4,7 +4,7 @@ module Admin
     before_action :set_department, only: [:show, :edit, :update, :destroy]
 
     def index
-      departments = Department.includes(:events).order(name: :asc)
+      departments = Department.includes(:events, :location).order(name: :asc)
       @active_departments, @archived_departments = departments.partition { |d| !d.archived }
       @form_department = Department.new
     end
@@ -24,8 +24,8 @@ module Admin
       if @department.save
         redirect_to admin_departments_path, notice: 'Department was successfully created.'
       else
-        departments = Department.includes(:events).order(name: :asc)
-      @active_departments, @archived_departments = departments.partition { |d| !d.archived }
+        departments = Department.includes(:events, :location).order(name: :asc)
+        @active_departments, @archived_departments = departments.partition { |d| !d.archived }
         @form_department = @department
         flash.now[:alert] = 'Error creating department.'
         render :index
@@ -49,9 +49,9 @@ module Admin
       if @department.destroy
         redirect_to admin_departments_path, notice: 'Department was successfully destroyed.'
       else
-        departments = Department.includes(:events).order(name: :asc)
-      @active_departments, @archived_departments = departments.partition { |d| !d.archived }
-        @form_department = Department.new 
+        departments = Department.includes(:events, :location).order(name: :asc)
+        @active_departments, @archived_departments = departments.partition { |d| !d.archived }
+        @form_department = Department.new
         flash.now[:alert] = @department.errors.full_messages.join(", ") || "Could not destroy department."
         render :index
       end
@@ -67,4 +67,4 @@ module Admin
       params.require(:department).permit(:name, :archived)
     end
   end
-end 
+end

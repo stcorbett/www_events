@@ -19,6 +19,31 @@
       </div>
     </div>
 
+    <% if @location.camp.present? || @location.departments.any? %>
+      <h4>Associated Records</h4>
+      <div class="card mb-3">
+        <div class="card-body">
+          <% if @location.camp.present? %>
+            <p>
+              <strong>Camp:</strong>
+              <%= admin_associated_record_label(@location.camp, record_type_name: "camp", path: admin_camp_path(@location.camp)) %>
+            </p>
+          <% end %>
+          <% if @location.departments.any? %>
+            <p class="mb-0">
+              <strong>Departments:</strong>
+              <%= safe_join(
+                    @location.departments.sort_by(&:name).map do |department|
+                      admin_associated_record_label(department, record_type_name: "department", path: admin_department_path(department))
+                    end,
+                    ", "
+                  ) %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <% if @location.camp.blank? %>
       <h4>Events at this Location</h4>
       <%= render 'admin/events_table',

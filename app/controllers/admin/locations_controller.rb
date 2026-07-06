@@ -5,7 +5,7 @@ module Admin
 
     # GET /admin/locations
     def index
-      locations = Location.includes(:camp, :events).order(name: :asc)
+      locations = Location.includes(:camp, :departments, :events).order(name: :asc)
       @active_locations, @archived_locations = locations.partition { |l| !l.archived }
       @form_location = Location.new
     end
@@ -58,7 +58,7 @@ module Admin
       if @location.save
         redirect_to admin_locations_path, notice: 'Location was successfully created.'
       else
-        locations = Location.includes(:camp, :events).order(name: :asc)
+        locations = Location.includes(:camp, :departments, :events).order(name: :asc)
         @active_locations, @archived_locations = locations.partition { |l| !l.archived }
         @form_location = @location
         flash.now[:alert] = 'Error creating location.'
@@ -83,7 +83,7 @@ module Admin
       if @location.destroy
         redirect_to admin_locations_path, notice: 'Location was successfully destroyed.'
       else
-        locations = Location.includes(:camp, :events).order(name: :asc)
+        locations = Location.includes(:camp, :departments, :events).order(name: :asc)
         @active_locations, @archived_locations = locations.partition { |l| !l.archived }
         @form_location = Location.new
         flash.now[:alert] = @location.errors.full_messages.join(", ")

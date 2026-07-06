@@ -4,6 +4,7 @@
     <tr>
       <th>Name</th>
       <th>Type</th>
+      <th>Departments</th>
       <th>Camp Site ID</th>
       <th>Lat</th>
       <th>Lng</th>
@@ -17,12 +18,20 @@
       <tr id="location_<%= location.id %>">
         <td>
           <% if location.camp.present? %>
-            Camp <%= link_to location.camp.name, admin_camp_path(location.camp) %>
+            Camp <%= admin_associated_record_label(location.camp, record_type_name: "camp", path: admin_camp_path(location.camp)) %>
           <% else %>
             <%= link_to location.name, admin_location_path(location) %>
           <% end %>
         </td>
         <td><%= location.camp.present? ? "camp" : location.precision %></td>
+        <td>
+          <%= safe_join(
+                location.departments.sort_by(&:name).map do |department|
+                  admin_associated_record_label(department, record_type_name: "department", path: admin_department_path(department))
+                end,
+                ", "
+              ) %>
+        </td>
         <td><%= location.camp_site_identifier %></td>
         <td><%= location.lat %></td>
         <td><%= location.lng %></td>

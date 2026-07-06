@@ -6,6 +6,7 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
         departments.name,
         (SELECT COUNT(*) FROM events WHERE events.department_id = departments.id) AS event_count
       FROM departments
+      WHERE departments.archived = false
       ORDER BY departments.name ASC
     )array_row)
   ) object_row

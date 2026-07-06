@@ -14,9 +14,9 @@
       <div class="mb-3">
         <% if current_user.admin? %>
           <% if @event.where_object.is_a?(Camp) %>
-            <%= link_to @event.human_location, admin_camp_path(@event.where_object) %>
+            <%= admin_event_where_label(@event, link: true) %>
           <% elsif @event.where_object.is_a?(Location) %>
-            <%= link_to @event.human_location, admin_location_path(@event.where_object) %>
+            <%= admin_event_where_label(@event, link: true) %>
           <% else %>
             <%= @event.human_location %>
           <% end %>
@@ -29,9 +29,9 @@
       <div class="mb-3">
         <% if current_user.admin? %>
           <% if @event.who_object.is_a?(Camp) %>
-            <%= link_to @event.human_who, admin_camp_path(@event.who_object) %>
+            <%= admin_event_who_label(@event, link: true) %>
           <% elsif @event.who_object.is_a?(Department) %>
-            <%= link_to @event.human_who, admin_department_path(@event.who_object) %>
+            <%= admin_event_who_label(@event, link: true) %>
           <% else %>
             <%= @event.human_who %>
           <% end %>

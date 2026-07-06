@@ -24,8 +24,20 @@
   
     <div class="card bg-light mb-3">
       <div class="card-body">
-        <h5 class="card-title">Location Details</h5>
+        <h5 class="card-title">
+          Location Details
+          <%= admin_archived_record_marker("location") if @camp.location&.archived? %>
+        </h5>
         <% if @camp.location %>
+          <p class="card-text mb-1">
+            <strong>Location:</strong>
+            <%= admin_associated_record_label(
+                  @camp.location,
+                  record_type_name: "location",
+                  text: @camp.location.name.presence || "location ##{@camp.location.id}",
+                  path: admin_location_path(@camp.location)
+                ) %>
+          </p>
           <p class="card-text mb-1"><strong>Latitude:</strong> <%= @camp.location.lat %></p>
           <p class="card-text mb-1"><strong>Longitude:</strong> <%= @camp.location.lng %></p>
           <p class="card-text mb-0"><strong>Site Identifier:</strong> <%= @camp.location.camp_site_identifier %></p>
@@ -45,10 +57,23 @@
                events:        @current_events,
                empty_message: 'No events are currently associated with this camp.' %>
 
+    <h4 class="mt-4">Hosted Events by this Camp</h4>
+    <%= render 'admin/events_table',
+               events:        @current_hosted_events,
+               empty_message: 'No current hosted events for this camp.',
+               show_where:    true %>
+
     <h4 class="mt-4">Past Events</h4>
     <%= render 'admin/events_table',
                events:        @past_events,
                empty_message: 'No past events for this camp.',
                show_year:     true %>
+
+    <h4 class="mt-4">Past Hosted Events</h4>
+    <%= render 'admin/events_table',
+               events:        @past_hosted_events,
+               empty_message: 'No past hosted events for this camp.',
+               show_year:     true,
+               show_where:    true %>
   </div>
 </div>

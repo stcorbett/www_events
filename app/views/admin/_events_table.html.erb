@@ -8,10 +8,12 @@
     show_actions:  optional (default true)  — adds the Actions column with a "Show" link
     card_wrap:     optional (default true)  — wraps the table in a Bootstrap card
     show_year:     optional (default false) — prefixes each title with "(YYYY) "
+    show_where:    optional (default false) — adds a Where column
 %>
 <% show_actions = local_assigns.fetch(:show_actions, true) %>
 <% card_wrap    = local_assigns.fetch(:card_wrap, true) %>
 <% show_year    = local_assigns.fetch(:show_year, false) %>
+<% show_where   = local_assigns.fetch(:show_where, false) %>
 
 <% if events.any? %>
   <% if card_wrap %><div class="card"><div class="card-body"><% end %>
@@ -19,6 +21,7 @@
       <thead>
         <tr>
           <th>Name</th>
+          <% if show_where %><th>Where</th><% end %>
           <th>Times</th>
           <% if show_actions %><th>Actions</th><% end %>
         </tr>
@@ -30,6 +33,9 @@
               <% prefix = show_year ? "(#{event.created_at.year}) " : "" %>
               <%= link_to "#{prefix}#{event.title}", event_path(event) %>
             </td>
+            <% if show_where %>
+              <td><%= admin_event_where_label(event, link: true) %></td>
+            <% end %>
             <td>
               <% if event.event_times.any? %>
                 <ul class="list-unstyled mb-0">

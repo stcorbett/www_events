@@ -1,14 +1,19 @@
 module Superadmin
   module EventsHelper
     def superadmin_event_camp_affiliations(event)
-      location_camp_names = event.location&.camps&.map(&:name) || []
-      camp_names = [
-        event.camp&.name,
-        event.hosting_camp&.name,
-        *location_camp_names
-      ].compact.uniq
+      location_camps = event.location&.camps || []
+      camps = [
+        event.camp,
+        event.hosting_camp,
+        *location_camps
+      ].compact.uniq(&:id)
 
-      camp_names.presence&.join(", ") || "none"
+      return "none" if camps.empty?
+
+      safe_join(
+        camps.map { |camp| admin_associated_record_label(camp, record_type_name: "camp") },
+        ", "
+      )
     end
 
     def superadmin_event_times(event)

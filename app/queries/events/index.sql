@@ -21,6 +21,11 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
         ELSE NULL
       END AS where_name,
       CASE
+        WHEN events.camp_id IS NOT NULL THEN camps.archived
+        WHEN events.location_id IS NOT NULL THEN locations.archived
+        ELSE NULL
+      END AS where_archived,
+      CASE
         WHEN events.hosting_camp_id IS NOT NULL THEN 'camp'
         WHEN events.department_id IS NOT NULL THEN 'lakes_of_fire'
         ELSE 'just_me'
@@ -30,6 +35,11 @@ SELECT COALESCE(row_to_json(object_row),'{}'::json)
         WHEN events.department_id IS NOT NULL THEN departments.name
         ELSE events.main_contact_person
       END AS who_name,
+      CASE
+        WHEN events.hosting_camp_id IS NOT NULL THEN hosting_camps.archived
+        WHEN events.department_id IS NOT NULL THEN departments.archived
+        ELSE NULL
+      END AS who_archived,
       events.event_recurrence,
       events.heart_count,
       events.alcohol,

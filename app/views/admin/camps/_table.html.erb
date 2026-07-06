@@ -30,7 +30,14 @@
           (<%= camp.events.sum { |event| event.event_times.size } %>)
         </td>
         <td>
-          <%= camp.location&.camp_site_identifier %>
+          <% if camp.location.present? %>
+            <%= admin_associated_record_label(
+                  camp.location,
+                  record_type_name: "location",
+                  text: camp.location.camp_site_identifier.presence || camp.location.name.presence || "location ##{camp.location.id}",
+                  path: admin_location_path(camp.location)
+                ) %>
+          <% end %>
         </td>
         <td>
           <%= link_to 'Edit', edit_admin_camp_path(camp), class: 'btn btn-xs btn-outline-primary' %>
